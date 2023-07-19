@@ -4,6 +4,19 @@ namespace UnityUtility.Singletons
 {
     /// <summary>
     /// Singleton for <see cref="MonoBehaviour"/>
+    /// 
+    /// <para>
+    /// In order to prevent a non singleton constructor like : 
+    /// "<c><see cref="T"/> invalidSingleton = new <see cref="T"/>()</c>" <br/>
+    /// you sould add "<c>protected <see cref="T"/>(){}</c>" 
+    /// to your singleton class
+    /// </para>
+    /// 
+    /// See also : <br/>
+    /// <seealso cref="ISingleton{T}"/><br/>
+    /// <seealso cref="Singleton{T}"/><br/>
+    /// <seealso cref="SingletonScriptable{T}"/><br/>
+    /// 
     /// </summary>
     public abstract class SingletonMonoBehaviour<T> : MonoBehaviour, ISingleton<T> where T : SingletonMonoBehaviour<T>
     {
