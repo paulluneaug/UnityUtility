@@ -1,0 +1,51 @@
+.foldoutToggle {
+    align-items: center;
+    width: 18px;
+    justify-content: center;
+    height: 18px;
+}
+
+.propertyField {
+    align-items: stretch;
+    right: 1px;
+    padding-right: 3px;
+    justify-content: flex-start;
+    min-height: 20px;
+}
+
+.invalidKey {
+    background-color: rgb(219, 68, 55);
+}
+
+.foldoutContent {
+    align-items: flex-start;
+    width: 100%;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+}
+
+.propertyContainer {
+    width: 100%;
+    flex-grow: 1;
+}
+
+.pairContainer {
+    flex-direction: row;
+    align-items: flex-start;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+.evenIndexColor {
+    background-color: rgba(52, 52, 61, 255);
+}
+
+.oddIndexColor {
+    background-color: rgba(35, 35, 44, 255);
+}
+
+.propertyField.hasPropertyChildren {
+    margin-left: 14px;
+}
