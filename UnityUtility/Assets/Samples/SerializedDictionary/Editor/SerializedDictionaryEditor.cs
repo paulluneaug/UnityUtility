@@ -50,8 +50,6 @@ namespace UnityUtility.SerializedDictionary.Editor
     [CustomPropertyDrawer(typeof(SerializedDictionary<,>.KeyValuePair))]
     public class SerializedDictionaryKeyValuePairEditor : PropertyDrawer
     {
-        public Action OnGUICreated;
-
         [SerializeField] private VisualTreeAsset m_keyValuePairTemplate;
         private static void GetParentAndElementIndex(SerializedProperty property, out SerializedProperty parent, out int index)
         {
