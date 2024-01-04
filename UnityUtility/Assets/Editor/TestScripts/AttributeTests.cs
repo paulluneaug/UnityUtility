@@ -18,11 +18,11 @@ public class AttributeTests : MonoBehaviour
     private bool Condition => B > 2;
 
     [SerializeField] private bool WhatABool = true;
-    [Title("Title Example", "With Subtitle (and underline)"), ShowIf("WhatABool")]
-    public float[] A;
+    [Title("Title Example", "With Subtitle (and underline)")]
+    [ShowIf("so", SAU.CISSE)] public float[] A;
     public float B;
     [Title("No Subtitle nor underline (like a Header)", horizontalLine: false)]
-    public float C;
+    [ShowIf("so", SAU.CISSE)] public float C;
     public float D;
     [Title("They can be centered", titleAlignment: TitleAlignments.Centered)]
     public float E;
@@ -31,7 +31,6 @@ public class AttributeTests : MonoBehaviour
     public float G;
     public float H = 20;
 
-    [Space]
     [Space]
 
     [Title("HelpBoxes")]
@@ -53,7 +52,6 @@ public class AttributeTests : MonoBehaviour
     [SerializeField]
     protected SAU so = SAU.CISSE;
 
-    [Space]
     [Space]
 
     [Title("Sliders")]

@@ -3,24 +3,23 @@ using UnityEditor;
 using System;
 using UnityUtility.CustomAttributes.Utils;
 using UnityEngine.UIElements;
-using Unity.Collections.LowLevel.Unsafe;
 
 namespace UnityUtility.CustomAttributes.Drawers
 {
     [CustomPropertyDrawer(typeof(TitleAttribute))]
     public class TitleAttributeDrawer : DecoratorDrawer
     {
-        private float m_spaceAtTheBeginning = 5;
-        private float m_titleHeight = EditorGUIUtility.singleLineHeight;
-        private float m_subtitleHeight = EditorGUIUtility.singleLineHeight;
-        private float m_spaceAtTheEnd = 5;
+        private readonly float m_spaceAtTheBeginning = 15;
+        private readonly float m_titleHeight = EditorGUIUtility.singleLineHeight;
+        private readonly float m_subtitleHeight = EditorGUIUtility.singleLineHeight;
+        private readonly float m_spaceAtTheEnd = 5;
 
-        private Color m_lineColor = new Color(0.3515625f, 0.3515625f, 0.3515625f);
+        private readonly Color m_lineColor = new Color(0.3515625f, 0.3515625f, 0.3515625f);
 
         #region IMGUI
         public override float GetHeight()
         {
-            TitleAttribute titleAttribute = this.attribute as TitleAttribute;
+            TitleAttribute titleAttribute = attribute as TitleAttribute;
 
             float totalHeight = m_titleHeight;
 

@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEditor;
+using UnityEngine.UIElements;
 
 namespace UnityUtility.CustomAttributes.Drawers
 {
@@ -85,12 +86,6 @@ namespace UnityUtility.CustomAttributes.Drawers
 
 
                 EditorGUI.MinMaxSlider(sliderRect, sliderLabel, ref m_minValue, ref m_maxValue, minMaxSliderAttribute.MinValue, minMaxSliderAttribute.MaxValue);
-                //if (Event.current.type == EventType.Repaint &&
-                //	GUILayoutUtility.GetLastRect().Contains(Event.current.mousePosition))
-                //{
-
-                //}
-
 
                 EditorGUI.EndProperty();
 

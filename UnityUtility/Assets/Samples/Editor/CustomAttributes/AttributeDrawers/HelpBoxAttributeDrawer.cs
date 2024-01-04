@@ -1,12 +1,15 @@
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.UIElements;
+using UnityEditor.UIElements;
 
 namespace UnityUtility.CustomAttributes.Drawers
 {
     [CustomPropertyDrawer(typeof(HelpBoxAttribute))]
     public class HelpBoxAttributeDrawer : DecoratorDrawer
     {
+        private const int PADDING = 5;
+
         public override float GetHeight()
         {
             if (attribute is not HelpBoxAttribute helpBoxAttribute)
@@ -49,27 +52,22 @@ namespace UnityUtility.CustomAttributes.Drawers
                 return container;
             }
 
+            container.style.paddingBottom = PADDING;
+            container.style.paddingTop = PADDING;
+
             container.Add(new HelpBox(helpBoxAttribute.Message, helpBoxAttribute.MessageType));
             return container;
         }
 
         private MessageType GetMessageType(HelpBoxMessageType helpBoxType)
         {
-            switch (helpBoxType)
+            return helpBoxType switch
             {
-                case HelpBoxMessageType.None:
-                    return MessageType.None;
-
-                default:
-                case HelpBoxMessageType.Info:
-                    return MessageType.Info;
-
-                case HelpBoxMessageType.Warning:
-                    return MessageType.Warning;
-
-                case HelpBoxMessageType.Error:
-                    return MessageType.Error;
-            }
+                HelpBoxMessageType.None => MessageType.None,
+                HelpBoxMessageType.Warning => MessageType.Warning,
+                HelpBoxMessageType.Error => MessageType.Error,
+                _ => MessageType.Info,
+            };
         }
     }
 }
