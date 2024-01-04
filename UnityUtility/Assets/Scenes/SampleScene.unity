@@ -226,7 +226,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 787051121}
-  - component: {fileID: 787051120}
+  - component: {fileID: 787051122}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -234,45 +234,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &787051120
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 787051119}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4cb08f91ae1af7b47b083fbabb0721b5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  WhatABool: 1
-  A: []
-  B: 0
-  C: 0
-  D: 0
-  E: 0
-  F: 0
-  G: 0
-  H: 20
-  I: 0
-  J: 0
-  K: 0
-  Sliderscsfc: {x: 0, y: 0}
-  L: 0
-  M: 0
-  O: 0
-  P: 0
-  Q: 0
-  so: 0
-  Slider: {x: 0, y: 0}
-  SliderWithoutValues: {x: 0, y: 0}
-  SliderWithoutValuesV3: {x: 0, y: 0, z: 0}
-  MinMax3: []
-  MinMax2: []
-  a: 0
-  b: 0
-  c: 0
 --- !u!4 &787051121
 Transform:
   m_ObjectHideFlags: 0
@@ -288,6 +249,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &787051122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 787051119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03b3849281d4c224d97abdaff2d4862a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
