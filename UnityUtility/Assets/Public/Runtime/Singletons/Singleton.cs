@@ -7,7 +7,7 @@ namespace UnityUtility.Singletons
     /// <para>
     /// In order to prevent a non singleton constructor like : 
     /// "<c><see cref="T"/> invalidSingleton = new <see cref="T"/>()</c>" <br/>
-    /// you sould add "<c>protected <see cref="T"/>(){}</c>" 
+    /// you should add "<c>protected <see cref="T"/>(){}</c>" 
     /// to your singleton class
     /// </para>
     /// 
