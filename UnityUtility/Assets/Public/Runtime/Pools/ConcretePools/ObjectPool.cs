@@ -3,7 +3,14 @@ using System.Collections.Generic;
 namespace UnityUtility.Pools
 {
     /// <summary>
+    /// Stack-based object pool
     /// 
+    /// <para>
+    /// See also :
+    /// <br><seealso cref="CallbackRecieverObjectPool{T}"/></br>
+    /// <br><seealso cref="ComponentPool{TComponent}"/></br>
+    /// <br><seealso cref="CallbackRecieverComponentPool{TComponent}"/></br>
+    /// </para>
     /// </summary>
     /// <typeparam name="T">Pooled object type</typeparam>
     public class ObjectPool<T> : IObjectPool<T> where T : class, new()

@@ -7,6 +7,13 @@ namespace UnityUtility.Pools
 {
     /// <summary>
     /// A <see cref="ComponentPool{TComponent}"/> for <see cref="IPoolOperationCallbackReciever"/>
+    /// 
+    /// <para>
+    /// See also :
+    /// <br><seealso cref="ObjectPool{T}"/></br>
+    /// <br><seealso cref="CallbackRecieverObjectPool{T}"/></br>
+    /// <br><seealso cref="ComponentPool{TComponent}"/></br>
+    /// </para>
     /// </summary>
     /// <typeparam name="TComponent">Pooled component type</typeparam>
     public class CallbackRecieverComponentPool<TComponent> : ComponentPool<TComponent> 
