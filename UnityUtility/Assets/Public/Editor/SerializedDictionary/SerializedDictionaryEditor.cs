@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using System.Text.RegularExpressions;
+using UnityUtility.Editor;
 
 namespace UnityUtility.SerializedDictionary.Editor
 {
@@ -47,34 +48,12 @@ namespace UnityUtility.SerializedDictionary.Editor
     public class SerializedDictionaryKeyValuePairEditor : PropertyDrawer
     {
         [SerializeField] private VisualTreeAsset m_keyValuePairTemplate;
-        private static void GetParentAndElementIndex(SerializedProperty property, out SerializedProperty parent, out int index)
-        {
-            // Get the index
-            string indexText = Regex.Match(property.propertyPath, @"(\d+)(?!.*\d)").Value;
 
-            // Get the parent's propertyPath
-            string parentPath = ReplaceLast(property.propertyPath, $".Array.data[{indexText}]", string.Empty);
-
-            parent = property.serializedObject.FindProperty(parentPath);
-            index = int.Parse(indexText);
-        }
 
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
-            GetParentAndElementIndex(property, out SerializedProperty parent, out int index);
-            return new SerializedDictionaryPairVisualElement(property, parent, index);
-        }
-
-        public static string ReplaceLast(string str, string oldValue, string newValue)
-        {
-            int place = str.LastIndexOf(oldValue);
-
-            if (place == -1)
-            {
-                return str;
-            }
-
-            return str.Remove(place, oldValue.Length).Insert(place, newValue);
+            _ = EditorUtils.IsPropertyPartOfArray(property, out SerializedProperty arrayProperty, out int index);
+            return new SerializedDictionaryPairVisualElement(property, arrayProperty, index);
         }
     }
 }
