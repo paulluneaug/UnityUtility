@@ -1,0 +1,14 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/Samples/SerializedDictionary/UIElements/DictionaryPair.uss?fileID=7433441132597879392&amp;guid=360b45b7cd0ee8441876546a2086f559&amp;type=3#DictionaryPair" />
+    <ui:VisualElement name="PairContainer" class="pairContainer">
+        <ui:Toggle name="FoldoutToggle" class="unity-foldout__toggle foldoutToggle" />
+        <ui:VisualElement name="FoldoutContent" class="foldoutContent">
+            <ui:VisualElement name="KeyContainer" class="propertyContainer">
+                <uie:PropertyField name="KeyField" class="propertyField" />
+            </ui:VisualElement>
+            <ui:VisualElement name="ValueContainer" class="propertyContainer">
+                <uie:PropertyField name="ValueField" class="propertyField" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
