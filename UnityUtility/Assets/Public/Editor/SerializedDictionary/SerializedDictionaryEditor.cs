@@ -3,9 +3,6 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
-using System;
-using Unity.VisualScripting;
-using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace UnityUtility.SerializedDictionary.Editor
@@ -35,10 +32,9 @@ namespace UnityUtility.SerializedDictionary.Editor
             m_listField?.UnregisterCallback<SerializedPropertyChangeEvent>(OnValueChanged);
 
             m_listField = new PropertyField(m_pairListProperty);
+            m_listField.label = m_property.displayName;
             m_listField.RegisterCallback<SerializedPropertyChangeEvent>(OnValueChanged);
             m_container.Add(m_listField);
-
-            Debug.LogError($"Filled Schedule {iterations++} times");
         }
 
         private void OnValueChanged(SerializedPropertyChangeEvent evt)

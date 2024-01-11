@@ -10,7 +10,7 @@ namespace UnityUtility.SerializedDictionary.Editor
     {
         public Action OnKeyChanged;
 
-        private const string VISUAL_ASSET_TREE_TEMPLATE_PATH = @"Assets/Samples/SerializedDictionary/Editor/UIElements/DictionaryPairTemplate.uxml";
+        private const string VISUAL_ASSET_TREE_TEMPLATE_NAME = "DictionaryPairTemplate";
 
         private const string FOLDOUT_TOGGLE_NAME = "FoldoutToggle";
         private const string KEY_FIELD_NAME = "KeyField";
@@ -36,7 +36,7 @@ namespace UnityUtility.SerializedDictionary.Editor
 
         public SerializedDictionaryPairVisualElement(SerializedProperty pairProperty, SerializedProperty parentProperty, int pairIndex)
         {
-            VisualTreeAsset keyValuePairDrawer = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(VISUAL_ASSET_TREE_TEMPLATE_PATH);
+            VisualTreeAsset keyValuePairDrawer = Resources.Load<VisualTreeAsset>(VISUAL_ASSET_TREE_TEMPLATE_NAME);
             keyValuePairDrawer.CloneTree(this);
 
             bool isIndexEven = pairIndex % 2 == 0;
