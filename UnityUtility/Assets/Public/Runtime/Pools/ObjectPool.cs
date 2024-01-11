@@ -2,6 +2,10 @@ using System.Collections.Generic;
 
 namespace UnityUtility.Pools
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T">Pooled object type</typeparam>
     public class ObjectPool<T> : IObjectPool<T> where T : class, new()
     {
         public int PoolSize => m_poolSize;

@@ -1,0 +1,14 @@
+{
+  "name": "com.pluneau.unityutility",
+  "version": "1.2.0",
+  "displayName": "UnityUtility",
+  "unity": "2022.3",
+  "dependencies": {
+  },
+  "resolutionStrategy": "highestPatch",
+  "changelog": "../CHANGELOG.md",
+  "samples": [
+    
+  ],
+  "commit": "6cdee1b7e15e59abd137675311c29b9b270876db"
+}

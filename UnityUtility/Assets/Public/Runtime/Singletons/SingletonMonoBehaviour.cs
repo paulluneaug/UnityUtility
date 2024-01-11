@@ -8,7 +8,7 @@ namespace UnityUtility.Singletons
     /// <para>
     /// In order to prevent a non singleton constructor like : 
     /// "<c><see cref="T"/> invalidSingleton = new <see cref="T"/>()</c>" <br/>
-    /// you sould add "<c>protected <see cref="T"/>(){}</c>" 
+    /// you should add "<c>protected <see cref="T"/>(){}</c>" 
     /// to your singleton class
     /// </para>
     /// 
@@ -56,7 +56,7 @@ namespace UnityUtility.Singletons
 
         private static bool m_applicationIsQuitting = false;
 
-        public static bool ApplicationIsQuitting { set => m_applicationIsQuitting = value; }
+        public static bool ApplicationIsQuitting { get => m_applicationIsQuitting; set => m_applicationIsQuitting = value; }
 
         protected virtual void Start()
         {

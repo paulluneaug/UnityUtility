@@ -9,12 +9,14 @@ namespace UnityUtility.Pools
         public int PoolSize => m_poolSize;
 
         [SerializeField] private int m_initialPoolSize = 10;
+        [SerializeField] private bool m_instantiateFromPrefab = false;
 
-        private readonly Stack<TComponent> m_availableComponents = null;
+        private Stack<TComponent> m_availableComponents = null;
         private int m_poolSize = 0;
 
         protected virtual void Awake()
         {
+            m_availableComponents = new Stack<TComponent>();
             for (int i = 0; i < m_initialPoolSize; ++i)
             {
                 AddItem();
@@ -33,6 +35,7 @@ namespace UnityUtility.Pools
 
         public virtual void Release(TComponent releasedComponent)
         {
+            releasedComponent.gameObject.SetActive(false);
             m_availableComponents.Push(releasedComponent);
         }
 
@@ -44,8 +47,13 @@ namespace UnityUtility.Pools
 
         protected virtual TComponent NewItem()
         {
-            GameObject newGo = new GameObject($"{nameof(TComponent)}_{m_poolSize}");
+            GameObject newGo = new GameObject($"{typeof(TComponent).Name}_{m_poolSize}");
             newGo.transform.parent = transform;
+            newGo.SetActive(false);
+            if (newGo.TryGetComponent(out TComponent foundComponent))
+            {
+                return foundComponent;
+            }
             return newGo.AddComponent<TComponent>();
         }
     }
