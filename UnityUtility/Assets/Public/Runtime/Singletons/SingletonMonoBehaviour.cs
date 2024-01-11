@@ -56,7 +56,7 @@ namespace UnityUtility.Singletons
 
         private static bool m_applicationIsQuitting = false;
 
-        public static bool ApplicationIsQuitting { set => m_applicationIsQuitting = value; }
+        public static bool ApplicationIsQuitting { get => m_applicationIsQuitting; set => m_applicationIsQuitting = value; }
 
         protected virtual void Start()
         {

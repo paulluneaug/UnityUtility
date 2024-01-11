@@ -43,6 +43,10 @@ namespace UnityUtility.ManagedMonoBehaviours
 
         protected virtual void OnDestroy()
         {
+            if (ManagedMonoBehavioursManager.ApplicationIsQuitting)
+            {
+                return;
+            }
             ManagedMonoBehavioursManager.Instance.RemoveManagedMonoBehaviour(this);
         }
 
