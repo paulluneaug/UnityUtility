@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/Samples/SerializedDictionary/Editor/UIElements/DictionaryPair.uss?fileID=7433441132597879392&amp;guid=360b45b7cd0ee8441876546a2086f559&amp;type=3#DictionaryPair" />
+    <ui:VisualElement name="DictContainer" class="pairContainer" style="flex-grow: 1; width: 100%; height: 100%;">
+        <ui:ListView focusable="true" horizontal-scrolling="false" reorderable="true" name="PairsContainer" virtualization-method="DynamicHeight" show-border="true" style="flex-grow: 1; width: 100%; height: 100%;" />
+    </ui:VisualElement>
+</ui:UXML>

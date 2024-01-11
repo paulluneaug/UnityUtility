@@ -1,7 +1,4 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 using UnityUtility.Singletons;
@@ -10,13 +7,13 @@ namespace UnityUtility.ManagedMonoBehaviours
 {
     public class ManagedMonoBehavioursManager : SingletonMonoBehaviour<ManagedMonoBehavioursManager>
     {
-        [SerializeField] private int m_managedMonoBehavioursStartCapacity = 1000;
+        [SerializeField] private int m_managedMonoBehavioursStartCapacity = 100;
 
         private List<ManagedMonoBehaviour> m_managedMonoBehaviours;
 
         private void Awake()
         {
-            m_managedMonoBehaviours = new List<ManagedMonoBehaviour>();
+            m_managedMonoBehaviours = new List<ManagedMonoBehaviour>(m_managedMonoBehavioursStartCapacity);
         }
 
         public void AddManagedMonoBehaviour(ManagedMonoBehaviour managedMonoBehaviour)
@@ -79,10 +76,12 @@ namespace UnityUtility.ManagedMonoBehaviours
 #if UNITY_EDITOR
         private void OnDrawGizmos()
         {
+            Color gizmosColor = Gizmos.color;
             foreach (ManagedMonoBehaviour m in m_managedMonoBehaviours)
             {
                 if (m.enabled)
                 {
+                    Gizmos.color = gizmosColor;
                     m.LogicOnDrawGizmos();
                 }
             }
