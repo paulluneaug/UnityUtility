@@ -92,7 +92,7 @@ namespace UnityUtility.CustomAttributes.Editor
                 }
 
             }
-            catch (ArgumentNullException _)
+            catch (ArgumentNullException)
             {
                 EditorApplication.update -= OnEditorUpdate;
                 return;
