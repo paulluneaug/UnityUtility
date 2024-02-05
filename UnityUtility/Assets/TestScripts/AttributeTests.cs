@@ -15,7 +15,7 @@ public class AttributeTests : MonoBehaviour
     }
 
     private bool Condition => B > 2;
-
+    [Button(nameof(TestMethod), "M�thode Test")]
     [SerializeField] private bool WhatABool = true;
     [Title("Title Example", "With Subtitle (and underline)")]
     [ShowIf(nameof(Condition)), MinMaxSlider(2, 250)] public Vector2[] A;
@@ -91,5 +91,10 @@ public class AttributeTests : MonoBehaviour
     private bool IsEquals(object x, object y)
     {
         return Convert.ChangeType(x, y.GetType()).Equals(y);
+    }
+
+    private void TestMethod()
+    {
+        Debug.Log("Invoked");
     }
 }
