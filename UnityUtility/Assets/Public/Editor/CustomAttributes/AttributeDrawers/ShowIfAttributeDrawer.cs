@@ -66,11 +66,6 @@ namespace UnityUtility.CustomAttributes.Editor
             return container;
         }
 
-        //public override bool CanCacheInspectorGUI(SerializedProperty property)
-        //{
-        //    return false;
-        //}
-
         void OnEditorUpdate()
         {
             try
