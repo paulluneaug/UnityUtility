@@ -75,10 +75,17 @@ public class AttributeTests : MonoBehaviour
 
     [Range(1, 10)]
     public double a;
-    [Range(1, 10)]
+    [Range(1, 10), Layer]
     public byte b;
     [Range(1, 10)]
     public long c;
+
+    [Layer]
+    public int[] layer0;
+    [Layer]
+    public uint layer1;
+    [Layer]
+    public long layer3;
 
     private void Start()
     {
