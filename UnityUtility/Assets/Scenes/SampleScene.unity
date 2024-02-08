@@ -366,6 +366,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1057376596}
   - component: {fileID: 1057376595}
+  - component: {fileID: 1057376597}
   m_Layer: 0
   m_Name: Prefab
   m_TagString: Untagged
@@ -400,6 +401,31 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1057376597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1057376594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae62de9213d8de04f869f89b92941aa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dictionary:
+    m_keyValuePairsList:
+    - Key: a
+      Value: 0
+    - Key: a
+      Value: 0
+    - Key: a
+      Value: 0
+    - Key: a
+      Value: 0
+    - Key: a
+      Value: 0
+    m_keyValuePairsCount: 0
 --- !u!1 &1274140155
 GameObject:
   m_ObjectHideFlags: 0
@@ -412,6 +438,7 @@ GameObject:
   - component: {fileID: 1274140157}
   - component: {fileID: 1274140159}
   - component: {fileID: 1274140160}
+  - component: {fileID: 1274140161}
   m_Layer: 0
   m_Name: PerfTest
   m_TagString: Untagged
@@ -500,9 +527,21 @@ MonoBehaviour:
   SliderWithoutValuesV3: {x: 0, y: 0, z: 0}
   MinMax3: []
   MinMax2: []
-  a: 0
-  b: 0
-  c: 0
+  a: 7.179999828338623
+  b: 7
+  c: 2
+--- !u!114 &1274140161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1274140155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 260af1490811b7944a12ec1746e6ba58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
