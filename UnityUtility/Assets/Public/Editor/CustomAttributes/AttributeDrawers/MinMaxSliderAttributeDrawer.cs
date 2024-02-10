@@ -25,6 +25,10 @@ namespace UnityUtility.CustomAttributes.Editor
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
+            if (property.serializedObject.isEditingMultipleObjects)
+            {
+                return;
+            }
 
             if (property.propertyType != SerializedPropertyType.Vector2)
             {
