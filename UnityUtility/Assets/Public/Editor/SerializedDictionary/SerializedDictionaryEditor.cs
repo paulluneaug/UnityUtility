@@ -1,10 +1,8 @@
-#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
-using System.Text.RegularExpressions;
-using UnityUtility.Editor;
+using UnityUtility.Utils.Editor;
 
 namespace UnityUtility.SerializedDictionary.Editor
 {
@@ -15,8 +13,6 @@ namespace UnityUtility.SerializedDictionary.Editor
         private SerializedProperty m_property;
         SerializedProperty m_pairListProperty;
         private PropertyField m_listField;
-
-        private int iterations = 0;
 
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
@@ -47,14 +43,10 @@ namespace UnityUtility.SerializedDictionary.Editor
     [CustomPropertyDrawer(typeof(SerializedDictionary<,>.KeyValuePair))]
     public class SerializedDictionaryKeyValuePairEditor : PropertyDrawer
     {
-        [SerializeField] private VisualTreeAsset m_keyValuePairTemplate;
-
-
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
-            _ = EditorUtils.IsPropertyPartOfArray(property, out SerializedProperty arrayProperty, out int index);
+            _ = property.IsPropertyPartOfArray(out SerializedProperty arrayProperty, out int index);
             return new SerializedDictionaryPairVisualElement(property, arrayProperty, index);
         }
     }
 }
-#endif
