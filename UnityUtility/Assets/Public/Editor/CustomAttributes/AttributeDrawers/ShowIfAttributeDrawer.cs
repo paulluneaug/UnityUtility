@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 using System;
-using UnityUtility.Editor;
+using UnityUtility.Utils.Editor;
 
 namespace UnityUtility.CustomAttributes.Editor
 {
@@ -57,7 +57,7 @@ namespace UnityUtility.CustomAttributes.Editor
                 m_property = property;
                 m_propertyField = new PropertyField(property);
 
-                m_isPartOfArray = EditorUtils.IsPropertyPartOfArray(property, out SerializedProperty _, out int _);
+                m_isPartOfArray = property.IsPropertyPartOfArray(out SerializedProperty _, out int _);
 
                 container.Add(m_propertyField);
 
@@ -93,7 +93,5 @@ namespace UnityUtility.CustomAttributes.Editor
                 return;
             }
         }
-
-
     }
 }
