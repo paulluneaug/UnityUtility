@@ -2,11 +2,15 @@ using System;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace UnityUtility.CustomAttributes.Editor
 {
     public static class AttributeUtils
     {
+        public static Length LabelWidth => s_labelWidth;
+        private static readonly Length s_labelWidth = Length.Percent(42);
+
         public static bool ConditionSucessFromFieldOrProperty(SerializedProperty property, string fieldName, object compareValue, bool inverse = false)
         {
             Type parentType = property.serializedObject.targetObject.GetType();
