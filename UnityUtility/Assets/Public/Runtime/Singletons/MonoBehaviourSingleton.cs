@@ -15,10 +15,10 @@ namespace UnityUtility.Singletons
     /// See also : <br/>
     /// <seealso cref="ISingleton{T}"/><br/>
     /// <seealso cref="Singleton{T}"/><br/>
-    /// <seealso cref="SingletonScriptable{T}"/><br/>
+    /// <seealso cref="ScriptableSingleton{T}"/><br/>
     /// 
     /// </summary>
-    public abstract class SingletonMonoBehaviour<T> : MonoBehaviour, ISingleton<T> where T : SingletonMonoBehaviour<T>
+    public abstract class MonoBehaviourSingleton<T> : MonoBehaviour, ISingleton<T> where T : MonoBehaviourSingleton<T>
     {
         protected static T s_instance;
 
