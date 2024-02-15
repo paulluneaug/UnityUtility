@@ -327,6 +327,12 @@ namespace UnityUtility.Utils
         {
             return Vector3.Cross(v, other);
         }
+
+        public static Vector3 Rotate(this Vector3 v, Vector3 axis, float angle)
+        {
+            Quaternion rotation = Quaternion.AngleAxis(angle, axis);
+            return rotation * v;
+        }
     }
     #endregion
 
@@ -407,8 +413,6 @@ namespace UnityUtility.Utils
     #region Misc
     public static class MathUtils
     {
-
-
         /// <summary>
         /// Tries to parse a string 
         /// </summary>
