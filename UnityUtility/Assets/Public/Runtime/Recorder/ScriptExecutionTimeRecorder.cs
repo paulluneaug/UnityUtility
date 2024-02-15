@@ -7,33 +7,41 @@ namespace UnityUtility.Recorder
 {
     public class ScriptExecutionTimeRecorder
     {
-        private readonly struct ScriptEvent
+        protected readonly struct ScriptEvent
         {
             private readonly string m_eventName;
             private readonly double m_eventDuration;
             private readonly int m_frame;
+            private readonly string m_recorderName;
 
-            public ScriptEvent(string eventName, double eventDuration)
+            public ScriptEvent(string eventName, double eventDuration, string recorderName)
             {
                 m_eventName = eventName;
                 m_eventDuration = eventDuration;
                 m_frame = Time.frameCount;
+                m_recorderName = recorderName;
             }
 
             public override readonly string ToString()
             {
-                return $"[Recorder][Frame {m_frame}] Event \"{m_eventName}\" took {m_eventDuration} ms";
+                return $"[{m_recorderName}][Frame {m_frame}] Event \"{m_eventName}\" took {m_eventDuration} ms";
             }
         }
 
-        private List<ScriptEvent> m_events = null;
+        protected const string DEFAULT_RECODER_NAME = "Recorder";
+        protected const string RECODER_NAME_FMT = "Recorder {0}";
 
-        private DateTime m_firstEventTime;
-        private DateTime m_previousEventTime;
-        private readonly Action<string> m_logMethod;
+        protected List<ScriptEvent> m_events = null;
 
-        public ScriptExecutionTimeRecorder(LogType logType = LogType.Log)
+        protected DateTime m_firstEventTime;
+        protected DateTime m_previousEventTime;
+        protected readonly Action<string> m_logMethod;
+        protected readonly string m_recorderName;
+
+        public ScriptExecutionTimeRecorder(string recorderName = "", LogType logType = LogType.Log)
         {
+            m_recorderName = string.IsNullOrEmpty(recorderName) ? DEFAULT_RECODER_NAME : string.Format(RECODER_NAME_FMT, recorderName);
+
             m_events = new List<ScriptEvent>();
             ReinitTimes();
 
@@ -50,7 +58,7 @@ namespace UnityUtility.Recorder
             };
         }
 
-        public void AddEvent(string eventName, bool logImmediatly = true)
+        public virtual void AddEvent(string eventName, bool logImmediatly = true)
         {
             if (string.IsNullOrEmpty(eventName))
             {
@@ -62,7 +70,8 @@ namespace UnityUtility.Recorder
             ScriptEvent newEvent = new ScriptEvent
             (
                 eventName,
-                (now - m_previousEventTime).TotalMilliseconds
+                (now - m_previousEventTime).TotalMilliseconds,
+                m_recorderName
             );
             m_events.Add(newEvent);
 
@@ -74,7 +83,7 @@ namespace UnityUtility.Recorder
             m_previousEventTime = now;
         }
 
-        public void LogLastEvent()
+        public virtual void LogLastEvent()
         {
             if (m_events.Count > 0)
             {
@@ -82,11 +91,11 @@ namespace UnityUtility.Recorder
             }
             else
             {
-                m_logMethod("[Recorder] No events to log");
+                m_logMethod($"[{m_recorderName}] No events to log");
             }
         }
 
-        public void LogAllEvents()
+        public virtual void LogAllEvents()
         {
             string log = string.Empty;
             foreach (ScriptEvent e in m_events)
@@ -98,26 +107,26 @@ namespace UnityUtility.Recorder
             m_logMethod(log);
         }
 
-        public void LogAllEventsTimeSpan()
+        public virtual void LogAllEventsTimeSpan()
         {
             m_logMethod(GetAllEventsTimeSpan());
         }
 
-        public void Reset()
+        public virtual void Reset()
         {
             m_events.Clear();
             ReinitTimes();
         }
 
-        private void ReinitTimes()
+        protected virtual void ReinitTimes()
         {
             m_firstEventTime = DateTime.Now;
             m_previousEventTime = m_firstEventTime;
         }
 
-        private string GetAllEventsTimeSpan()
+        protected virtual string GetAllEventsTimeSpan()
         {
-            return $"[Recorder] All the logged events took {(m_previousEventTime - m_firstEventTime).TotalMilliseconds} ms so far";
+            return $"[{m_recorderName}] All the logged events took {(m_previousEventTime - m_firstEventTime).TotalMilliseconds} ms so far";
         }
     }
 }
