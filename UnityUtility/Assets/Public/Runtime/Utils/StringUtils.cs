@@ -1,5 +1,4 @@
 using System;
-using System.Drawing;
 using System.Linq;
 
 namespace UnityUtility.Utils
@@ -46,8 +45,6 @@ namespace UnityUtility.Utils
         /// <para> Note : The last element of the array may not have the desired size if 
         /// <c><paramref name="st"/>.Length % <paramref name="wantedSize"/> != 0</c></para>
         /// </summary>
-        /// 
-        /// <example>dqsdq</example>
         /// 
         /// <param name="st">String to split</param>
         /// <param name="wantedSize">The size of the strings returned</param>
