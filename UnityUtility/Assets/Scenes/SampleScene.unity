@@ -412,6 +412,7 @@ GameObject:
   - component: {fileID: 1274140157}
   - component: {fileID: 1274140159}
   - component: {fileID: 1274140160}
+  - component: {fileID: 1274140161}
   m_Layer: 0
   m_Name: PerfTest
   m_TagString: Untagged
@@ -468,7 +469,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1274140155}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4cb08f91ae1af7b47b083fbabb0721b5, type: 3}
   m_Name: 
@@ -503,6 +504,18 @@ MonoBehaviour:
   a: 0
   b: 0
   c: 0
+--- !u!114 &1274140161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1274140155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef1888846c76bb6408757f00be15794f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
