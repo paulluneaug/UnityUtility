@@ -9,7 +9,7 @@ namespace UnityUtility.Utils
         /// <summary>
         /// Execute the specified <paramref name="action"/> on each element of <paramref name="enumerable"/>
         /// </summary>
-        /// <typeparam name="T">Type of the elements of the <see cref="IEnumerable"/></typeparam>
+        /// <typeparam name="T">Type of the elements in the <see cref="IEnumerable"/></typeparam>
         /// <param name="action">The <see cref="Action"/> to execute on each element of <paramref name="enumerable"/> </param>
         public static void ForEach<T>(this IEnumerable<T> enumerable, Action<T> action)
         {
