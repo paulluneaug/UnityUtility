@@ -57,8 +57,8 @@ namespace UnityUtility.Utils
         }
 
         /// <summary>
-        /// Compares <paramref name="value"/> and <paramref name="threshold"/> 
-        /// and returns wether <c><paramref name="value"/> <![CDATA[>]]> <paramref name="threshold"/></c>
+        /// Compares <paramref name="value"/>, <paramref name="min"/> and <paramref name="max"/>
+        /// and returns wether <paramref name="value"/> belongs in the interval [<paramref name="min"/> ; <paramref name="max"/>]
         /// </summary>
         /// 
         /// <typeparam name="T">Type of the operandes</typeparam>
@@ -66,7 +66,7 @@ namespace UnityUtility.Utils
         /// <param name="min">Lower bound</param>
         /// <param name="max">Higher bound</param>
         /// <param name="inclusive">Wether the bounds belongs to the interval</param>
-        /// <returns>Wether <paramref name="value"/> belongs in the interval [<paramref name="min"/> ; <paramref name="max"/>] </returns>
+        /// <returns>Wether <paramref name="value"/> belongs in the interval [<paramref name="min"/> ; <paramref name="max"/>]</returns>
         public static bool Between<T>(this T value, T min, T max, bool inclusive = true)
             where T : IComparable<T>
         {
@@ -177,7 +177,7 @@ namespace UnityUtility.Utils
     public static class Vector2Utils
     {
         /// <summary>
-        /// Projects the a vector onto another vector 
+        /// Projects a vector onto another vector 
         /// </summary>
         /// <param name="vector">The projected vector</param>
         /// <param name="target">The vector on which <paramref name="vector"/> is projected</param>
@@ -210,15 +210,19 @@ namespace UnityUtility.Utils
         }
 
         /// <summary>
-        /// Compares the magnitude and the angle of two vectors and returns wether their difference is less than a tolerance
+        /// Compares the magnitude and the angle of two vectors and returns wether their difference is less than the given tolerances
         /// </summary>
+        /// <remarks>Warning : This method can use up to 3 times <see cref="Mathf.Sqrt(float)"/></remarks>
+        /// <param name="angleTolerance">Angle tolerance (in degrees)</param>
         /// <returns>Wether the difference in magnitude and angle between the two vectors is less than the tolerances given</returns>
         public static bool ApproximatelyEqualsDir(this Vector2 dir, Vector2 other, float magnitudeTolerance = 0.001f, float angleTolerance = 0.01f)
         {
-            Vector2 projection = dir.ProjectOn(other);
-            float angle = Vector2.Angle(other, projection);
-            return projection.sqrMagnitude < magnitudeTolerance * magnitudeTolerance
-                && angle < angleTolerance;
+            float angle = Vector2.Angle(dir, other);
+            if (angle > angleTolerance)
+            {
+                return false;
+            }
+            return Mathf.Abs(dir.magnitude - other.magnitude) < magnitudeTolerance;
         }
 
         /// <summary>
@@ -252,18 +256,35 @@ namespace UnityUtility.Utils
             return Vector2.Angle(from, to) * sign;
         }
 
+        /// <summary>
+        /// Returns the normal vector to the left of a given vector
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns>The normal vector to the left of <paramref name="v"/></returns>
         public static Vector2 LeftNormal(this Vector2 v)
         {
             return new Vector2(-v.y, v.x);
         }
+
+        /// <summary>
+        /// Returns the normal vector to the right of a given vector
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns>The normal vector to the right of <paramref name="v"/></returns>
         public static Vector2 RightNormal(this Vector2 v)
         {
             return new Vector2(v.y, -v.x);
         }
 
-        public static Vector2 Rotate(this Vector2 v, float degree)
+        /// <summary>
+        /// Rotates the vector <paramref name="v"/> of <paramref name="angle"/> degrees
+        /// </summary>
+        /// <param name="v">The vector to rotate arround <paramref name="axis"/></param>
+        /// <param name="angle">The angle (in degrees)</param>
+        /// <returns></returns>
+        public static Vector2 Rotate(this Vector2 v, float angle)
         {
-            float rad = degree * Mathf.Deg2Rad;
+            float rad = angle * Mathf.Deg2Rad;
             float c = Mathf.Cos(rad);
             float s = Mathf.Sin(rad);
             return new Vector2(c * v.x - s * v.y, s * v.x + c * v.y);
@@ -298,10 +319,12 @@ namespace UnityUtility.Utils
         /// <inheritdoc cref="Vector2Utils.ApproximatelyEqualsDir"/>
         public static bool ApproximatelyEqualsDir(this Vector3 dir, Vector3 other, float magnitudeTolerance = 0.001f, float angleTolerance = 0.01f)
         {
-            Vector3 projection = dir.ProjectOn(other);
-            float angle = Vector3.Angle(other, projection);
-            return projection.sqrMagnitude < magnitudeTolerance * magnitudeTolerance
-                && angle < angleTolerance;
+            float angle = Vector3.Angle(dir, other);
+            if (angle > angleTolerance)
+            {
+                return false;
+            }
+            return Mathf.Abs(dir.magnitude - other.magnitude) < magnitudeTolerance;
         }
 
         /// <summary>
@@ -323,11 +346,13 @@ namespace UnityUtility.Utils
             return new Vector3(v.x - v.x % snapX, v.y - v.y % snapY, v.z - v.z % snapZ);
         }
 
-        public static Vector3 GetNormal(this Vector3 v, Vector3 other)
-        {
-            return Vector3.Cross(v, other);
-        }
-
+        /// <summary>
+        /// Rotates the vector <paramref name="v"/> of <paramref name="angle"/> degrees around <paramref name="axis"/>
+        /// </summary>
+        /// <param name="v">The vector to rotate arround <paramref name="axis"/></param>
+        /// <param name="axis">The axis arround which the vector <paramref name="v"/> is rotated</param>
+        /// <param name="angle">The angle (in degrees)</param>
+        /// <returns></returns>
         public static Vector3 Rotate(this Vector3 v, Vector3 axis, float angle)
         {
             Quaternion rotation = Quaternion.AngleAxis(angle, axis);
@@ -358,7 +383,6 @@ namespace UnityUtility.Utils
         }
 
         /// <inheritdoc cref="Vector2Utils.ProjectOn"/>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4 ProjectOn(this Vector4 vector, Vector4 target)
         {
             return Vector4.Project(vector, target);
@@ -383,10 +407,12 @@ namespace UnityUtility.Utils
         /// <inheritdoc cref="Vector2Utils.ApproximatelyEqualsDir"/>
         public static bool ApproximatelyEqualsDir(this Vector4 dir, Vector4 other, float magnitudeTolerance = 0.001f, float angleTolerance = 0.01f)
         {
-            Vector4 projection = dir.ProjectOn(other);
-            float angle = Vector4Angle(other, projection);
-            return projection.sqrMagnitude < magnitudeTolerance * magnitudeTolerance
-                && angle < angleTolerance;
+            float angle = Vector4Angle(dir, other);
+            if (angle > angleTolerance)
+            {
+                return false;
+            }
+            return Mathf.Abs(dir.magnitude - other.magnitude) < magnitudeTolerance;
         }
 
         /// <summary>
@@ -414,7 +440,7 @@ namespace UnityUtility.Utils
     public static class MathUtils
     {
         /// <summary>
-        /// Tries to parse a string 
+        /// Tries to parse a <see cref="string"/> representing an hexadecimal number to an <see cref="int"/>
         /// </summary>
         /// <param name="hex"></param>
         /// <param name="intValue"></param>
