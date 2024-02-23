@@ -29,7 +29,7 @@ namespace UnityUtility.Pools
 
         protected virtual void Awake()
         {
-            m_availableComponents = new Stack<TComponent>();
+            m_availableComponents = new Stack<TComponent>(m_initialPoolSize);
             for (int i = 0; i < m_initialPoolSize; ++i)
             {
                 AddItem();

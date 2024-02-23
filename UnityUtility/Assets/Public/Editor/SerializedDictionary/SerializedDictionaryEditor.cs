@@ -11,7 +11,7 @@ namespace UnityUtility.SerializedDictionary.Editor
     {
         private VisualElement m_container;
         private SerializedProperty m_property;
-        SerializedProperty m_pairListProperty;
+        private SerializedProperty m_pairListProperty;
         private PropertyField m_listField;
 
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
