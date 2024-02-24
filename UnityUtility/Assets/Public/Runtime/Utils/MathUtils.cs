@@ -461,6 +461,14 @@ namespace UnityUtility.Utils
         }
     }
 
+    public static class IntUtils
+    {
+        public static bool HasFlag(this int val, int flag)
+        {
+            return (val & flag) == flag;
+        }
+    }
+
     #region Misc
     public static class MathUtils
     {

@@ -2,8 +2,18 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+using Object = UnityEngine.Object;
+
 namespace UnityUtility.Utils
 {
+    [System.Flags]
+    public enum Axis : int
+    {
+        X = 0x1, 
+        Y = 0x2, 
+        Z = 0x4,
+    }
+
     #region Object 
     public static class ObjectUtils
     {
