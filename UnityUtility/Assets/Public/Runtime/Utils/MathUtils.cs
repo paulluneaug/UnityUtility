@@ -436,6 +436,31 @@ namespace UnityUtility.Utils
     }
     #endregion
 
+    public static class FloatUtils
+    {
+        /// <summary>
+        /// Remaps the value of <paramref name="input"/> 
+        /// from the range <paramref name="initialInterval"/> to the range <paramref name="targetInterval"/>
+        /// </summary>
+        /// <returns>The remapped value of <paramref name="input"/></returns>
+        public static float Remap(this float input, Vector2 initialInterval, Vector2 targetInterval)
+        {
+            return Remap(input, initialInterval.x, initialInterval.y, targetInterval.x, targetInterval.y);
+        }
+
+        /// <summary>
+        /// Remaps the value of <paramref name="input"/> 
+        /// from the range [<paramref name="initialMin"/>, <paramref name="initialMax"/>] 
+        /// to the range [<paramref name="targetMin"/>, <paramref name="targetMax"/>]
+        /// </summary>
+        /// <returns>The remapped value of <paramref name="input"/></returns>
+        public static float Remap(this float input, float initialMin, float initialMax, float targetMin, float targetMax)
+        {
+            float ratio = (input - initialMin) / (initialMax - initialMin);
+            return targetMin + ratio * (targetMax - targetMin);
+        }
+    }
+
     #region Misc
     public static class MathUtils
     {
