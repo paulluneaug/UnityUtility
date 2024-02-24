@@ -1,11 +1,12 @@
-using System;
 using UnityEngine;
+
+using Object = UnityEngine.Object;
 
 namespace UnityUtility.Utils
 {
     public static class UnityUtils
     {
-        [Flags]
+        [System.Flags]
         public enum Axis : int
         {
             X = 0x1, 
