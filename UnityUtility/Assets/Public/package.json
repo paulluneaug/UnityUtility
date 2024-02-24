@@ -1,6 +1,6 @@
 {
   "name": "com.pluneau.unityutility",
-  "version": "1.7.2",
+  "version": "1.7.3",
   "displayName": "UnityUtility",
   "unity": "2022.3",
   "dependencies": {
