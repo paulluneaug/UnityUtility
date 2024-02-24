@@ -1,9 +1,18 @@
+using System;
 using UnityEngine;
 
 namespace UnityUtility.Utils
 {
     public static class UnityUtils
     {
+        [Flags]
+        public enum Axis : int
+        {
+            X = 0x1, 
+            Y = 0x2, 
+            Z = 0x4,
+        }
+
         #region Components
         /// <summary>
         /// Tries to get <see cref="Component"/> on the given <see cref="GameObject"/> and if none are found, one is added and returned
@@ -71,6 +80,11 @@ namespace UnityUtility.Utils
         public static bool Contains(this LayerMask mask, int layer)
         {
             return mask == (mask | (1 << layer));
+        }
+
+        public static bool HasFlag(this int val, int flag)
+        {
+            return (val & flag) == flag;
         }
     }
 }
