@@ -501,12 +501,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WhatABool: 0
-  A:
-  - {x: 29.7, y: 141.52}
-  - {x: 9.27, y: 194.05}
-  - {x: 57.49, y: 242.27}
-  B: 2.07
-  C: 0
+  A2365461fsdf65465465f4s6d5f4:
+  - show: 0
+    A2365461fsdf65465465f4s6d5f4:
+    - {x: 2, y: 2}
+    - {x: 2, y: 2}
+  B: 3.76
   D: 0
   E: 0
   F: 0
@@ -528,8 +528,11 @@ MonoBehaviour:
   MinMax3: []
   MinMax2: []
   a: 7.179999828338623
-  b: 7
+  b: 3
   c: 2
+  layer0: 
+  layer1: 0
+  layer3: 0
 --- !u!114 &1274140161
 MonoBehaviour:
   m_ObjectHideFlags: 0
