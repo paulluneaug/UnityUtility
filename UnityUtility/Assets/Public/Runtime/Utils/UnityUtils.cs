@@ -6,6 +6,7 @@ using Object = UnityEngine.Object;
 
 namespace UnityUtility.Utils
 {
+    #region Axis
     [System.Flags]
     public enum Axis : int
     {
@@ -13,6 +14,28 @@ namespace UnityUtility.Utils
         Y = 0x2, 
         Z = 0x4,
     }
+
+    public static class AxisUtils
+    {
+        public static Vector3 ToVector(this Axis axis)
+        {
+            Vector3 result = new Vector3();
+            if (axis.HasFlag(Axis.X))
+            {
+                result.x = 1.0f;
+            }
+            if (axis.HasFlag(Axis.Y))
+            {
+                result.y = 1.0f;
+            }
+            if (axis.HasFlag(Axis.Z))
+            {
+                result.z = 1.0f;
+            }
+            return result;
+        }
+    }
+    #endregion
 
     #region Object 
     public static class ObjectUtils
