@@ -439,6 +439,7 @@ GameObject:
   - component: {fileID: 1274140159}
   - component: {fileID: 1274140160}
   - component: {fileID: 1274140161}
+  - component: {fileID: 1274140161}
   m_Layer: 0
   m_Name: PerfTest
   m_TagString: Untagged
@@ -495,18 +496,18 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1274140155}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4cb08f91ae1af7b47b083fbabb0721b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   WhatABool: 0
-  A:
-  - {x: 29.7, y: 141.52}
-  - {x: 9.27, y: 194.05}
-  - {x: 57.49, y: 242.27}
-  B: 2.07
-  C: 0
+  A2365461fsdf65465465f4s6d5f4:
+  - show: 0
+    A2365461fsdf65465465f4s6d5f4:
+    - {x: 2, y: 2}
+    - {x: 2, y: 2}
+  B: 3.76
   D: 0
   E: 0
   F: 0
@@ -528,8 +529,11 @@ MonoBehaviour:
   MinMax3: []
   MinMax2: []
   a: 7.179999828338623
-  b: 7
+  b: 3
   c: 2
+  layer0: 
+  layer1: 0
+  layer3: 0
 --- !u!114 &1274140161
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -540,6 +544,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 260af1490811b7944a12ec1746e6ba58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1274140161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1274140155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef1888846c76bb6408757f00be15794f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807

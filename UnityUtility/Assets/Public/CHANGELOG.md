@@ -4,16 +4,44 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.1] - 2024-02-24
+
+### Added
+- `Axis` to `Vector3` conversion method
+
+## [1.8.0] - 2024-02-24
+
+### Added
+- More Utils methods
+- A `Timer` class
+- More recorder classes
+- An implementation of the OneEuro Filter and a LowPass Filter
+
+## [1.7.4] - 2024-02-24
+
+### Modified
+- Fixed compile error due to an ambiguity
+
+## [1.7.3] - 2024-02-24
+
+### Added
+- Added an `Axis` enum
+
+## [1.7.2] - 2024-02-23
+
+### Changed
+- Fixed `EditorUtils.IsPropertyPartOfArray`
+
 ## [1.7.1] - 2024-02-11
 
 ### Added
-- Layer Attribute
+- `Layer` Attribute
 
 ### Changed
 - Minor improvement on Component pools
 - Renamed singletons base classes
-- Fixed ScriptableSingleton behaviour
-- Fixed MinMaxSlider multi editing
+- Fixed `ScriptableSingleton` behaviour
+- Fixed `MinMaxSliders` multi editing
 
 ## [1.7.0] - 2024-02-11
 
@@ -33,7 +61,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.5.0] - 2024-01-20
 
 ### Added
-- ButtonAttribute
+- `Button` Attribute
 
 ## [1.4.0] - 2024-01-10
 
@@ -44,20 +72,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - 4 custom PropertyAttributes and drawers :
-  - ShowIf
-  - MinMaxSlider
-  - Title
-  - HelpBox
+  - `ShowIf`
+  - `MinMaxSlider`
+  - `Title`
+  - `HelpBox`
   
 ## [1.2.0] - 2024-01-10
 
 ### Added
-- ManagedMonoBehaviour
+- `ManagedMonoBehaviour`
 
 ## [1.1.0] - 2024-01-10
 
 ### Added
-- SerializedDictionary
+- `SerializedDictionary`
 
 ## [1.0.0] - 2024-01-10
 
