@@ -25,10 +25,15 @@ public class AttributeTests : MonoBehaviour
     public float D;
     [Title("They can be centered", titleAlignment: TitleAlignments.Centered)]
     public float E;
+    [Separator]
     public float F;
     [Title("Or on the right", "And not bold", titleAlignment: TitleAlignments.Right, bold: false)]
     public float G;
+    [Separator]
     public float H = 20;
+    [Separator]
+    [Separator]
+    [Separator]
 
     [Space]
 
@@ -66,7 +71,9 @@ public class AttributeTests : MonoBehaviour
 
     [MinMaxSlider(-10, 10, showFields: false, roundDigits: 1)]
     public Vector3 SliderWithoutValuesV3;
-
+    [Separator]
+    [Separator]
+    [Separator]
     [HelpBox("It also works on arrays")]
     [MinMaxSlider(-10, 10, roundDigits: 0)]
     public Vector2[] MinMax3;
