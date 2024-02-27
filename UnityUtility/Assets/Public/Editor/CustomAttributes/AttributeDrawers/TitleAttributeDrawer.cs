@@ -13,8 +13,6 @@ namespace UnityUtility.CustomAttributes.Editor
         private readonly float m_subtitleHeight = EditorGUIUtility.singleLineHeight;
         private readonly float m_spaceAtTheEnd = 5;
 
-        private readonly Color m_lineColor = new Color(0.3515625f, 0.3515625f, 0.3515625f);
-
         #region IMGUI
         public override float GetHeight()
         {
@@ -22,7 +20,7 @@ namespace UnityUtility.CustomAttributes.Editor
 
             float totalHeight = m_titleHeight;
 
-            if (titleAttribute.Subtitle != String.Empty) { totalHeight += m_subtitleHeight; }
+            if (!string.IsNullOrEmpty(titleAttribute.Subtitle)) { totalHeight += m_subtitleHeight; }
 
             if (titleAttribute.HorizontalLine) { totalHeight += m_spaceAtTheEnd; }
 
@@ -44,7 +42,7 @@ namespace UnityUtility.CustomAttributes.Editor
 
                 EditorGUI.LabelField(titleRect, titleAttribute.Title, titleStyle);
 
-                if (titleAttribute.Subtitle != string.Empty)
+                if (!string.IsNullOrEmpty(titleAttribute.Subtitle))
                 {
                     Rect subtitleRect = new Rect(position.x, position.y + offset, position.width, m_subtitleHeight);
 
@@ -59,7 +57,7 @@ namespace UnityUtility.CustomAttributes.Editor
                 if (titleAttribute.HorizontalLine)
                 {
                     Rect horizontalLine = new Rect(position.x, position.y + GetHeight() - m_spaceAtTheEnd, position.width, 1);
-                    EditorGUI.DrawRect(horizontalLine, m_lineColor);
+                    EditorGUI.DrawRect(horizontalLine, AttributeUtils.SeparatorColor);
                 }
             }
         }
@@ -93,7 +91,7 @@ namespace UnityUtility.CustomAttributes.Editor
                 container.Add(titleLabel);
 
 
-                if (titleAttribute.Subtitle != string.Empty)
+                if (!string.IsNullOrEmpty(titleAttribute.Subtitle))
                 {
                     Label subtitleLabel = new Label(titleAttribute.Subtitle);
                     subtitleLabel.style.fontSize = 10;
@@ -104,10 +102,7 @@ namespace UnityUtility.CustomAttributes.Editor
 
                 if (titleAttribute.HorizontalLine)
                 {
-                    VisualElement horizontalLine = new VisualElement();
-                    horizontalLine.style.backgroundColor = m_lineColor;
-                    horizontalLine.style.height = 1;
-                    container.Add(horizontalLine);
+                    container.Add(AttributeUtils.CreateSeparator());
                 }
             }
 
