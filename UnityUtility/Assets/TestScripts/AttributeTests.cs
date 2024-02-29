@@ -40,6 +40,7 @@ public class AttributeTests : MonoBehaviour
     [Title("HelpBoxes")]
     [HelpBox("It's possible to display an information,"), ShowIf("so", SAU.CISSE)]
     public float I;
+    [Label("Super name J", bold: true)]
     public float J;
     [HelpBox("A Warning,", messageType: HelpBoxMessageType.Warning)/*, ShowIf("Condition")*/]
     public float K;
@@ -51,6 +52,7 @@ public class AttributeTests : MonoBehaviour
     public float O;
     [HelpBox("Or just a sentence", messageType: HelpBoxMessageType.None)]
     public float P;
+    [Label("Super name Q", bold: true, italic: true)]
     public float Q;
 
     [SerializeField]
