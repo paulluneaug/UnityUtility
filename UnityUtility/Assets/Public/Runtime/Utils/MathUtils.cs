@@ -289,6 +289,12 @@ namespace UnityUtility.Utils
             float s = Mathf.Sin(rad);
             return new Vector2(c * v.x - s * v.y, s * v.x + c * v.y);
         }
+
+        /// <inheritdoc cref="Vector2.Scale(Vector2, Vector2)"/>
+        public static Vector2 CopyScale(this Vector2 v1, Vector2 v2)
+        {
+            return Vector2.Scale(v1, v2);
+        }
     }
     #endregion
 
@@ -357,6 +363,12 @@ namespace UnityUtility.Utils
         {
             Quaternion rotation = Quaternion.AngleAxis(angle, axis);
             return rotation * v;
+        }
+
+        /// <inheritdoc cref="Vector3.Scale(Vector3, Vector3)"/>
+        public static Vector3 CopyScale(this Vector3 v1, Vector3 v2)
+        {
+            return Vector3.Scale(v1, v2);
         }
     }
     #endregion
@@ -432,6 +444,12 @@ namespace UnityUtility.Utils
         public static Vector4 Snap(this Vector4 v, float snapX, float snapY, float snapZ, float snapW)
         {
             return new Vector4(v.x - v.x % snapX, v.y - v.y % snapY, v.z - v.z % snapZ, v.w - v.w % snapW);
+        }
+
+        /// <inheritdoc cref="Vector4.Scale(Vector4, Vector4)"/>
+        public static Vector4 CopyScale(this Vector4 v1, Vector4 v2)
+        {
+            return Vector4.Scale(v1, v2);
         }
     }
     #endregion
