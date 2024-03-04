@@ -22,7 +22,7 @@ public class AttributeTests : MonoBehaviour
     [Title("Title Example", "With Subtitle (and underline)")]
     [ShowIf(nameof(Condition)), MinMaxSlider(2, 250)] public Vector2[] A;
     public float B;
-    [Title("No Subtitle nor underline (like a Header)", horizontalLine: false)]
+    [Title("No Subtitle nor underline (like a Header)", separator: false)]
     [ShowIf("so", SAU.CISSE)] public float C;
     public float D;
     [Title("They can be centered", titleAlignment: TitleAlignments.Centered)]

@@ -22,7 +22,7 @@ namespace UnityUtility.CustomAttributes.Editor
 
             if (!string.IsNullOrEmpty(titleAttribute.Subtitle)) { totalHeight += m_subtitleHeight; }
 
-            if (titleAttribute.HorizontalLine) { totalHeight += m_spaceAtTheEnd; }
+            if (titleAttribute.Separator) { totalHeight += m_spaceAtTheEnd; }
 
             return totalHeight + m_spaceAtTheBeginning;
         }
@@ -54,7 +54,7 @@ namespace UnityUtility.CustomAttributes.Editor
                     EditorGUI.LabelField(subtitleRect, titleAttribute.Subtitle, subtitleStyle);
                 }
 
-                if (titleAttribute.HorizontalLine)
+                if (titleAttribute.Separator)
                 {
                     Rect horizontalLine = new Rect(position.x, position.y + GetHeight() - m_spaceAtTheEnd, position.width, 1);
                     EditorGUI.DrawRect(horizontalLine, AttributeUtils.SeparatorColor);
@@ -100,7 +100,7 @@ namespace UnityUtility.CustomAttributes.Editor
                     container.Add(subtitleLabel);
                 }
 
-                if (titleAttribute.HorizontalLine)
+                if (titleAttribute.Separator)
                 {
                     container.Add(AttributeUtils.CreateSeparator());
                 }

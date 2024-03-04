@@ -11,30 +11,30 @@ namespace UnityUtility.CustomAttributes
         public string Title { get; }
         public string Subtitle { get; }
         public bool Bold { get; }
-        public bool HorizontalLine { get; }
+        public bool Separator { get; }
         public TitleAlignments TitleAlignment { get; }
 
         public TitleAttribute(
             string title,
             string subtitle,
             bool bold = true,
-            bool horizontalLine = true,
+            bool separator = true,
             TitleAlignments titleAlignment = TitleAlignments.Left)
         {
             Title = title;
             Subtitle = subtitle;
             Bold = bold;
-            HorizontalLine = horizontalLine;
+            Separator = separator;
             TitleAlignment = titleAlignment;
         }
 
         public TitleAttribute(
             string title, 
             bool bold = true, 
-            bool horizontalLine = true, 
+            bool separator = true, 
             TitleAlignments titleAlignment = TitleAlignments.Left) :
 
-            this(title, string.Empty, bold, horizontalLine, titleAlignment)
+            this(title, string.Empty, bold, separator, titleAlignment)
         {
         }
     }
