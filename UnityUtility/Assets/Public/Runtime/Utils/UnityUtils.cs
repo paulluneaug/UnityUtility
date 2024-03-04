@@ -19,20 +19,10 @@ namespace UnityUtility.Utils
     {
         public static Vector3 ToVector(this Axis axis)
         {
-            Vector3 result = new Vector3();
-            if (axis.HasFlag(Axis.X))
-            {
-                result.x = 1.0f;
-            }
-            if (axis.HasFlag(Axis.Y))
-            {
-                result.y = 1.0f;
-            }
-            if (axis.HasFlag(Axis.Z))
-            {
-                result.z = 1.0f;
-            }
-            return result;
+            return new Vector3(
+                (int)(axis & Axis.X) / (int)Axis.X,
+                (int)(axis & Axis.Y) / (int)Axis.Y,
+                (int)(axis & Axis.Z) / (int)Axis.Z);
         }
     }
     #endregion
