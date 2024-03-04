@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace UnityUtility.Utils
 {
@@ -10,7 +11,8 @@ namespace UnityUtility.Utils
         /// Execute the specified <paramref name="action"/> on each element of <paramref name="enumerable"/>
         /// </summary>
         /// <typeparam name="T">Type of the elements in the <see cref="IEnumerable"/></typeparam>
-        /// <param name="action">The <see cref="Action"/> to execute on each element of <paramref name="enumerable"/> </param>
+        /// <param name="action">The <see cref="Action"/> to execute on each element of <paramref name="enumerable"/></param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void ForEach<T>(this IEnumerable<T> enumerable, Action<T> action)
         {
             foreach (T item in enumerable)
