@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -26,7 +27,7 @@ namespace UnityUtility.CustomAttributes.Editor
             Button b = new Button(() => InvokeMethod());
             b.text = m_target.DisplayName;
             container.Add(b);
-            container.Add(base.CreatePropertyGUI(property));
+            container.Add(new PropertyField(property));
 
             return container;
         }
