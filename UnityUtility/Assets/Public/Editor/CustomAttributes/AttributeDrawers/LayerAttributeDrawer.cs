@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 namespace UnityUtility.CustomAttributes.Editor
 {
     [CustomPropertyDrawer(typeof(LayerAttribute))]
-    public class LayerAttributeEditor : PropertyDrawer
+    public class LayerAttributeDrawer : PropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {

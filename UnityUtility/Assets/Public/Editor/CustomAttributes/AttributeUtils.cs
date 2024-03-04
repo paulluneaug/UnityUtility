@@ -9,7 +9,21 @@ namespace UnityUtility.CustomAttributes.Editor
     public static class AttributeUtils
     {
         public static Length LabelWidth => s_labelWidth;
+
+        public static Color SeparatorColor => s_separatorColor;
+
         private static readonly Length s_labelWidth = Length.Percent(42);
+
+        private static readonly Color s_separatorColor = new Color(0.3515625f, 0.3515625f, 0.3515625f);
+
+        public static VisualElement CreateSeparator()
+        {
+            VisualElement line = new VisualElement();
+            line.style.backgroundColor = s_separatorColor;
+            line.style.height = 1;
+            line.name = "Line";
+            return line;
+        }
 
         public static bool ConditionSucessFromFieldOrProperty(SerializedProperty property, string fieldName, object compareValue, bool inverse = false)
         {

@@ -25,16 +25,22 @@ public class AttributeTests : MonoBehaviour
     public float D;
     [Title("They can be centered", titleAlignment: TitleAlignments.Centered)]
     public float E;
+    [Separator]
     public float F;
     [Title("Or on the right", "And not bold", titleAlignment: TitleAlignments.Right, bold: false)]
     public float G;
+    [Separator]
     public float H = 20;
+    [Separator]
+    [Separator]
+    [Separator]
 
     [Space]
 
     [Title("HelpBoxes")]
     [HelpBox("It's possible to display an information,"), ShowIf("so", SAU.CISSE)]
     public float I;
+    [Label("Super name J", bold: true)]
     public float J;
     [HelpBox("A Warning,", messageType: HelpBoxMessageType.Warning)/*, ShowIf("Condition")*/]
     public float K;
@@ -46,6 +52,7 @@ public class AttributeTests : MonoBehaviour
     public float O;
     [HelpBox("Or just a sentence", messageType: HelpBoxMessageType.None)]
     public float P;
+    [Label("Super name Q", bold: true, italic: true)]
     public float Q;
 
     [SerializeField]
@@ -66,7 +73,9 @@ public class AttributeTests : MonoBehaviour
 
     [MinMaxSlider(-10, 10, showFields: false, roundDigits: 1)]
     public Vector3 SliderWithoutValuesV3;
-
+    [Separator]
+    [Separator]
+    [Separator]
     [HelpBox("It also works on arrays")]
     [MinMaxSlider(-10, 10, roundDigits: 0)]
     public Vector2[] MinMax3;
