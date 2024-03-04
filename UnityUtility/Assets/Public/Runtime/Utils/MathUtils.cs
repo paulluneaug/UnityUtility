@@ -199,8 +199,8 @@ namespace UnityUtility.Utils
         public static bool ApproximatelyEqualsPoint(this Vector2 point, Vector2 other, Vector2 tolerance)
         {
             return
-                Math.Abs(point.x - other.x) < tolerance.x &&
-                Math.Abs(point.y - other.y) < tolerance.y;
+                point.x.Approximately(other.x, tolerance.x) &&
+                point.y.Approximately(other.y, tolerance.y);
         }
 
         /// <inheritdoc cref="ApproximatelyEqualsPoint"/>
@@ -222,7 +222,7 @@ namespace UnityUtility.Utils
             {
                 return false;
             }
-            return Mathf.Abs(dir.magnitude - other.magnitude) < magnitudeTolerance;
+            return dir.magnitude.Approximately(other.magnitude, magnitudeTolerance);
         }
 
         /// <summary>
@@ -311,9 +311,9 @@ namespace UnityUtility.Utils
         public static bool ApproximatelyEqualsPoint(this Vector3 point, Vector3 other, Vector3 tolerance)
         {
             return
-                Math.Abs(point.x - other.x) < tolerance.x &&
-                Math.Abs(point.y - other.y) < tolerance.y &&
-                Math.Abs(point.z - other.z) < tolerance.z;
+                point.x.Approximately(other.x, tolerance.x) &&
+                point.y.Approximately(other.y, tolerance.y) &&
+                point.z.Approximately(other.z, tolerance.z);
         }
 
         /// <inheritdoc cref="Vector2Utils.ApproximatelyEqualsPoint"/>
@@ -330,7 +330,7 @@ namespace UnityUtility.Utils
             {
                 return false;
             }
-            return Mathf.Abs(dir.magnitude - other.magnitude) < magnitudeTolerance;
+            return dir.magnitude.Approximately(other.magnitude, magnitudeTolerance);
         }
 
         /// <summary>
@@ -404,10 +404,10 @@ namespace UnityUtility.Utils
         public static bool ApproximatelyEqualsPoint(this Vector4 point, Vector4 other, Vector4 tolerance)
         {
             return
-                Math.Abs(point.x - other.x) < tolerance.x &&
-                Math.Abs(point.y - other.y) < tolerance.y &&
-                Math.Abs(point.z - other.z) < tolerance.z &&
-                Math.Abs(point.w - other.w) < tolerance.w;
+                point.x.Approximately(other.x, tolerance.x) &&
+                point.y.Approximately(other.y, tolerance.y) &&
+                point.z.Approximately(other.z, tolerance.z) &&
+                point.w.Approximately(other.w, tolerance.w);
         }
 
         /// <inheritdoc cref="Vector2Utils.ApproximatelyEqualsPoint"/>
@@ -424,7 +424,7 @@ namespace UnityUtility.Utils
             {
                 return false;
             }
-            return Mathf.Abs(dir.magnitude - other.magnitude) < magnitudeTolerance;
+            return dir.magnitude.Approximately(other.magnitude, magnitudeTolerance);
         }
 
         /// <summary>
@@ -457,13 +457,25 @@ namespace UnityUtility.Utils
     public static class FloatUtils
     {
         /// <summary>
+        /// Compares 2 floats and returns wether their difference is less than a tolerance
+        /// </summary>
+        /// <param name="val"></param>
+        /// <param name="other"></param>
+        /// <param name="tolerance"></param>
+        /// <returns>Wether the difference between the two floats is less than the given tolerance</returns>
+        public static bool Approximately(this float val, float other, float tolerance = 0.0001f)
+        {
+            return Math.Abs(val - other) < tolerance;
+        }
+
+        /// <summary>
         /// Remaps the value of <paramref name="input"/> 
-        /// from the range <paramref name="initialInterval"/> to the range <paramref name="targetInterval"/>
+        /// from the range <paramref name="initialRange"/> to the range <paramref name="targetRange"/>
         /// </summary>
         /// <returns>The remapped value of <paramref name="input"/></returns>
-        public static float Remap(this float input, Vector2 initialInterval, Vector2 targetInterval)
+        public static float Remap(this float input, Vector2 initialRange, Vector2 targetRange)
         {
-            return Remap(input, initialInterval.x, initialInterval.y, targetInterval.x, targetInterval.y);
+            return input.Remap(initialRange.x, initialRange.y, targetRange.x, targetRange.y);
         }
 
         /// <summary>
