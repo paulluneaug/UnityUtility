@@ -8,6 +8,7 @@ namespace UnityUtility.CustomAttributes.Editor
 {
     public static class AttributeUtils
     {
+        public const string DISABLED_SELECTOR_NAME = "unity-disabled";
         public static Length LabelWidth => s_labelWidth;
 
         public static Color SeparatorColor => s_separatorColor;
