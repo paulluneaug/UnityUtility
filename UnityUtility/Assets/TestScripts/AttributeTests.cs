@@ -7,6 +7,13 @@ using UnityUtility.CustomAttributes;
 
 public class AttributeTests : MonoBehaviour
 {
+    [Serializable]
+    public struct NestedStruct
+    {
+        public string name;
+        public int value;
+    }
+
     protected enum SAU
     {
         CISSE,
@@ -20,7 +27,7 @@ public class AttributeTests : MonoBehaviour
     [Button(nameof(TestMethod2), "M�thode Test2")]
     [SerializeField] private bool WhatABool = true;
     [Title("Title Example", "With Subtitle (and underline)")]
-    [ShowIf(nameof(Condition)), MinMaxSlider(2, 250)] public Vector2[] A;
+    [DisableIf(nameof(Condition)), MinMaxSlider(2, 250, roundDigits: 1)] public Vector2[] A;
     public float B;
     [Title("No Subtitle nor underline (like a Header)", separator: false)]
     [ShowIf("so", SAU.CISSE)] public float C;
@@ -31,7 +38,7 @@ public class AttributeTests : MonoBehaviour
     public float F;
     [Title("Or on the right", "And not bold", titleAlignment: TitleAlignments.Right, bold: false)]
     public float G;
-    [Separator]
+    [Separator, Disable]
     public float H = 20;
     [Separator]
     [Separator]
@@ -50,12 +57,16 @@ public class AttributeTests : MonoBehaviour
     public Vector2 Sliderscsfc;
     public float L;
     [HelpBox("An Error,", messageType: HelpBoxMessageType.Error)]
-    public float M;
-    public float O;
     [HelpBox("Or just a sentence", messageType: HelpBoxMessageType.None)]
+    public float M;
+    [Layer]
+    public byte b0;
+    public float O;
     public float P;
     [Label("Super name Q", bold: true, italic: true)]
-    public float Q;
+    public NestedStruct Q;
+    [Label("Super name Q[]", bold: true, italic: true)]
+    public NestedStruct[] QArray;
 
     [SerializeField]
     protected SAU so = SAU.CISSE;
