@@ -10,17 +10,18 @@ namespace UnityUtility.CustomAttributes.Editor
     [CustomPropertyDrawer(typeof(ShowIfAttribute))]
     public class ShowIfAttributeDrawer : PropertyDrawer
     {
+        private ShowIfAttribute m_showIfAttribute = null;
+
         private bool m_conditionSucess;
 
         private SerializedProperty m_property = null;
-        private PropertyField m_propertyField = null;
-        private ListView m_listProperty = null;
-        private ShowIfAttribute m_showIfAttribute = null;
-
-
 
         private bool m_isPartOfArray = false;
+        private ListView m_listProperty = null;
 
+        private PropertyField m_propertyField = null;
+
+        #region IMGUI
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
             if (m_conditionSucess)
@@ -46,7 +47,9 @@ namespace UnityUtility.CustomAttributes.Editor
                 }
             }
         }
-        
+        #endregion
+
+        #region UIElements
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
             VisualElement container = new VisualElement();
@@ -93,5 +96,6 @@ namespace UnityUtility.CustomAttributes.Editor
                 return;
             }
         }
+        #endregion
     }
 }

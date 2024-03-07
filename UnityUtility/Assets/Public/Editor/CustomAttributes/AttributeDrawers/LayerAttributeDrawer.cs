@@ -8,11 +8,14 @@ namespace UnityUtility.CustomAttributes.Editor
     [CustomPropertyDrawer(typeof(LayerAttribute))]
     public class LayerAttributeDrawer : PropertyDrawer
     {
+        #region IMGUI
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             property.intValue = EditorGUI.LayerField(position, label, property.intValue);
         }
+        #endregion
 
+        #region UIElements
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
             LayerField field = new LayerField(property.displayName);
@@ -20,6 +23,7 @@ namespace UnityUtility.CustomAttributes.Editor
             field.BindProperty(property);
             return field;
         }
+        #endregion
     }
 }
 
