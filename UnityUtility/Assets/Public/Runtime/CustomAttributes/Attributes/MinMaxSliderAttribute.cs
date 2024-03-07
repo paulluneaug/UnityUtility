@@ -7,7 +7,7 @@ namespace UnityUtility.CustomAttributes
     /// </summary>
     public class MinMaxSliderAttribute : PropertyAttribute
     {
-        public static readonly string WRONG_TYPE_ERROR = $"{nameof(MinMaxSliderAttribute)} cannot be applied to variables of type";
+        public const string WRONG_TYPE_ERROR = nameof(MinMaxSliderAttribute) +" cannot be applied to variables of type";
 
         public float MinValue { get; }
         public float MaxValue { get; }
