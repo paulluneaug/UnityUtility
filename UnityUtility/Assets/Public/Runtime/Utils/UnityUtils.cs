@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 using Object = UnityEngine.Object;
@@ -17,22 +18,13 @@ namespace UnityUtility.Utils
 
     public static class AxisUtils
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 ToVector(this Axis axis)
         {
-            Vector3 result = new Vector3();
-            if (axis.HasFlag(Axis.X))
-            {
-                result.x = 1.0f;
-            }
-            if (axis.HasFlag(Axis.Y))
-            {
-                result.y = 1.0f;
-            }
-            if (axis.HasFlag(Axis.Z))
-            {
-                result.z = 1.0f;
-            }
-            return result;
+            return new Vector3(
+                (int)(axis & Axis.X) / (int)Axis.X,
+                (int)(axis & Axis.Y) / (int)Axis.Y,
+                (int)(axis & Axis.Z) / (int)Axis.Z);
         }
     }
     #endregion
@@ -89,6 +81,7 @@ namespace UnityUtility.Utils
         /// </summary>
         /// <typeparam name="TComp">Type of the <see cref="Component"/> to destroy</typeparam>
         /// <param name="go"></param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void RemoveComponent<TComp>(this GameObject go) where TComp : Component
         {
             go.GetComponent<TComp>()?.Destroy();
@@ -119,6 +112,7 @@ namespace UnityUtility.Utils
         /// <param name="mask"></param>
         /// <param name="layer"></param>
         /// <returns>Wether the <c><paramref name="layer"/></c> is the given <see cref="LayerMask"/></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool Contains(this LayerMask mask, int layer)
         {
             return mask == (mask | (1 << layer));
