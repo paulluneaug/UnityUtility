@@ -69,7 +69,7 @@ namespace UnityUtility.CustomAttributes.Editor
             return container;
         }
 
-        void OnEditorUpdate()
+        private void OnEditorUpdate()
         {
             try
             {

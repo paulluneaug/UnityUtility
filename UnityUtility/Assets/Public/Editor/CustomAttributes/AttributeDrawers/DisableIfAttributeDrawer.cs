@@ -4,7 +4,6 @@ using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 using System;
 using UnityUtility.Utils.Editor;
-using Unity.Collections;
 
 namespace UnityUtility.CustomAttributes.Editor
 {

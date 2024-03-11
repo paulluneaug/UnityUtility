@@ -181,8 +181,6 @@ namespace UnityUtility.CustomAttributes.Editor
 
             slider.RegisterValueChangedCallback(OnSliderChanged);
 
-            Debug.LogError(property.GetHashCode());
-
             void OnMinFocusOut(FocusOutEvent evt)
             {
                 float minValue = Round(minField.value, roundDigits);
