@@ -75,5 +75,26 @@ namespace UnityUtility.CustomAttributes.Editor
             Debug.LogError($"[{property.serializedObject.targetObject.GetType()}] Invalid Condition");
             return false;
         }
+
+        public static FontStyle GetFontStyle(bool bold, bool italic)
+        {
+            if (bold && italic)
+            {
+                return FontStyle.BoldAndItalic;
+            }
+            else
+            {
+                if (bold)
+                {
+                    return FontStyle.Bold;
+                }
+                else if (italic)
+                {
+                    return FontStyle.Italic;
+                }
+            }
+
+            return FontStyle.Normal;
+        }
     }
 }

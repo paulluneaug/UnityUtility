@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace UnityUtility.CustomAttributes
 {
+    [AttributeUsage(AttributeTargets.Field, AllowMultiple = true)]
     public class ButtonAttribute : PropertyAttribute
     {
         public string MethodName { get; }

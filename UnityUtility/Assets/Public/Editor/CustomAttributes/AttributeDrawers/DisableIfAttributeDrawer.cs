@@ -7,12 +7,13 @@ using UnityUtility.Utils.Editor;
 
 namespace UnityUtility.CustomAttributes.Editor
 {
-    [CustomPropertyDrawer(typeof(ShowIfAttribute))]
-    public class ShowIfAttributeDrawer : PropertyDrawer
+    [CustomPropertyDrawer(typeof(DisableIfAttribute))]
+    public class DisableIfAttributeDrawer : PropertyDrawer
     {
-        private ShowIfAttribute m_showIfAttribute = null;
+        private DisableIfAttribute m_disableIfAttribute = null;
 
         private bool m_conditionSucess;
+        private bool m_wasDisabled = false;
 
         private SerializedProperty m_property = null;
 
@@ -33,18 +34,17 @@ namespace UnityUtility.CustomAttributes.Editor
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            if (attribute is ShowIfAttribute showIfAttribute)
+            if (attribute is DisableIfAttribute disableIfAttribute)
             {
                 m_conditionSucess = AttributeUtils.ConditionSucessFromFieldOrProperty(
                     property,
-                    showIfAttribute.FieldName,
-                    showIfAttribute.CompareValue,
-                    showIfAttribute.Inverse);
+                    disableIfAttribute.FieldName,
+                    disableIfAttribute.CompareValue,
+                    disableIfAttribute.Inverse);
 
-                if (m_conditionSucess)
-                {
-                    _ = EditorGUILayout.PropertyField(property, label);
-                }
+                EditorGUI.BeginDisabledGroup(m_conditionSucess);
+                _ = EditorGUILayout.PropertyField(property, label);
+                EditorGUI.EndDisabledGroup();
             }
         }
         #endregion
@@ -54,15 +54,17 @@ namespace UnityUtility.CustomAttributes.Editor
         {
             VisualElement container = new VisualElement();
 
-            if (attribute is ShowIfAttribute showIfAttribute)
+            if (attribute is DisableIfAttribute disableIfAttribute)
             {
-                m_showIfAttribute = showIfAttribute;
+                m_disableIfAttribute = disableIfAttribute;
                 m_property = property;
                 m_propertyField = new PropertyField(property);
 
                 m_isPartOfArray = property.IsPropertyPartOfArray(out SerializedProperty _, out int _);
 
                 container.Add(m_propertyField);
+
+                m_wasDisabled = false;
 
                 EditorApplication.update += OnEditorUpdate;
             }
@@ -75,18 +77,18 @@ namespace UnityUtility.CustomAttributes.Editor
             {
                 m_conditionSucess = AttributeUtils.ConditionSucessFromFieldOrProperty(
                     m_property,
-                    m_showIfAttribute.FieldName,
-                    m_showIfAttribute.CompareValue,
-                    m_showIfAttribute.Inverse);
+                    m_disableIfAttribute.FieldName,
+                    m_disableIfAttribute.CompareValue,
+                    m_disableIfAttribute.Inverse);
 
                 if (m_isPartOfArray)
                 {
                     m_listProperty ??= m_propertyField.GetFirstAncestorOfType<ListView>();
-                    m_listProperty.style.display = m_conditionSucess ? DisplayStyle.Flex : DisplayStyle.None;
+                    DisableField(m_listProperty, m_conditionSucess);
                 }
                 else
                 {
-                    m_propertyField.style.display = m_conditionSucess ? DisplayStyle.Flex : DisplayStyle.None;
+                    DisableField(m_propertyField, m_conditionSucess);
                 }
 
             }
@@ -94,6 +96,15 @@ namespace UnityUtility.CustomAttributes.Editor
             {
                 EditorApplication.update -= OnEditorUpdate;
                 return;
+            }
+        }
+
+        private void DisableField(VisualElement propertyField, bool disable)
+        {
+            if (m_wasDisabled ^ disable)
+            {
+                propertyField.SetEnabled(!disable);
+                m_wasDisabled = disable;
             }
         }
         #endregion

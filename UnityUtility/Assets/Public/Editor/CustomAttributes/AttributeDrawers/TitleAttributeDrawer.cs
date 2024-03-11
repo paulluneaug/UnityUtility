@@ -22,7 +22,7 @@ namespace UnityUtility.CustomAttributes.Editor
 
             if (!string.IsNullOrEmpty(titleAttribute.Subtitle)) { totalHeight += m_subtitleHeight; }
 
-            if (titleAttribute.HorizontalLine) { totalHeight += m_spaceAtTheEnd; }
+            if (titleAttribute.Separator) { totalHeight += m_spaceAtTheEnd; }
 
             return totalHeight + m_spaceAtTheBeginning;
         }
@@ -54,7 +54,7 @@ namespace UnityUtility.CustomAttributes.Editor
                     EditorGUI.LabelField(subtitleRect, titleAttribute.Subtitle, subtitleStyle);
                 }
 
-                if (titleAttribute.HorizontalLine)
+                if (titleAttribute.Separator)
                 {
                     Rect horizontalLine = new Rect(position.x, position.y + GetHeight() - m_spaceAtTheEnd, position.width, 1);
                     EditorGUI.DrawRect(horizontalLine, AttributeUtils.SeparatorColor);
@@ -86,7 +86,8 @@ namespace UnityUtility.CustomAttributes.Editor
             {
                 Label titleLabel = new Label(titleAttribute.Title);
                 titleLabel.style.height = m_titleHeight;
-                titleLabel.style.unityFontStyleAndWeight = titleAttribute.Bold ? FontStyle.Bold : FontStyle.Normal;
+                titleLabel.style.fontSize = titleAttribute.FontSize;
+                titleLabel.style.unityFontStyleAndWeight = AttributeUtils.GetFontStyle(titleAttribute.Bold, titleAttribute.Italic);
                 titleLabel.style.unityTextAlign = GetTextAnchor(titleAttribute.TitleAlignment);
                 container.Add(titleLabel);
 
@@ -100,18 +101,13 @@ namespace UnityUtility.CustomAttributes.Editor
                     container.Add(subtitleLabel);
                 }
 
-                if (titleAttribute.HorizontalLine)
+                if (titleAttribute.Separator)
                 {
                     container.Add(AttributeUtils.CreateSeparator());
                 }
             }
 
             return container;
-        }
-
-        public override bool CanCacheInspectorGUI()
-        {
-            return base.CanCacheInspectorGUI();
         }
         #endregion
     }
