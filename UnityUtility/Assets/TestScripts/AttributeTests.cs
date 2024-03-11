@@ -20,7 +20,7 @@ public class AttributeTests : MonoBehaviour
     }
 
     private bool Condition => B > 2;
-    [Button(nameof(TestMethod0), "M�thode Test0")]
+    [Button(nameof(TestMethod1), "M�thode Test0")]
     [Button(nameof(TestMethod1), "M�thode Test1")]
     [Button(nameof(TestMethod2), "M�thode Test2")]
     [SerializeField] private bool WhatABool = true;
@@ -52,7 +52,7 @@ public class AttributeTests : MonoBehaviour
     [HelpBox("A Warning,", messageType: HelpBoxMessageType.Warning)/*, ShowIf("Condition")*/]
     public float K;
     [MinMaxSlider(-10, 10)]
-    public Vector2 Sliderscsfc;
+    public Vector2 sliderscsfc;
     public float L;
     [HelpBox("An Error,", messageType: HelpBoxMessageType.Error)]
     [HelpBox("Or just a sentence", messageType: HelpBoxMessageType.None)]

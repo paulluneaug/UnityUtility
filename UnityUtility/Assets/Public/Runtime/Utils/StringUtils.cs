@@ -37,8 +37,8 @@ namespace UnityUtility.Utils
             char[] strArray = str.ToCharArray();
             strArray[0] = char.ToUpper(strArray[0]);
             return new string(strArray);
-        }    
-        
+        }
+
         /// <summary>
         /// Splits a given string (<paramref name="st"/>) into an array of string of a given size (<paramref name="wantedSize"/>)
         /// 

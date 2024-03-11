@@ -16,7 +16,7 @@ namespace UnityUtility.Pools
     /// </para>
     /// </summary>
     /// <typeparam name="TComponent">Pooled component type</typeparam>
-    public class CallbackRecieverComponentPool<TComponent> : ComponentPool<TComponent> 
+    public class CallbackRecieverComponentPool<TComponent> : ComponentPool<TComponent>
         where TComponent : Component, IPoolOperationCallbackReciever
     {
         public override PooledObject<TComponent> Request()

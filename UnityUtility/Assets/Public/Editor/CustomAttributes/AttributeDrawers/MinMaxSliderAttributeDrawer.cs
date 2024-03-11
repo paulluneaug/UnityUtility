@@ -11,13 +11,6 @@ namespace UnityUtility.CustomAttributes.Editor
     [CustomPropertyDrawer(typeof(MinMaxSliderAttribute))]
     public class MinMaxSliderAttributeDrawer : PropertyDrawer
     {
-        private struct SliderElements
-        {
-            public FloatField MinField;
-            public FloatField MaxField;
-            public MinMaxSlider Slider;
-        }
-
         private const float FIELDS_WIDTH = 40;
         private const float SLIDER_OFFSET = 5;
 
@@ -90,8 +83,8 @@ namespace UnityUtility.CustomAttributes.Editor
                         propertyRect.width - ((FIELDS_WIDTH + SLIDER_OFFSET) * 2),
                         EditorGUIUtility.singleLineHeight);
 
-                    m_minValue = EditorGUI.FloatField(fieldMinRect, (float) Math.Round(m_minValue, minMaxSliderAttribute.RoundDigits));
-                    m_maxValue = EditorGUI.FloatField(fieldMaxRect, (float) Math.Round(m_maxValue, minMaxSliderAttribute.RoundDigits));
+                    m_minValue = EditorGUI.FloatField(fieldMinRect, (float)Math.Round(m_minValue, minMaxSliderAttribute.RoundDigits));
+                    m_maxValue = EditorGUI.FloatField(fieldMaxRect, (float)Math.Round(m_maxValue, minMaxSliderAttribute.RoundDigits));
 
                 }
                 else
@@ -147,13 +140,15 @@ namespace UnityUtility.CustomAttributes.Editor
                 container.Add(new HelpBox(MinMaxSliderAttribute.WRONG_TYPE_ERROR + property.propertyType, HelpBoxMessageType.Error));
                 return container;
             }
-            
+
             Vector2 currentVal = Round(property.vector2Value, roundDigits);
             property.vector2Value = currentVal;
             property.serializedObject.ApplyModifiedProperties();
 
-            VisualElement sliderContainer = new VisualElement();
-            sliderContainer.name = "Slider Container";
+            VisualElement sliderContainer = new VisualElement
+            {
+                name = "Slider Container"
+            };
             sliderContainer.style.flexDirection = FlexDirection.Row;
             sliderContainer.style.justifyContent = Justify.SpaceBetween;
             sliderContainer.style.flexGrow = 1;
@@ -167,12 +162,16 @@ namespace UnityUtility.CustomAttributes.Editor
             FloatField maxField = null;
             if (minMaxSliderAttribute.ShowFields)
             {
-                minField = new FloatField();
-                minField.value = currentVal.x;
+                minField = new FloatField
+                {
+                    value = currentVal.x
+                };
                 minField.style.width = FIELDS_WIDTH - 1;
 
-                maxField = new FloatField();
-                maxField.value = currentVal.y;
+                maxField = new FloatField
+                {
+                    value = currentVal.y
+                };
                 maxField.style.width = FIELDS_WIDTH - 1;
 
                 minField.RegisterCallback<FocusOutEvent>(OnMinFocusOut);

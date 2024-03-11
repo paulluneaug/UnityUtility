@@ -15,7 +15,7 @@ namespace UnityUtility.Pools
     /// </para>
     /// </summary>
     /// <typeparam name="T">Pooled object type</typeparam>
-    public class CallbackRecieverObjectPool<T> : ObjectPool<T> 
+    public class CallbackRecieverObjectPool<T> : ObjectPool<T>
         where T : class, IPoolOperationCallbackReciever, new()
     {
         public CallbackRecieverObjectPool(int initialPoolSize) : base(initialPoolSize)

@@ -10,8 +10,10 @@ namespace UnityUtility.CustomAttributes.Editor
     {
         public override VisualElement CreatePropertyGUI()
         {
-            VisualElement separator = new VisualElement();
-            separator.name = "Separator";
+            VisualElement separator = new VisualElement
+            {
+                name = "Separator"
+            };
             separator.style.height = EditorGUIUtility.singleLineHeight;
             separator.style.justifyContent = Justify.Center;
 

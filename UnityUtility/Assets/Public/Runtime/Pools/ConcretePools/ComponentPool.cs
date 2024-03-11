@@ -15,7 +15,7 @@ namespace UnityUtility.Pools
     /// </para>
     /// </summary>
     /// <typeparam name="TComponent">Pooled component type</typeparam>
-    public abstract class ComponentPool<TComponent> : MonoBehaviour, IObjectPool<TComponent> 
+    public abstract class ComponentPool<TComponent> : MonoBehaviour, IObjectPool<TComponent>
         where TComponent : Component
     {
         public int PoolSize => m_poolSize;

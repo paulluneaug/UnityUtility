@@ -15,8 +15,10 @@ namespace UnityUtility.CustomAttributes.Editor
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
             m_partOfArray = property.IsPropertyPartOfArray(out SerializedProperty arrayProperty, out int index);
-            m_drawnProperty = new PropertyField(property);
-            m_drawnProperty.name = "DrawnProperty";
+            m_drawnProperty = new PropertyField(property)
+            {
+                name = "DrawnProperty"
+            };
 
             m_drawnProperty.RegisterCallback<AttachToPanelEvent>(OnAttachToPanel);
             return m_drawnProperty;

@@ -19,9 +19,9 @@ namespace UnityUtility.SceneReference
         {
             get
             {
-                if (m_sceneAsset == null) 
-                { 
-                    return false; 
+                if (m_sceneAsset == null)
+                {
+                    return false;
                 }
                 return m_sceneAsset.GetType().Equals(typeof(SceneAsset));
             }
