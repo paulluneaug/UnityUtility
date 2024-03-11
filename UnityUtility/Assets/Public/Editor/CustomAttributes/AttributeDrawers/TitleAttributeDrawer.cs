@@ -86,7 +86,8 @@ namespace UnityUtility.CustomAttributes.Editor
             {
                 Label titleLabel = new Label(titleAttribute.Title);
                 titleLabel.style.height = m_titleHeight;
-                titleLabel.style.unityFontStyleAndWeight = titleAttribute.Bold ? FontStyle.Bold : FontStyle.Normal;
+                titleLabel.style.fontSize = titleAttribute.FontSize;
+                titleLabel.style.unityFontStyleAndWeight = AttributeUtils.GetFontStyle(titleAttribute.Bold, titleAttribute.Italic);
                 titleLabel.style.unityTextAlign = GetTextAnchor(titleAttribute.TitleAlignment);
                 container.Add(titleLabel);
 
@@ -107,11 +108,6 @@ namespace UnityUtility.CustomAttributes.Editor
             }
 
             return container;
-        }
-
-        public override bool CanCacheInspectorGUI()
-        {
-            return base.CanCacheInspectorGUI();
         }
         #endregion
     }
