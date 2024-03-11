@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityUtility.CustomAttributes;
@@ -63,9 +61,9 @@ public class AttributeTests : MonoBehaviour
     public byte b0;
     public float O;
     public float P;
-    [Label("Super name Q", bold: true, italic: true)]
+    [Label("Super name Q", bold: true, italic: true, fontSize: 20)]
     public NestedStruct Q;
-    [Label("Super name Q[]", bold: true, italic: true)]
+    [Label("Super name Q[]", bold: true, italic: true, fontSize: 7)]
     public NestedStruct[] QArray;
 
     [SerializeField]
