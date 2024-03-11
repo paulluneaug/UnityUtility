@@ -1,29 +1,29 @@
 using UnityEditor;
-using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
 namespace UnityUtility.CustomAttributes.Editor
 {
-    [CustomPropertyDrawer(typeof(LayerAttribute))]
-    public class LayerAttributeDrawer : PropertyDrawer
+    [CustomPropertyDrawer(typeof(DisableAttribute))]
+    public class DisableAttributeDrawer : PropertyDrawer
     {
         #region IMGUI
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            property.intValue = EditorGUI.LayerField(position, label, property.intValue);
+            EditorGUI.BeginDisabledGroup(true);
+            EditorGUILayout.PropertyField(property, label);
+            EditorGUI.EndDisabledGroup();
         }
         #endregion
 
         #region UIElements
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
-            LayerField field = new LayerField(property.displayName);
-            field.labelElement.style.width = AttributeUtils.LabelWidth;
-            field.BindProperty(property);
-            return field;
+            PropertyField propertyField = new PropertyField(property);
+            propertyField.SetEnabled(false);
+            return propertyField;
         }
         #endregion
     }
 }
-

@@ -501,26 +501,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WhatABool: 0
-  A2365461fsdf65465465f4s6d5f4:
-  - show: 0
-    A2365461fsdf65465465f4s6d5f4:
-    - {x: 2, y: 2}
-    - {x: 2, y: 2}
-  B: 3.76
+  A:
+  - {x: 0, y: 0}
+  - {x: 0, y: 0}
+  - {x: 0, y: 0}
+  - {x: 0, y: 0}
+  - {x: 0, y: 0}
+  - {x: 0, y: 0}
+  B: 1.4
+  C: 0.47
   D: 0
-  E: 0
+  E: 1.75
   F: 0
   G: 0
-  H: 20
+  H: -10.7
   I: 0
-  J: 0
+  J: 0.94
   K: 0
   Sliderscsfc: {x: 0, y: 0}
   L: 0
   M: 0
+  b0: 0
   O: 0
   P: 0
-  Q: 0
+  Q:
+    name: kqskufgsdg
+    value: 0
+  QArray:
+  - name: 
+    value: 0
+  - name: 
+    value: 0
   so: 0
   Slider: {x: 0, y: 0}
   SliderWithoutValues: {x: 0, y: 0}
