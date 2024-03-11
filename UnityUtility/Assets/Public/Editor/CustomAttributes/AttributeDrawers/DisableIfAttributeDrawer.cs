@@ -72,7 +72,7 @@ namespace UnityUtility.CustomAttributes.Editor
             return container;
         }
 
-        void OnEditorUpdate()
+        private void OnEditorUpdate()
         {
             try
             {
@@ -104,7 +104,7 @@ namespace UnityUtility.CustomAttributes.Editor
         {
             if (m_wasDisabled ^ disable)
             {
-                propertyField.EnableInClassList(AttributeUtils.DISABLED_SELECTOR_NAME, disable);
+                propertyField.SetEnabled(!disable);
                 m_wasDisabled = disable;
             }
         }
