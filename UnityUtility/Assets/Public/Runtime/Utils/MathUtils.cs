@@ -67,6 +67,7 @@ namespace UnityUtility.Utils
         /// <param name="max">Higher bound</param>
         /// <param name="inclusive">Wether the bounds belongs to the interval</param>
         /// <returns>Wether <paramref name="value"/> belongs in the interval [<paramref name="min"/> ; <paramref name="max"/>]</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool Between<T>(this T value, T min, T max, bool inclusive = true)
             where T : IComparable<T>
         {
@@ -85,6 +86,7 @@ namespace UnityUtility.Utils
         /// <param name="value">Value to compare</param>
         /// <param name="threshold">Value to compare with</param>
         /// <returns>Wether <c><paramref name="value"/> <![CDATA[>]]> <paramref name="threshold"/></c></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool GreaterThan<TVal, TComp>(this TVal value, TComp threshold)
             where TComp : IComparable<TVal>
         {
@@ -101,6 +103,7 @@ namespace UnityUtility.Utils
         /// <param name="value">Value to compare</param>
         /// <param name="threshold">Value to compare with</param>
         /// <returns>Wether <c><paramref name="value"/> <![CDATA[>=]]> <paramref name="threshold"/></c></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool GreaterOrEqualsTo<TVal, TComp>(this TVal value, TComp threshold)
             where TComp : IComparable<TVal>
         {
@@ -117,6 +120,7 @@ namespace UnityUtility.Utils
         /// <param name="value">Value to compare</param>
         /// <param name="threshold">Value to compare with</param>
         /// <returns>Wether <c><paramref name="value"/> <![CDATA[<]]> <paramref name="threshold"/></c></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool SmallerThan<TVal, TComp>(this TVal value, TComp threshold)
             where TComp : IComparable<TVal>
         {
@@ -133,6 +137,7 @@ namespace UnityUtility.Utils
         /// <param name="value">Value to compare</param>
         /// <param name="threshold">Value to compare with</param>
         /// <returns>Wether <c><paramref name="value"/> <![CDATA[<=]]> <paramref name="threshold"/></c></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool SmallerOrEqualsTo<TVal, TComp>(this TVal value, TComp threshold)
             where TComp : IComparable<TVal>
         {
@@ -149,6 +154,7 @@ namespace UnityUtility.Utils
         /// <param name="value">Value to compare</param>
         /// <param name="other">Value to compare with</param>
         /// <returns>Wether <c><paramref name="value"/> <![CDATA[==]]> <paramref name="other"/></c></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool EqualsTo<TVal, TComp>(this TVal value, TComp other)
             where TComp : IComparable<TVal>
         {
@@ -165,6 +171,7 @@ namespace UnityUtility.Utils
         /// <param name="value">Value to compare</param>
         /// <param name="other">Value to compare with</param>
         /// <returns>Wether <c><paramref name="value"/> <![CDATA[!=]]> <paramref name="other"/></c></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool NotEqualsTo<TVal, TComp>(this TVal value, TComp other)
             where TComp : IComparable<TVal>
         {
@@ -182,6 +189,7 @@ namespace UnityUtility.Utils
         /// <param name="vector">The projected vector</param>
         /// <param name="target">The vector on which <paramref name="vector"/> is projected</param>
         /// <returns><paramref name="vector"/> projected onto <paramref name="target"/></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2 ProjectOn(this Vector2 vector, Vector2 target)
         {
             float targetDot = Vector2.Dot(target, target);
@@ -196,14 +204,16 @@ namespace UnityUtility.Utils
         /// Compares the position of two points and returns wether their difference is less than a tolerance
         /// </summary>
         /// <returns>Wether the difference in position between the two points is less than the given tolerance</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool ApproximatelyEqualsPoint(this Vector2 point, Vector2 other, Vector2 tolerance)
         {
             return
-                Math.Abs(point.x - other.x) < tolerance.x &&
-                Math.Abs(point.y - other.y) < tolerance.y;
+                point.x.Approximately(other.x, tolerance.x) &&
+                point.y.Approximately(other.y, tolerance.y);
         }
 
         /// <inheritdoc cref="ApproximatelyEqualsPoint"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool ApproximatelyEqualsPoint(this Vector2 point, Vector2 other, float tolerance = 0.001f)
         {
             return ApproximatelyEqualsPoint(point, other, Vector2.one * tolerance);
@@ -215,6 +225,7 @@ namespace UnityUtility.Utils
         /// <remarks>Warning : This method can use up to 3 times <see cref="Mathf.Sqrt(float)"/></remarks>
         /// <param name="angleTolerance">Angle tolerance (in degrees)</param>
         /// <returns>Wether the difference in magnitude and angle between the two vectors is less than the tolerances given</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool ApproximatelyEqualsDir(this Vector2 dir, Vector2 other, float magnitudeTolerance = 0.001f, float angleTolerance = 0.01f)
         {
             float angle = Vector2.Angle(dir, other);
@@ -222,7 +233,7 @@ namespace UnityUtility.Utils
             {
                 return false;
             }
-            return Mathf.Abs(dir.magnitude - other.magnitude) < magnitudeTolerance;
+            return dir.magnitude.Approximately(other.magnitude, magnitudeTolerance);
         }
 
         /// <summary>
@@ -230,6 +241,7 @@ namespace UnityUtility.Utils
         /// </summary>
         /// <param name="snap">The size of the grid cells</param>
         /// <returns>The given vector snapped to the grid</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2 Snap(this Vector2 v, float snap)
         {
             return v.Snap(snap, snap);
@@ -239,6 +251,7 @@ namespace UnityUtility.Utils
         /// Snaps the given vector to a grid of size (<paramref name="snapX"/>; <paramref name="snapY"/>)
         /// </summary>
         /// <returns>The given vector snapped to the grid</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2 Snap(this Vector2 v, float snapX, float snapY)
         {
             return new Vector2(v.x - v.x % snapX, v.y - v.y % snapY);
@@ -250,6 +263,7 @@ namespace UnityUtility.Utils
         /// <param name="from">The vector from which the angular difference is measured</param>
         /// <param name="to">The vector to which the angular difference is measured</param>
         /// <returns>The signed angle in degrees between the two vectors</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float AngleSigned(this Vector2 from, Vector2 to)
         {
             float sign = Mathf.Sign(from.x * to.y - from.y * to.x);
@@ -271,6 +285,7 @@ namespace UnityUtility.Utils
         /// </summary>
         /// <param name="v"></param>
         /// <returns>The normal vector to the right of <paramref name="v"/></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2 RightNormal(this Vector2 v)
         {
             return new Vector2(v.y, -v.x);
@@ -281,13 +296,21 @@ namespace UnityUtility.Utils
         /// </summary>
         /// <param name="v">The vector to rotate arround <paramref name="axis"/></param>
         /// <param name="angle">The angle (in degrees)</param>
-        /// <returns></returns>
+        /// <returns>The rotated vector</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2 Rotate(this Vector2 v, float angle)
         {
             float rad = angle * Mathf.Deg2Rad;
             float c = Mathf.Cos(rad);
             float s = Mathf.Sin(rad);
             return new Vector2(c * v.x - s * v.y, s * v.x + c * v.y);
+        }
+
+        /// <inheritdoc cref="Vector2.Scale(Vector2, Vector2)"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 CopyScale(this Vector2 v1, Vector2 v2)
+        {
+            return Vector2.Scale(v1, v2);
         }
     }
     #endregion
@@ -296,27 +319,31 @@ namespace UnityUtility.Utils
     public static class Vector3Utils
     {
         /// <inheritdoc cref="Vector2Utils.ProjectOn"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 ProjectOn(this Vector3 vector, Vector3 target)
         {
             return Vector3.Project(vector, target);
         }
 
         /// <inheritdoc cref="Vector2Utils.ApproximatelyEqualsPoint"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool ApproximatelyEqualsPoint(this Vector3 point, Vector3 other, Vector3 tolerance)
         {
             return
-                Math.Abs(point.x - other.x) < tolerance.x &&
-                Math.Abs(point.y - other.y) < tolerance.y &&
-                Math.Abs(point.z - other.z) < tolerance.z;
+                point.x.Approximately(other.x, tolerance.x) &&
+                point.y.Approximately(other.y, tolerance.y) &&
+                point.z.Approximately(other.z, tolerance.z);
         }
 
         /// <inheritdoc cref="Vector2Utils.ApproximatelyEqualsPoint"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool ApproximatelyEqualsPoint(this Vector3 point, Vector3 other, float tolerance = 0.001f)
         {
             return ApproximatelyEqualsPoint(point, other, Vector3.one * tolerance);
         }
 
         /// <inheritdoc cref="Vector2Utils.ApproximatelyEqualsDir"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool ApproximatelyEqualsDir(this Vector3 dir, Vector3 other, float magnitudeTolerance = 0.001f, float angleTolerance = 0.01f)
         {
             float angle = Vector3.Angle(dir, other);
@@ -324,13 +351,14 @@ namespace UnityUtility.Utils
             {
                 return false;
             }
-            return Mathf.Abs(dir.magnitude - other.magnitude) < magnitudeTolerance;
+            return dir.magnitude.Approximately(other.magnitude, magnitudeTolerance);
         }
 
         /// <summary>
         /// Snaps the given vector to a grid of size (<paramref name="snap"/>; <paramref name="snap"/>; <paramref name="snap"/>)
         /// </summary>
         /// <returns>The given vector snapped to the grid</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 Snap(this Vector3 v, float snap)
         {
             return v.Snap(snap, snap, snap);
@@ -341,6 +369,7 @@ namespace UnityUtility.Utils
         /// Snaps the given vector to a grid of size (<paramref name="snapX"/>; <paramref name="snapY"/>; <paramref name="snapZ"/>)
         /// </summary>
         /// <returns>The given vector snapped to the grid</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 Snap(this Vector3 v, float snapX, float snapY, float snapZ)
         {
             return new Vector3(v.x - v.x % snapX, v.y - v.y % snapY, v.z - v.z % snapZ);
@@ -352,11 +381,19 @@ namespace UnityUtility.Utils
         /// <param name="v">The vector to rotate arround <paramref name="axis"/></param>
         /// <param name="axis">The axis arround which the vector <paramref name="v"/> is rotated</param>
         /// <param name="angle">The angle (in degrees)</param>
-        /// <returns></returns>
+        /// <returns>The rotated vector</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 Rotate(this Vector3 v, Vector3 axis, float angle)
         {
             Quaternion rotation = Quaternion.AngleAxis(angle, axis);
             return rotation * v;
+        }
+
+        /// <inheritdoc cref="Vector3.Scale(Vector3, Vector3)"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3 CopyScale(this Vector3 v1, Vector3 v2)
+        {
+            return Vector3.Scale(v1, v2);
         }
     }
     #endregion
@@ -370,6 +407,7 @@ namespace UnityUtility.Utils
         /// <param name="from"></param>
         /// <param name="to"></param>
         /// <returns>The angle in degrees between <paramref name="from"/> and <paramref name="to"/></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Vector4Angle(Vector4 from, Vector4 to)
         {
             float num = Mathf.Sqrt(from.sqrMagnitude * to.sqrMagnitude);
@@ -383,28 +421,32 @@ namespace UnityUtility.Utils
         }
 
         /// <inheritdoc cref="Vector2Utils.ProjectOn"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4 ProjectOn(this Vector4 vector, Vector4 target)
         {
             return Vector4.Project(vector, target);
         }
 
         /// <inheritdoc cref="Vector2Utils.ApproximatelyEqualsPoint"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool ApproximatelyEqualsPoint(this Vector4 point, Vector4 other, Vector4 tolerance)
         {
             return
-                Math.Abs(point.x - other.x) < tolerance.x &&
-                Math.Abs(point.y - other.y) < tolerance.y &&
-                Math.Abs(point.z - other.z) < tolerance.z &&
-                Math.Abs(point.w - other.w) < tolerance.w;
+                point.x.Approximately(other.x, tolerance.x) &&
+                point.y.Approximately(other.y, tolerance.y) &&
+                point.z.Approximately(other.z, tolerance.z) &&
+                point.w.Approximately(other.w, tolerance.w);
         }
 
         /// <inheritdoc cref="Vector2Utils.ApproximatelyEqualsPoint"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool ApproximatelyEqualsPoint(this Vector4 point, Vector4 other, float tolerance = 0.001f)
         {
             return ApproximatelyEqualsPoint(point, other, Vector4.one * tolerance);
         }
 
         /// <inheritdoc cref="Vector2Utils.ApproximatelyEqualsDir"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool ApproximatelyEqualsDir(this Vector4 dir, Vector4 other, float magnitudeTolerance = 0.001f, float angleTolerance = 0.01f)
         {
             float angle = Vector4Angle(dir, other);
@@ -412,13 +454,14 @@ namespace UnityUtility.Utils
             {
                 return false;
             }
-            return Mathf.Abs(dir.magnitude - other.magnitude) < magnitudeTolerance;
+            return dir.magnitude.Approximately(other.magnitude, magnitudeTolerance);
         }
 
         /// <summary>
         /// Snaps the given vector to a grid of size (<paramref name="snap"/>; <paramref name="snap"/>; <paramref name="snap"/>; <paramref name="snap"/>)
         /// </summary>
         /// <returns>The given vector snapped to the grid</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4 Snap(this Vector4 v, float snap)
         {
             return v.Snap(snap, snap, snap, snap);
@@ -429,9 +472,17 @@ namespace UnityUtility.Utils
         /// Snaps the given vector to a grid of size (<paramref name="snapX"/>; <paramref name="snapY"/>; <paramref name="snapZ"/>; <paramref name="snapW"/>)
         /// </summary>
         /// <returns>The given vector snapped to the grid</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4 Snap(this Vector4 v, float snapX, float snapY, float snapZ, float snapW)
         {
             return new Vector4(v.x - v.x % snapX, v.y - v.y % snapY, v.z - v.z % snapZ, v.w - v.w % snapW);
+        }
+
+        /// <inheritdoc cref="Vector4.Scale(Vector4, Vector4)"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4 CopyScale(this Vector4 v1, Vector4 v2)
+        {
+            return Vector4.Scale(v1, v2);
         }
     }
     #endregion
@@ -439,13 +490,27 @@ namespace UnityUtility.Utils
     public static class FloatUtils
     {
         /// <summary>
+        /// Compares 2 floats and returns wether their difference is less than a tolerance
+        /// </summary>
+        /// <param name="val"></param>
+        /// <param name="other"></param>
+        /// <param name="tolerance"></param>
+        /// <returns>Wether the difference between the two floats is less than the given tolerance</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool Approximately(this float val, float other, float tolerance = 0.0001f)
+        {
+            return Math.Abs(val - other) < tolerance;
+        }
+
+        /// <summary>
         /// Remaps the value of <paramref name="input"/> 
-        /// from the range <paramref name="initialInterval"/> to the range <paramref name="targetInterval"/>
+        /// from the range <paramref name="initialRange"/> to the range <paramref name="targetRange"/>
         /// </summary>
         /// <returns>The remapped value of <paramref name="input"/></returns>
-        public static float Remap(this float input, Vector2 initialInterval, Vector2 targetInterval)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float Remap(this float input, Vector2 initialRange, Vector2 targetRange)
         {
-            return Remap(input, initialInterval.x, initialInterval.y, targetInterval.x, targetInterval.y);
+            return input.Remap(initialRange.x, initialRange.y, targetRange.x, targetRange.y);
         }
 
         /// <summary>
@@ -454,6 +519,7 @@ namespace UnityUtility.Utils
         /// to the range [<paramref name="targetMin"/>, <paramref name="targetMax"/>]
         /// </summary>
         /// <returns>The remapped value of <paramref name="input"/></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Remap(this float input, float initialMin, float initialMax, float targetMin, float targetMax)
         {
             float ratio = (input - initialMin) / (initialMax - initialMin);
@@ -463,6 +529,7 @@ namespace UnityUtility.Utils
 
     public static class IntUtils
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool HasFlag(this int val, int flag)
         {
             return (val & flag) == flag;
