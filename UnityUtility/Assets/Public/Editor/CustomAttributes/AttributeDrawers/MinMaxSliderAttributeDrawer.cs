@@ -2,9 +2,6 @@ using System;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.UIElements;
-using UnityEngine.UI;
-using System.Collections.Generic;
-using UnityEditor.UIElements;
 
 namespace UnityUtility.CustomAttributes.Editor
 {

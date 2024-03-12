@@ -22,7 +22,7 @@ namespace UnityUtility.Singletons
     {
         protected static T s_instance;
 
-        private static object m_lock = new object();
+        private static readonly object s_lock = new object();
 
         public static T Instance
         {
@@ -33,7 +33,7 @@ namespace UnityUtility.Singletons
                     return null;
                 }
 
-                lock (m_lock)
+                lock (s_lock)
                 {
                     if (s_instance == null)
                     {

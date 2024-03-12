@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityUtility.CustomAttributes;
+using UnityUtility.Utils;
 
 namespace UnityUtility.Pools
 {
@@ -20,9 +21,9 @@ namespace UnityUtility.Pools
     {
         public int PoolSize => m_poolSize;
 
-        [SerializeField] private int m_initialPoolSize = 10;
+        [SerializeField] private readonly int m_initialPoolSize = 10;
         [SerializeField] protected bool m_instantiateFromPrefab = false;
-        [SerializeField, ShowIf(nameof(m_instantiateFromPrefab))] private TComponent m_componentPrefab = null;
+        [SerializeField, ShowIf(nameof(m_instantiateFromPrefab))] private readonly TComponent m_componentPrefab = null;
 
         private Stack<TComponent> m_availableComponents = null;
         private int m_poolSize = 0;
@@ -71,11 +72,7 @@ namespace UnityUtility.Pools
             GameObject newGo = new GameObject($"{typeof(TComponent).Name}_{m_poolSize}");
             newGo.transform.parent = transform;
             newGo.SetActive(false);
-            if (newGo.TryGetComponent(out TComponent foundComponent))
-            {
-                return foundComponent;
-            }
-            return newGo.AddComponent<TComponent>();
+            return newGo.GetOrAddComponent<TComponent>();
         }
     }
 }

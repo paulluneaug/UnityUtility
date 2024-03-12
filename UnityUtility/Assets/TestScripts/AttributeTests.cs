@@ -12,7 +12,7 @@ public class AttributeTests : MonoBehaviour
         public int value;
     }
 
-    protected enum SAU
+    protected enum Sau
     {
         CISSE,
         MURE,
@@ -23,12 +23,12 @@ public class AttributeTests : MonoBehaviour
     [Button(nameof(TestMethod1), "M�thode Test0")]
     [Button(nameof(TestMethod1), "M�thode Test1")]
     [Button(nameof(TestMethod2), "M�thode Test2")]
-    [SerializeField] private bool WhatABool = true;
+    [SerializeField] private bool m_whatABool = true;
     [Title("Title Example", "With Subtitle (and underline)")]
     [DisableIf(nameof(Condition)), MinMaxSlider(2, 250, roundDigits: 1)] public Vector2[] A;
     public float B;
     [Title("No Subtitle nor underline (like a Header)", separator: false)]
-    [ShowIf("so", SAU.CISSE)] public float C;
+    [ShowIf("so", Sau.CISSE)] public float C;
     public float D;
     [Title("They can be centered", titleAlignment: TitleAlignments.Centered)]
     public float E;
@@ -45,20 +45,20 @@ public class AttributeTests : MonoBehaviour
     [Space]
 
     [Title("HelpBoxes")]
-    [HelpBox("It's possible to display an information,"), ShowIf("so", SAU.CISSE)]
+    [HelpBox("It's possible to display an information,"), ShowIf(nameof(m_so), Sau.CISSE)]
     public float I;
     [Label("Super name J", bold: true)]
     public float J;
     [HelpBox("A Warning,", messageType: HelpBoxMessageType.Warning)/*, ShowIf("Condition")*/]
     public float K;
     [MinMaxSlider(-10, 10)]
-    public Vector2 sliderscsfc;
+    public Vector2 Sliderscsfc;
     public float L;
     [HelpBox("An Error,", messageType: HelpBoxMessageType.Error)]
     [HelpBox("Or just a sentence", messageType: HelpBoxMessageType.None)]
     public float M;
     [Layer]
-    public byte b0;
+    public byte B0;
     public float O;
     public float P;
     [Label("Super name Q", bold: true, italic: true, fontSize: 20)]
@@ -67,7 +67,7 @@ public class AttributeTests : MonoBehaviour
     public NestedStruct[] QArray;
 
     [SerializeField]
-    protected SAU so = SAU.CISSE;
+    protected Sau m_so = Sau.CISSE;
 
     [Space]
 

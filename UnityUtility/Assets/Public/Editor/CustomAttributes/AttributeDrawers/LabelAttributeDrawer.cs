@@ -32,7 +32,7 @@ namespace UnityUtility.CustomAttributes.Editor
                 Label propertyLabel = null;
                 if (m_partOfArray)
                 {
-                    PropertyField drawnArray = FindInParent<PropertyField>(m_drawnProperty.parent.parent);
+                    PropertyField drawnArray = m_drawnProperty.parent.GetFirstAncestorOfType<PropertyField>();
                     if (drawnArray == null)
                     {
                         return;
@@ -61,32 +61,6 @@ namespace UnityUtility.CustomAttributes.Editor
                 // Label font size
                 propertyLabel.style.fontSize = labelAttribute.FontSize;
             }
-        }
-
-
-        private T FindInParent<T>(VisualElement v, string name = null) where T : VisualElement
-        {
-            if (v == null)
-            {
-                return null;
-            }
-
-            if (v is T matchingParent)
-            {
-                if (!string.IsNullOrEmpty(name))
-                {
-                    if (matchingParent.name == name)
-                    {
-                        return matchingParent;
-                    }
-                }
-                else
-                {
-                    return matchingParent;
-                }
-            }
-
-            return FindInParent<T>(v.parent, name);
         }
         #endregion
     }
