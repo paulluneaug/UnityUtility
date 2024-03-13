@@ -20,15 +20,15 @@ public class AttributeTests : MonoBehaviour
     }
 
     private bool Condition => B > 2;
-    [Button(nameof(TestMethod1), "M�thode Test0")]
-    [Button(nameof(TestMethod1), "M�thode Test1")]
-    [Button(nameof(TestMethod2), "M�thode Test2")]
+    [Button(nameof(TestMethod1), "MÃƒÂ¯Ã‚Â¿Ã‚Â½thode Test0")]
+    [Button(nameof(TestMethod1), "MÃƒÂ¯Ã‚Â¿Ã‚Â½thode Test1")]
+    [Button(nameof(TestMethod2), "MÃƒÂ¯Ã‚Â¿Ã‚Â½thode Test2")]
     [SerializeField] private bool m_whatABool = true;
     [Title("Title Example", "With Subtitle (and underline)")]
     [DisableIf(nameof(Condition)), MinMaxSlider(2, 250, roundDigits: 1)] public Vector2[] A;
     public float B;
     [Title("No Subtitle nor underline (like a Header)", separator: false)]
-    [ShowIf("so", Sau.CISSE)] public float C;
+    [ShowIf(nameof(m_so), Sau.CISSE)] public float C;
     public float D;
     [Title("They can be centered", titleAlignment: TitleAlignments.Centered)]
     public float E;
@@ -106,6 +106,11 @@ public class AttributeTests : MonoBehaviour
     public uint layer1;
     [Layer]
     public long layer3;
+
+    [Tag]
+    public string Tag0;
+    [Tag]
+    public int Tag1;
 
     private void Start()
     {
