@@ -312,6 +312,20 @@ namespace UnityUtility.Utils
         {
             return Vector2.Scale(v1, v2);
         }
+
+        /// <summary>
+        /// Returns the squared distance between the points <paramref name="p1"/> and <paramref name="p2"/>
+        /// </summary>
+        /// <returns>The squared distance between <paramref name="p1"/> and <paramref name="p2"/></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float SqrDistance(this Vector2 p1, Vector2 p2)
+        {
+            float deltaX = p1.x - p2.x;
+            float deltaY = p1.y - p2.y;
+            return
+                deltaX * deltaX +
+                deltaY * deltaY;
+        }
     }
     #endregion
 
@@ -394,6 +408,19 @@ namespace UnityUtility.Utils
         public static Vector3 CopyScale(this Vector3 v1, Vector3 v2)
         {
             return Vector3.Scale(v1, v2);
+        }
+
+        /// <inheritdoc cref="Vector2Utils.SqrDistance(Vector2, Vector2)"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float SqrDistance(this Vector3 p1, Vector3 p2)
+        {
+            float deltaX = p1.x - p2.x;
+            float deltaY = p1.y - p2.y;
+            float deltaZ = p1.z - p2.z;
+            return
+                deltaX * deltaX +
+                deltaY * deltaY +
+                deltaZ * deltaZ;
         }
     }
     #endregion
@@ -484,9 +511,25 @@ namespace UnityUtility.Utils
         {
             return Vector4.Scale(v1, v2);
         }
+
+        /// <inheritdoc cref="Vector2Utils.SqrDistance(Vector2, Vector2)"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float SqrDistance(this Vector4 p1, Vector4 p2)
+        {
+            float deltaX = p1.x - p2.x;
+            float deltaY = p1.y - p2.y;
+            float deltaZ = p1.z - p2.z;
+            float deltaW = p1.w - p2.w;
+            return
+                deltaX * deltaX +
+                deltaY * deltaY +
+                deltaZ * deltaZ +
+                deltaW * deltaW;
+        }
     }
     #endregion
 
+    #region Float
     public static class FloatUtils
     {
         /// <summary>
@@ -526,7 +569,9 @@ namespace UnityUtility.Utils
             return targetMin + ratio * (targetMax - targetMin);
         }
     }
+    #endregion
 
+    #region Int
     public static class IntUtils
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -535,6 +580,7 @@ namespace UnityUtility.Utils
             return (val & flag) == flag;
         }
     }
+    #endregion
 
     #region Misc
     public static class MathUtils

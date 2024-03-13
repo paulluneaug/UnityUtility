@@ -19,7 +19,7 @@ namespace UnityUtility.Pools
         int PoolSize { get; }
 
         /// <summary>
-        /// Returns an object from the pool
+        /// Requests an object from the pool
         /// </summary>
         /// <returns>A wrapper arround the requested object</returns>
         public PooledObject<T> Request();
