@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.UIElements;
-using UnityEditor.UIElements;
 
 namespace UnityUtility.CustomAttributes.Editor
 {
@@ -63,6 +62,7 @@ namespace UnityUtility.CustomAttributes.Editor
             return helpBoxType switch
             {
                 HelpBoxMessageType.None => MessageType.None,
+                HelpBoxMessageType.Info => MessageType.Info,
                 HelpBoxMessageType.Warning => MessageType.Warning,
                 HelpBoxMessageType.Error => MessageType.Error,
                 _ => MessageType.Info,

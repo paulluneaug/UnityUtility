@@ -322,7 +322,7 @@ namespace UnityUtility.Utils
         {
             float deltaX = p1.x - p2.x;
             float deltaY = p1.y - p2.y;
-            return 
+            return
                 deltaX * deltaX +
                 deltaY * deltaY;
         }
@@ -417,7 +417,7 @@ namespace UnityUtility.Utils
             float deltaX = p1.x - p2.x;
             float deltaY = p1.y - p2.y;
             float deltaZ = p1.z - p2.z;
-            return 
+            return
                 deltaX * deltaX +
                 deltaY * deltaY +
                 deltaZ * deltaZ;
@@ -520,7 +520,7 @@ namespace UnityUtility.Utils
             float deltaY = p1.y - p2.y;
             float deltaZ = p1.z - p2.z;
             float deltaW = p1.w - p2.w;
-            return 
+            return
                 deltaX * deltaX +
                 deltaY * deltaY +
                 deltaZ * deltaZ +
@@ -529,6 +529,7 @@ namespace UnityUtility.Utils
     }
     #endregion
 
+    #region Float
     public static class FloatUtils
     {
         /// <summary>
@@ -568,7 +569,9 @@ namespace UnityUtility.Utils
             return targetMin + ratio * (targetMax - targetMin);
         }
     }
+    #endregion
 
+    #region Int
     public static class IntUtils
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -577,6 +580,7 @@ namespace UnityUtility.Utils
             return (val & flag) == flag;
         }
     }
+    #endregion
 
     #region Misc
     public static class MathUtils

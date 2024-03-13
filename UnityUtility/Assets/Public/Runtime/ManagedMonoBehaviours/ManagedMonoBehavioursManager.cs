@@ -7,7 +7,7 @@ namespace UnityUtility.ManagedMonoBehaviours
 {
     public class ManagedMonoBehavioursManager : MonoBehaviourSingleton<ManagedMonoBehavioursManager>
     {
-        [SerializeField] private int m_managedMonoBehavioursStartCapacity = 100;
+        [SerializeField] private readonly int m_managedMonoBehavioursStartCapacity = 100;
 
         private List<ManagedMonoBehaviour> m_managedMonoBehaviours;
 

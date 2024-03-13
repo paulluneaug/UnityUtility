@@ -16,8 +16,8 @@ namespace UnityUtility.SceneReference.Editor
         // time in seconds that we have to wait before we query again when IsReadOnly() is called.
         public const float MIN_CHECK_WAIT = 3;
 
-        private static float m_lastTimeChecked = 0;
-        private static bool m_cachedReadonlyVal = true;
+        private static float s_lastTimeChecked = 0;
+        private static bool s_cachedReadonlyVal = true;
 
         /// <summary>
         /// A small container for tracking scene data BuildSettings
@@ -37,15 +37,15 @@ namespace UnityUtility.SceneReference.Editor
         static public bool IsReadOnly()
         {
             float curTime = Time.realtimeSinceStartup;
-            float timeSinceLastCheck = curTime - m_lastTimeChecked;
+            float timeSinceLastCheck = curTime - s_lastTimeChecked;
 
             if (timeSinceLastCheck > MIN_CHECK_WAIT)
             {
-                m_lastTimeChecked = curTime;
-                m_cachedReadonlyVal = QueryBuildSettingsStatus();
+                s_lastTimeChecked = curTime;
+                s_cachedReadonlyVal = QueryBuildSettingsStatus();
             }
 
-            return m_cachedReadonlyVal;
+            return s_cachedReadonlyVal;
         }
 
         /// <summary>
@@ -226,7 +226,7 @@ namespace UnityUtility.SceneReference.Editor
             else
             {
                 List<EditorBuildSettingsScene> tempScenes = EditorBuildSettings.scenes.ToList();
-                tempScenes.RemoveAll(scene => scene.guid.Equals(buildScene.assetGUID));
+                _ = tempScenes.RemoveAll(scene => scene.guid.Equals(buildScene.assetGUID));
                 EditorBuildSettings.scenes = tempScenes.ToArray();
             }
         }
@@ -236,7 +236,7 @@ namespace UnityUtility.SceneReference.Editor
         /// </summary>
         static public void OpenBuildSettings()
         {
-            EditorWindow.GetWindow(typeof(BuildPlayerWindow));
+            _ = EditorWindow.GetWindow(typeof(BuildPlayerWindow));
         }
     }
 }

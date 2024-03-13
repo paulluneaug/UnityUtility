@@ -37,7 +37,7 @@ namespace UnityUtility.CustomAttributes
             bool italic = false,
             bool bold = true,
             int fontSize = 12,
-            bool separator = true, 
+            bool separator = true,
             TitleAlignments titleAlignment = TitleAlignments.Left) :
 
             this(title, string.Empty, bold, italic, fontSize, separator, titleAlignment)
