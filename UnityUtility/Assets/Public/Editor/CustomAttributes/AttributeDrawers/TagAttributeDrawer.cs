@@ -5,24 +5,25 @@ using UnityEngine.UIElements;
 
 namespace UnityUtility.CustomAttributes.Editor
 {
-    [CustomPropertyDrawer(typeof(LayerAttribute))]
-    public class LayerAttributeDrawer : PropertyDrawer
+    [CustomPropertyDrawer(typeof(TagAttribute))]
+    public class TagAttributeDrawer : PropertyDrawer
     {
         #region IMGUI
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            property.intValue = EditorGUI.LayerField(position, label, property.intValue);
+            property.stringValue = EditorGUI.TagField(position, label, property.stringValue);
         }
         #endregion
 
         #region UIElements
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
-            if (property.propertyType != SerializedPropertyType.Integer)
+            if (property.propertyType != SerializedPropertyType.String)
             {
-                return AttributeUtils.GetWrongTypeHelpBox(property, typeof(LayerAttribute));
+                return AttributeUtils.GetWrongTypeHelpBox(property, typeof(TagAttribute));
             }
-            LayerField field = new LayerField(property.displayName);
+
+            TagField field = new TagField(property.displayName);
             field.labelElement.style.width = AttributeUtils.LabelWidth;
             field.BindProperty(property);
             return field;

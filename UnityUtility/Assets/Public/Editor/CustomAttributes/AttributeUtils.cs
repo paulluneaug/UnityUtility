@@ -8,6 +8,8 @@ namespace UnityUtility.CustomAttributes.Editor
 {
     public static class AttributeUtils
     {
+        public const string WRONG_TYPE_ERROR_FMT = "{0} cannot be applied to variables of type {1}";
+
         public static Length LabelWidth => s_labelWidth;
 
         public static Color SeparatorColor => s_separatorColor;
@@ -95,6 +97,23 @@ namespace UnityUtility.CustomAttributes.Editor
             }
 
             return FontStyle.Normal;
+        }
+
+        public static VisualElement GetWrongTypeHelpBox(SerializedProperty property, Type attributeType)
+        {
+            VisualElement container = new VisualElement();
+            container.style.flexDirection = FlexDirection.Row;
+            Label propertyLabel = new Label(property.displayName);
+            propertyLabel.style.width = LabelWidth;
+            container.Add(propertyLabel);
+
+            container.Add(new HelpBox(GetWrongTypeMessage(property, attributeType), HelpBoxMessageType.Error));
+            return container;
+        }
+
+        public static string GetWrongTypeMessage(SerializedProperty property, Type attributeType)
+        {
+            return string.Format(WRONG_TYPE_ERROR_FMT, attributeType.Name, property.type);
         }
     }
 }
