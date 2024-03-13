@@ -226,7 +226,7 @@ namespace UnityUtility.SceneReference.Editor
             else
             {
                 List<EditorBuildSettingsScene> tempScenes = EditorBuildSettings.scenes.ToList();
-                tempScenes.RemoveAll(scene => scene.guid.Equals(buildScene.assetGUID));
+                _ = tempScenes.RemoveAll(scene => scene.guid.Equals(buildScene.assetGUID));
                 EditorBuildSettings.scenes = tempScenes.ToArray();
             }
         }
@@ -236,7 +236,7 @@ namespace UnityUtility.SceneReference.Editor
         /// </summary>
         static public void OpenBuildSettings()
         {
-            EditorWindow.GetWindow(typeof(BuildPlayerWindow));
+            _ = EditorWindow.GetWindow(typeof(BuildPlayerWindow));
         }
     }
 }

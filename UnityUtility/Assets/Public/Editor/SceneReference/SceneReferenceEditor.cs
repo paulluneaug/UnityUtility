@@ -40,7 +40,7 @@ namespace UnityUtility.SceneReference.Editor
             // Draw the main Object field
             label.tooltip = "The actual Scene Asset reference.\nOn serialize this is also stored as the asset's path.";
 
-            EditorGUI.BeginProperty(position, GUIContent.none, property);
+            _ = EditorGUI.BeginProperty(position, GUIContent.none, property);
             EditorGUI.BeginChangeCheck();
             int sceneControlID = GUIUtility.GetControlID(FocusType.Passive);
             Object selectedObject = EditorGUI.ObjectField(position, label, sceneAssetProperty.objectReferenceValue, typeof(SceneAsset), false);
@@ -91,7 +91,7 @@ namespace UnityUtility.SceneReference.Editor
             string readOnlyWarning = readOnly ? "\n\nWARNING: Build Settings is not checked out and so cannot be modified." : "";
 
             // Label Prefix
-            GUIContent iconContent = new GUIContent();
+            GUIContent iconContent;
             GUIContent labelContent = new GUIContent();
 
             // Missing from build scenes
@@ -124,15 +124,15 @@ namespace UnityUtility.SceneReference.Editor
                 iconRect.width = iconContent.image.width + s_padSize;
                 labelRect.width -= iconRect.width;
                 labelRect.x += iconRect.width;
-                EditorGUI.PrefixLabel(iconRect, sceneControlID, iconContent);
-                EditorGUI.PrefixLabel(labelRect, sceneControlID, labelContent);
+                _ = EditorGUI.PrefixLabel(iconRect, sceneControlID, iconContent);
+                _ = EditorGUI.PrefixLabel(labelRect, sceneControlID, labelContent);
             }
 
             // Right context buttons
             Rect buttonRect = DrawUtils.GetFieldRect(position);
             buttonRect.width = (buttonRect.width) / 3;
 
-            string tooltipMsg = string.Empty;
+            string tooltipMsg;
             using (new EditorGUI.DisabledScope(readOnly))
             {
                 // NOT in build settings
@@ -142,7 +142,10 @@ namespace UnityUtility.SceneReference.Editor
                     int addIndex = EditorBuildSettings.scenes.Length;
                     tooltipMsg = "Add this scene to build settings. It will be appended to the end of the build scenes as buildIndex: " + addIndex + "." + readOnlyWarning;
                     if (DrawUtils.ButtonHelper(buttonRect, "Add...", "Add (buildIndex " + addIndex + ")", EditorStyles.miniButtonLeft, tooltipMsg))
+                    {
                         BuildUtils.AddBuildScene(buildScene);
+                    }
+
                     buttonRect.width /= 2;
                     buttonRect.x += buttonRect.width;
                 }
@@ -178,12 +181,12 @@ namespace UnityUtility.SceneReference.Editor
 
         }
 
-        static SerializedProperty GetSceneAssetProperty(SerializedProperty property)
+        private static SerializedProperty GetSceneAssetProperty(SerializedProperty property)
         {
             return property.FindPropertyRelative(SCENE_ASSET_PROPERTY);
         }
 
-        static SerializedProperty GetScenePathProperty(SerializedProperty property)
+        private static SerializedProperty GetScenePathProperty(SerializedProperty property)
         {
             return property.FindPropertyRelative(SCENE_PATH_PROPERTY);
         }
@@ -195,8 +198,10 @@ namespace UnityUtility.SceneReference.Editor
             /// </summary>
             static public bool ButtonHelper(Rect position, string msgShort, string msgLong, GUIStyle style, string tooltip = null)
             {
-                GUIContent content = new GUIContent(msgLong);
-                content.tooltip = tooltip;
+                GUIContent content = new GUIContent(msgLong)
+                {
+                    tooltip = tooltip
+                };
 
                 float longWidth = style.CalcSize(content).x;
                 if (longWidth > position.width)
