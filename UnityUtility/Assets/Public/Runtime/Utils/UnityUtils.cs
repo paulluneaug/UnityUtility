@@ -11,8 +11,8 @@ namespace UnityUtility.Utils
     [System.Flags]
     public enum Axis : int
     {
-        X = 0x1, 
-        Y = 0x2, 
+        X = 0x1,
+        Y = 0x2,
         Z = 0x4,
     }
 
@@ -148,7 +148,7 @@ namespace UnityUtility.Utils
             colorString = colorString.Replace(" ", "");
             if (colorString.StartsWith('(') && colorString.EndsWith(')')) // For the formats (r, g, b) and (r, g, b, a)
             {
-                string colorValuesString = colorString.Substring(1, colorString.Length - 2);
+                string colorValuesString = colorString[1..^1];
                 List<(bool parseSuceeded, int parsedValue)> parsedValues = colorValuesString.Split(',').Select((string s) => (int.TryParse(s, out int parsedValue), parsedValue)).ToList();
                 if (parsedValues.All((result) => result.parseSuceeded))
                 {

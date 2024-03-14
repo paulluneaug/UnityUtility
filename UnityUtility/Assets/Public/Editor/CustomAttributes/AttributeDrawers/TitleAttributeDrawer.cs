@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEditor;
-using System;
 using UnityEngine.UIElements;
 
 namespace UnityUtility.CustomAttributes.Editor

@@ -11,14 +11,14 @@ namespace UnityUtility.Filters
     {
         public float MinCutoff
         {
-            get { return m_minCutoff; }
-            set { m_minCutoff = value; }
+            get => m_minCutoff;
+            set => m_minCutoff = value;
         }
 
         public float Beta
         {
-            get { return m_beta; }
-            set { m_beta = value; }
+            get => m_beta;
+            set => m_beta = value;
         }
 
         protected bool m_firstTime;
