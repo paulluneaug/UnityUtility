@@ -558,15 +558,60 @@ namespace UnityUtility.Utils
 
         /// <summary>
         /// Remaps the value of <paramref name="input"/> 
-        /// from the range [<paramref name="initialMin"/>, <paramref name="initialMax"/>] 
-        /// to the range [<paramref name="targetMin"/>, <paramref name="targetMax"/>]
+        /// from the range [<paramref name="initialMin"/>; <paramref name="initialMax"/>] 
+        /// to the range [<paramref name="targetMin"/>; <paramref name="targetMax"/>]
         /// </summary>
         /// <returns>The remapped value of <paramref name="input"/></returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Remap(this float input, float initialMin, float initialMax, float targetMin, float targetMax)
         {
-            float ratio = (input - initialMin) / (initialMax - initialMin);
-            return targetMin + ratio * (targetMax - targetMin);
+            return input.RemapTo01(initialMin, initialMax).RemapFrom01(targetMin, targetMax);
+        }
+
+        /// <summary>
+        /// Remaps the value of <paramref name="input"/> 
+        /// from the range [0; 1] 
+        /// to the range [<paramref name="targetMin"/>; <paramref name="targetMax"/>]
+        /// </summary>
+        /// <returns>The remapped value of <paramref name="input"/></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float RemapFrom01(this float input, float targetMin, float targetMax)
+        {
+            return targetMin + input * (targetMax - targetMin);
+        }
+
+        /// <summary>
+        /// Remaps the value of <paramref name="input"/> 
+        /// from the range [0; 1] to the range <paramref name="targetRange"/>
+        /// </summary>
+        /// <returns>The remapped value of <paramref name="input"/></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float RemapFrom01(this float input, Vector2 targetRange)
+        {
+            return input.RemapFrom01(targetRange.x, targetRange.y);
+        }
+
+        /// <summary>
+        /// Remaps the value of <paramref name="input"/> 
+        /// from the range [<paramref name="initialMin"/>; <paramref name="initialMax"/>]
+        /// to the range [0; 1] 
+        /// </summary>
+        /// <returns>The remapped value of <paramref name="input"/></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float RemapTo01(this float input,float initialMin, float initialMax)
+        {
+            return (input - initialMin) / (initialMax - initialMin);
+        }
+
+        /// <summary>
+        /// Remaps the value of <paramref name="input"/> 
+        /// from the range <paramref name="initialRange"/> to the range [0; 1]
+        /// </summary>
+        /// <returns>The remapped value of <paramref name="input"/></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float RemapTo01(this float input, Vector2 initialRange)
+        {
+            return input.RemapTo01(initialRange.x, initialRange.y);
         }
     }
     #endregion
