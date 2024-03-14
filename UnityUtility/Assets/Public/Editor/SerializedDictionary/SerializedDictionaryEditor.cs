@@ -1,5 +1,4 @@
 using UnityEditor;
-using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using UnityUtility.Utils.Editor;
@@ -28,8 +27,10 @@ namespace UnityUtility.SerializedDictionary.Editor
         {
             m_listField?.UnregisterCallback<SerializedPropertyChangeEvent>(OnValueChanged);
 
-            m_listField = new PropertyField(m_pairListProperty);
-            m_listField.label = m_property.displayName;
+            m_listField = new PropertyField(m_pairListProperty)
+            {
+                label = m_property.displayName
+            };
             m_listField.RegisterCallback<SerializedPropertyChangeEvent>(OnValueChanged);
             m_container.Add(m_listField);
         }

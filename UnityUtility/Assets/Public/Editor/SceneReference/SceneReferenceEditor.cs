@@ -18,11 +18,11 @@ namespace UnityUtility.SceneReference.Editor
         // The exact name of  the scene Path variable in the SceneReference object
         private const string SCENE_PATH_PROPERTY = "m_scenePath";
 
-        private static readonly RectOffset m_boxPadding = EditorStyles.helpBox.padding;
-        private static readonly float m_padSize = 2f;
-        private static readonly float m_lineHeight = EditorGUIUtility.singleLineHeight;
-        private static readonly float m_paddedLine = m_lineHeight + m_padSize;
-        private static readonly float m_footerHeight = 10f;
+        private static readonly RectOffset s_boxPadding = EditorStyles.helpBox.padding;
+        private static readonly float s_padSize = 2f;
+        private static readonly float s_lineHeight = EditorGUIUtility.singleLineHeight;
+        private static readonly float s_paddedLine = s_lineHeight + s_padSize;
+        private static readonly float s_footerHeight = 10f;
 
         /// <summary>
         /// Drawing the 'SceneReference' property
@@ -32,15 +32,15 @@ namespace UnityUtility.SceneReference.Editor
             SerializedProperty sceneAssetProperty = GetSceneAssetProperty(property);
 
             // Draw the Box Background
-            position.height -= m_footerHeight;
+            position.height -= s_footerHeight;
             GUI.Box(EditorGUI.IndentedRect(position), GUIContent.none, EditorStyles.helpBox);
-            position = m_boxPadding.Remove(position);
-            position.height = m_lineHeight;
+            position = s_boxPadding.Remove(position);
+            position.height = s_lineHeight;
 
             // Draw the main Object field
             label.tooltip = "The actual Scene Asset reference.\nOn serialize this is also stored as the asset's path.";
 
-            EditorGUI.BeginProperty(position, GUIContent.none, property);
+            _ = EditorGUI.BeginProperty(position, GUIContent.none, property);
             EditorGUI.BeginChangeCheck();
             int sceneControlID = GUIUtility.GetControlID(FocusType.Passive);
             Object selectedObject = EditorGUI.ObjectField(position, label, sceneAssetProperty.objectReferenceValue, typeof(SceneAsset), false);
@@ -56,7 +56,7 @@ namespace UnityUtility.SceneReference.Editor
                     GetScenePathProperty(property).stringValue = string.Empty;
                 }
             }
-            position.y += m_paddedLine;
+            position.y += s_paddedLine;
 
             if (buildScene.assetGUID.Empty() == false)
             {
@@ -79,7 +79,7 @@ namespace UnityUtility.SceneReference.Editor
                 lines = 1;
             }
 
-            return m_boxPadding.vertical + m_lineHeight * lines + m_padSize * (lines - 1) + m_footerHeight;
+            return s_boxPadding.vertical + s_lineHeight * lines + s_padSize * (lines - 1) + s_footerHeight;
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace UnityUtility.SceneReference.Editor
             string readOnlyWarning = readOnly ? "\n\nWARNING: Build Settings is not checked out and so cannot be modified." : "";
 
             // Label Prefix
-            GUIContent iconContent = new GUIContent();
+            GUIContent iconContent;
             GUIContent labelContent = new GUIContent();
 
             // Missing from build scenes
@@ -121,18 +121,18 @@ namespace UnityUtility.SceneReference.Editor
             {
                 Rect labelRect = DrawUtils.GetLabelRect(position);
                 Rect iconRect = labelRect;
-                iconRect.width = iconContent.image.width + m_padSize;
+                iconRect.width = iconContent.image.width + s_padSize;
                 labelRect.width -= iconRect.width;
                 labelRect.x += iconRect.width;
-                EditorGUI.PrefixLabel(iconRect, sceneControlID, iconContent);
-                EditorGUI.PrefixLabel(labelRect, sceneControlID, labelContent);
+                _ = EditorGUI.PrefixLabel(iconRect, sceneControlID, iconContent);
+                _ = EditorGUI.PrefixLabel(labelRect, sceneControlID, labelContent);
             }
 
             // Right context buttons
             Rect buttonRect = DrawUtils.GetFieldRect(position);
             buttonRect.width = (buttonRect.width) / 3;
 
-            string tooltipMsg = string.Empty;
+            string tooltipMsg;
             using (new EditorGUI.DisabledScope(readOnly))
             {
                 // NOT in build settings
@@ -142,7 +142,10 @@ namespace UnityUtility.SceneReference.Editor
                     int addIndex = EditorBuildSettings.scenes.Length;
                     tooltipMsg = "Add this scene to build settings. It will be appended to the end of the build scenes as buildIndex: " + addIndex + "." + readOnlyWarning;
                     if (DrawUtils.ButtonHelper(buttonRect, "Add...", "Add (buildIndex " + addIndex + ")", EditorStyles.miniButtonLeft, tooltipMsg))
+                    {
                         BuildUtils.AddBuildScene(buildScene);
+                    }
+
                     buttonRect.width /= 2;
                     buttonRect.x += buttonRect.width;
                 }
@@ -178,12 +181,12 @@ namespace UnityUtility.SceneReference.Editor
 
         }
 
-        static SerializedProperty GetSceneAssetProperty(SerializedProperty property)
+        private static SerializedProperty GetSceneAssetProperty(SerializedProperty property)
         {
             return property.FindPropertyRelative(SCENE_ASSET_PROPERTY);
         }
 
-        static SerializedProperty GetScenePathProperty(SerializedProperty property)
+        private static SerializedProperty GetScenePathProperty(SerializedProperty property)
         {
             return property.FindPropertyRelative(SCENE_PATH_PROPERTY);
         }
@@ -195,8 +198,10 @@ namespace UnityUtility.SceneReference.Editor
             /// </summary>
             static public bool ButtonHelper(Rect position, string msgShort, string msgLong, GUIStyle style, string tooltip = null)
             {
-                GUIContent content = new GUIContent(msgLong);
-                content.tooltip = tooltip;
+                GUIContent content = new GUIContent(msgLong)
+                {
+                    tooltip = tooltip
+                };
 
                 float longWidth = style.CalcSize(content).x;
                 if (longWidth > position.width)
@@ -221,7 +226,7 @@ namespace UnityUtility.SceneReference.Editor
             /// </summary>
             static public Rect GetLabelRect(Rect position)
             {
-                position.width = EditorGUIUtility.labelWidth - m_padSize;
+                position.width = EditorGUIUtility.labelWidth - s_padSize;
                 return position;
             }
         }

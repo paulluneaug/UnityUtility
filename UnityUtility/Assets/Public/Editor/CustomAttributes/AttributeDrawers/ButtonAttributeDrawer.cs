@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Reflection;
 using UnityEditor;
 using UnityEditor.UIElements;
@@ -30,7 +28,7 @@ namespace UnityUtility.CustomAttributes.Editor
             {
                 InvokeMethod();
             }
-            base.OnGUI(position, property, label);
+            _ = EditorGUILayout.PropertyField(property, label);
         }
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
@@ -45,9 +43,11 @@ namespace UnityUtility.CustomAttributes.Editor
             VisualElement container = new VisualElement();
 
             InitIfNeeded(property);
-            
-            Button b = new Button(() => InvokeMethod());
-            b.text = m_target.DisplayName;
+
+            Button b = new Button(() => InvokeMethod())
+            {
+                text = m_target.DisplayName
+            };
             container.Add(b);
             container.Add(new PropertyField(property));
 
@@ -63,7 +63,7 @@ namespace UnityUtility.CustomAttributes.Editor
                 return;
             }
             m_target = attribute as ButtonAttribute;
-            GetMethodInfos(property, m_target.MethodName); 
+            GetMethodInfos(property, m_target.MethodName);
             m_isInit = true;
         }
 
@@ -77,7 +77,7 @@ namespace UnityUtility.CustomAttributes.Editor
 
         private void InvokeMethod()
         {
-            m_targetMethod.Invoke(m_targetObject, null);
+            _ = m_targetMethod.Invoke(m_targetObject, null);
         }
     }
 }

@@ -12,7 +12,7 @@ namespace UnityUtility.CustomAttributes.Editor
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             EditorGUI.BeginDisabledGroup(true);
-            EditorGUILayout.PropertyField(property, label);
+            _ = EditorGUILayout.PropertyField(property, label);
             EditorGUI.EndDisabledGroup();
         }
         #endregion

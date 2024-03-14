@@ -322,7 +322,7 @@ namespace UnityUtility.Utils
         {
             float deltaX = p1.x - p2.x;
             float deltaY = p1.y - p2.y;
-            return 
+            return
                 deltaX * deltaX +
                 deltaY * deltaY;
         }
@@ -417,7 +417,7 @@ namespace UnityUtility.Utils
             float deltaX = p1.x - p2.x;
             float deltaY = p1.y - p2.y;
             float deltaZ = p1.z - p2.z;
-            return 
+            return
                 deltaX * deltaX +
                 deltaY * deltaY +
                 deltaZ * deltaZ;
@@ -520,7 +520,7 @@ namespace UnityUtility.Utils
             float deltaY = p1.y - p2.y;
             float deltaZ = p1.z - p2.z;
             float deltaW = p1.w - p2.w;
-            return 
+            return
                 deltaX * deltaX +
                 deltaY * deltaY +
                 deltaZ * deltaZ +
@@ -529,6 +529,7 @@ namespace UnityUtility.Utils
     }
     #endregion
 
+    #region Float
     public static class FloatUtils
     {
         /// <summary>
@@ -557,18 +558,65 @@ namespace UnityUtility.Utils
 
         /// <summary>
         /// Remaps the value of <paramref name="input"/> 
-        /// from the range [<paramref name="initialMin"/>, <paramref name="initialMax"/>] 
-        /// to the range [<paramref name="targetMin"/>, <paramref name="targetMax"/>]
+        /// from the range [<paramref name="initialMin"/>; <paramref name="initialMax"/>] 
+        /// to the range [<paramref name="targetMin"/>; <paramref name="targetMax"/>]
         /// </summary>
         /// <returns>The remapped value of <paramref name="input"/></returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Remap(this float input, float initialMin, float initialMax, float targetMin, float targetMax)
         {
-            float ratio = (input - initialMin) / (initialMax - initialMin);
-            return targetMin + ratio * (targetMax - targetMin);
+            return input.RemapTo01(initialMin, initialMax).RemapFrom01(targetMin, targetMax);
+        }
+
+        /// <summary>
+        /// Remaps the value of <paramref name="input"/> 
+        /// from the range [0; 1] 
+        /// to the range [<paramref name="targetMin"/>; <paramref name="targetMax"/>]
+        /// </summary>
+        /// <returns>The remapped value of <paramref name="input"/></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float RemapFrom01(this float input, float targetMin, float targetMax)
+        {
+            return targetMin + input * (targetMax - targetMin);
+        }
+
+        /// <summary>
+        /// Remaps the value of <paramref name="input"/> 
+        /// from the range [0; 1] to the range <paramref name="targetRange"/>
+        /// </summary>
+        /// <returns>The remapped value of <paramref name="input"/></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float RemapFrom01(this float input, Vector2 targetRange)
+        {
+            return input.RemapFrom01(targetRange.x, targetRange.y);
+        }
+
+        /// <summary>
+        /// Remaps the value of <paramref name="input"/> 
+        /// from the range [<paramref name="initialMin"/>; <paramref name="initialMax"/>]
+        /// to the range [0; 1] 
+        /// </summary>
+        /// <returns>The remapped value of <paramref name="input"/></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float RemapTo01(this float input,float initialMin, float initialMax)
+        {
+            return (input - initialMin) / (initialMax - initialMin);
+        }
+
+        /// <summary>
+        /// Remaps the value of <paramref name="input"/> 
+        /// from the range <paramref name="initialRange"/> to the range [0; 1]
+        /// </summary>
+        /// <returns>The remapped value of <paramref name="input"/></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float RemapTo01(this float input, Vector2 initialRange)
+        {
+            return input.RemapTo01(initialRange.x, initialRange.y);
         }
     }
+    #endregion
 
+    #region Int
     public static class IntUtils
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -577,6 +625,7 @@ namespace UnityUtility.Utils
             return (val & flag) == flag;
         }
     }
+    #endregion
 
     #region Misc
     public static class MathUtils

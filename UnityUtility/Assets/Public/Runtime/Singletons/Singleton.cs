@@ -25,10 +25,7 @@ namespace UnityUtility.Singletons
         {
             get
             {
-                if (s_instance == null)
-                {
-                    s_instance = Activator.CreateInstance<T>();
-                }
+                s_instance ??= Activator.CreateInstance<T>();
                 return s_instance;
             }
         }

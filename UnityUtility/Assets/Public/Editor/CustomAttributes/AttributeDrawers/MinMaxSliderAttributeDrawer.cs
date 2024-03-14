@@ -2,21 +2,13 @@ using System;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.UIElements;
-using UnityEngine.UI;
-using System.Collections.Generic;
-using UnityEditor.UIElements;
 
 namespace UnityUtility.CustomAttributes.Editor
 {
     [CustomPropertyDrawer(typeof(MinMaxSliderAttribute))]
     public class MinMaxSliderAttributeDrawer : PropertyDrawer
     {
-        private struct SliderElements
-        {
-            public FloatField MinField;
-            public FloatField MaxField;
-            public MinMaxSlider Slider;
-        }
+        public const string WRONG_TYPE_ERROR = nameof(MinMaxSliderAttribute) + " cannot be applied to variables of type";
 
         private const float FIELDS_WIDTH = 40;
         private const float SLIDER_OFFSET = 5;
@@ -29,7 +21,7 @@ namespace UnityUtility.CustomAttributes.Editor
         {
             if (property.propertyType != SerializedPropertyType.Vector2)
             {
-                return GetBoxHeight(MinMaxSliderAttribute.WRONG_TYPE_ERROR + property.propertyType);
+                return GetBoxHeight(AttributeUtils.GetWrongTypeMessage(property, typeof(MinMaxSliderAttribute)));
             }
             return EditorGUIUtility.singleLineHeight;
         }
@@ -47,7 +39,7 @@ namespace UnityUtility.CustomAttributes.Editor
                 EditorGUI.LabelField(labelRect, label);
 
                 Rect boxRect = new Rect(position.x + EditorGUIUtility.labelWidth, position.y, position.width - EditorGUIUtility.labelWidth, position.height);
-                EditorGUI.HelpBox(boxRect, MinMaxSliderAttribute.WRONG_TYPE_ERROR + property.propertyType, MessageType.Error);
+                EditorGUI.HelpBox(boxRect, AttributeUtils.GetWrongTypeMessage(property, typeof(MinMaxSliderAttribute)), MessageType.Error);
             }
             else
             {
@@ -90,8 +82,8 @@ namespace UnityUtility.CustomAttributes.Editor
                         propertyRect.width - ((FIELDS_WIDTH + SLIDER_OFFSET) * 2),
                         EditorGUIUtility.singleLineHeight);
 
-                    m_minValue = EditorGUI.FloatField(fieldMinRect, (float) Math.Round(m_minValue, minMaxSliderAttribute.RoundDigits));
-                    m_maxValue = EditorGUI.FloatField(fieldMaxRect, (float) Math.Round(m_maxValue, minMaxSliderAttribute.RoundDigits));
+                    m_minValue = EditorGUI.FloatField(fieldMinRect, (float)Math.Round(m_minValue, minMaxSliderAttribute.RoundDigits));
+                    m_maxValue = EditorGUI.FloatField(fieldMaxRect, (float)Math.Round(m_maxValue, minMaxSliderAttribute.RoundDigits));
 
                 }
                 else
@@ -132,6 +124,11 @@ namespace UnityUtility.CustomAttributes.Editor
         #region UIElements
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
+            if (property.propertyType != SerializedPropertyType.Vector2)
+            {
+                return AttributeUtils.GetWrongTypeHelpBox(property, typeof(MinMaxSliderAttribute));
+            }
+
             MinMaxSliderAttribute minMaxSliderAttribute = attribute as MinMaxSliderAttribute;
             int roundDigits = minMaxSliderAttribute.RoundDigits;
 
@@ -142,18 +139,14 @@ namespace UnityUtility.CustomAttributes.Editor
             propertyLabel.style.width = AttributeUtils.LabelWidth;
             container.Add(propertyLabel);
 
-            if (property.propertyType != SerializedPropertyType.Vector2)
-            {
-                container.Add(new HelpBox(MinMaxSliderAttribute.WRONG_TYPE_ERROR + property.propertyType, HelpBoxMessageType.Error));
-                return container;
-            }
-            
             Vector2 currentVal = Round(property.vector2Value, roundDigits);
             property.vector2Value = currentVal;
-            property.serializedObject.ApplyModifiedProperties();
+            _ = property.serializedObject.ApplyModifiedProperties();
 
-            VisualElement sliderContainer = new VisualElement();
-            sliderContainer.name = "Slider Container";
+            VisualElement sliderContainer = new VisualElement
+            {
+                name = "Slider Container"
+            };
             sliderContainer.style.flexDirection = FlexDirection.Row;
             sliderContainer.style.justifyContent = Justify.SpaceBetween;
             sliderContainer.style.flexGrow = 1;
@@ -167,19 +160,23 @@ namespace UnityUtility.CustomAttributes.Editor
             FloatField maxField = null;
             if (minMaxSliderAttribute.ShowFields)
             {
-                minField = new FloatField();
-                minField.value = currentVal.x;
+                minField = new FloatField
+                {
+                    value = currentVal.x
+                };
                 minField.style.width = FIELDS_WIDTH - 1;
 
-                maxField = new FloatField();
-                maxField.value = currentVal.y;
+                maxField = new FloatField
+                {
+                    value = currentVal.y
+                };
                 maxField.style.width = FIELDS_WIDTH - 1;
 
                 minField.RegisterCallback<FocusOutEvent>(OnMinFocusOut);
                 maxField.RegisterCallback<FocusOutEvent>(OnMaxFocusOut);
             }
 
-            slider.RegisterValueChangedCallback(OnSliderChanged);
+            _ = slider.RegisterValueChangedCallback(OnSliderChanged);
 
             void OnMinFocusOut(FocusOutEvent evt)
             {
@@ -206,7 +203,7 @@ namespace UnityUtility.CustomAttributes.Editor
                     maxField.value = newValue.y;
                 }
                 property.vector2Value = newValue;
-                property.serializedObject.ApplyModifiedProperties();
+                _ = property.serializedObject.ApplyModifiedProperties();
             }
 
             if (minMaxSliderAttribute.ShowFields)

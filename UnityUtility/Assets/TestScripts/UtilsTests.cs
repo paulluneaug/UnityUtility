@@ -5,7 +5,7 @@ using UnityUtility.Utils;
 
 public class UtilsTests : MonoBehaviour
 {
-    [ContextMenu(nameof(TestUtils) )]
+    [ContextMenu(nameof(TestUtils))]
     public void TestUtils()
     {
         TestRemap(0, 0, 1, 0, 1);
