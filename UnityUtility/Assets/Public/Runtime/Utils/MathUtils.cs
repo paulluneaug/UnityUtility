@@ -565,8 +565,7 @@ namespace UnityUtility.Utils
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Remap(this float input, float initialMin, float initialMax, float targetMin, float targetMax)
         {
-            float ratio = (input - initialMin) / (initialMax - initialMin);
-            return targetMin + ratio * (targetMax - targetMin);
+            return input.RemapTo01(initialMin, initialMax).RemapFrom01(targetMin, targetMax);
         }
 
         /// <summary>
