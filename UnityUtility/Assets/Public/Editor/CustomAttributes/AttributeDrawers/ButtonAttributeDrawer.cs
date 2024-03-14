@@ -28,7 +28,7 @@ namespace UnityUtility.CustomAttributes.Editor
             {
                 InvokeMethod();
             }
-            EditorGUILayout.PropertyField(property, label);
+            _ = EditorGUILayout.PropertyField(property, label);
         }
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
@@ -77,7 +77,7 @@ namespace UnityUtility.CustomAttributes.Editor
 
         private void InvokeMethod()
         {
-            m_targetMethod.Invoke(m_targetObject, null);
+            _ = m_targetMethod.Invoke(m_targetObject, null);
         }
     }
 }
