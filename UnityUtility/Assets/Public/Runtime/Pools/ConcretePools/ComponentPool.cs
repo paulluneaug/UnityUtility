@@ -21,9 +21,9 @@ namespace UnityUtility.Pools
     {
         public int PoolSize => m_poolSize;
 
-        [SerializeField] private readonly int m_initialPoolSize = 10;
+        [SerializeField] private int m_initialPoolSize = 10;
         [SerializeField] protected bool m_instantiateFromPrefab = false;
-        [SerializeField, ShowIf(nameof(m_instantiateFromPrefab))] private readonly TComponent m_componentPrefab = null;
+        [SerializeField, ShowIf(nameof(m_instantiateFromPrefab))] private TComponent m_componentPrefab = null;
 
         private Stack<TComponent> m_availableComponents = null;
         private int m_poolSize = 0;
