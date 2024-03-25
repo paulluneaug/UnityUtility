@@ -31,7 +31,7 @@ namespace UnityUtility.Timer
         public event Action OnTimerEnds;
 
         [SerializeField, Min(0.0f)] private float m_duration = 1.0f;
-        [SerializeField] private readonly bool m_repeat = false;
+        [SerializeField] private bool m_repeat = false;
 
         // Cache
         [NonSerialized] private float m_currentTime = 0.0f;
