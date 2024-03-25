@@ -35,7 +35,6 @@ namespace UnityUtility.SerializedDictionary
         }
 
         [SerializeField] private List<KeyValuePair> m_keyValuePairsList = new List<KeyValuePair>();
-        [SerializeField] private readonly int m_keyValuePairsCount = 0;
 
         private Dictionary<TKey, TValue> m_dictionary = new Dictionary<TKey, TValue>();
         private bool m_duplicateKeys = false;

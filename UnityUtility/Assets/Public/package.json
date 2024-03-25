@@ -1,6 +1,6 @@
 {
   "name": "com.pluneau.unityutility",
-  "version": "1.8.4",
+  "version": "1.8.6",
   "displayName": "UnityUtility",
   "unity": "2022.3",
   "dependencies": {
@@ -13,7 +13,7 @@
         "description": "Sample containing a .editorconfig file to harmonise the codebase",
         "path": "Samples~/EditorConfig",
         "interactiveImport": true
-      },
+      }
   ],
   "commit": "6cdee1b7e15e59abd137675311c29b9b270876db"
 }
