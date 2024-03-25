@@ -5,7 +5,7 @@ namespace UnityUtility.Timer
 {
     [Serializable]
     public class Timer
-    {        
+    {
         /// <summary>
         /// The duration of the timer
         /// </summary>

@@ -28,6 +28,9 @@ public class PerfTests : MonoBehaviour
         }
         TimeSpan spawnDeltaTime = DateTime.Now - strartTime;
 
+        if (m_spawnedMB == null)
+            return;
+
         Debug.LogError($"Took {spawnDeltaTime.TotalMilliseconds} ms to spawn {m_mbCountToSpawn} objects");
     }
 

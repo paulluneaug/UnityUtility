@@ -39,11 +39,11 @@
 }
 
 .evenIndexColor {
-    background-color: rgba(52, 52, 61, 255);
+    background-color: rgb(46, 46, 46);
 }
 
 .oddIndexColor {
-    background-color: rgba(35, 35, 44, 255);
+    background-color: rgb(70, 70, 70);
 }
 
 .propertyField.hasPropertyChildren {

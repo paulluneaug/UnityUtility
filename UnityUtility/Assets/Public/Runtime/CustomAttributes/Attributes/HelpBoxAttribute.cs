@@ -4,8 +4,8 @@ using UnityEngine.UIElements;
 
 namespace UnityUtility.CustomAttributes
 {
-	[AttributeUsage(AttributeTargets.Field, AllowMultiple = true, Inherited = true)]
-	public class HelpBoxAttribute : PropertyAttribute
+    [AttributeUsage(AttributeTargets.Field, AllowMultiple = true, Inherited = true)]
+    public class HelpBoxAttribute : PropertyAttribute
     {
         public string Message { get; }
 
@@ -18,7 +18,7 @@ namespace UnityUtility.CustomAttributes
         }
     }
 }
- 
+
 
 
 

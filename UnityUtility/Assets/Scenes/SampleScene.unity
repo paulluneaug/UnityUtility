@@ -495,41 +495,58 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1274140155}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4cb08f91ae1af7b47b083fbabb0721b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   WhatABool: 0
   A:
-  - {x: 29.7, y: 141.52}
-  - {x: 9.27, y: 194.05}
-  - {x: 57.49, y: 242.27}
-  B: 2.07
-  C: 0
+  - {x: 55.9, y: 173.9}
+  - {x: 33, y: 98.4}
+  - {x: 19.9, y: 129.9}
+  - {x: 117.9, y: 218.3}
+  - {x: 84.9, y: 250}
+  - {x: 0, y: 0}
+  B: 2.17
+  C: 0.47
   D: 0
-  E: 0
+  E: 1.75
   F: 0
   G: 0
-  H: 20
+  H: -10.7
   I: 0
-  J: 0
+  J: 0.94
   K: 0
   Sliderscsfc: {x: 0, y: 0}
   L: 0
   M: 0
+  b0: 0
   O: 0
   P: 0
-  Q: 0
+  Q:
+    name: kqskufgsdg
+    value: 0
+  QArray:
+  - name: 
+    value: 0
+  - name: 
+    value: 0
   so: 0
-  Slider: {x: 0, y: 0}
-  SliderWithoutValues: {x: 0, y: 0}
+  Slider: {x: 0, y: 6.34}
+  SliderWithoutValues: {x: -3.4, y: 0.7}
   SliderWithoutValuesV3: {x: 0, y: 0, z: 0}
-  MinMax3: []
-  MinMax2: []
+  MinMax3:
+  - {x: -3, y: 10}
+  - {x: -3, y: 10}
+  MinMax2:
+  - {x: 0, y: 0, z: 0}
   a: 7.179999828338623
-  b: 7
+  b: 3
   c: 2
+  layer0: 
+  layer1: 0
+  layer3: 0
 --- !u!114 &1274140161
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -539,7 +556,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1274140155}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 260af1490811b7944a12ec1746e6ba58, type: 3}
+  m_Script: {fileID: 11500000, guid: ef1888846c76bb6408757f00be15794f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
