@@ -627,6 +627,39 @@ namespace UnityUtility.Utils
     }
     #endregion
 
+    #region UInt
+    public static class UIntUtils
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool HasFlag(this uint val, uint flag)
+        {
+            return (val & flag) == flag;
+        }
+    }
+    #endregion
+
+    #region Long
+    public static class LongUtils
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool HasFlag(this long val, long flag)
+        {
+            return (val & flag) == flag;
+        }
+    }
+    #endregion
+
+    #region ULong
+    public static class ULongUtils
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool HasFlag(this ulong val, ulong flag)
+        {
+            return (val & flag) == flag;
+        }
+    }
+    #endregion
+
     #region Misc
     public static class MathUtils
     {
