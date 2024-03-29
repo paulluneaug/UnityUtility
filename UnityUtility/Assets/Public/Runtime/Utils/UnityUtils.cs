@@ -100,6 +100,17 @@ namespace UnityUtility.Utils
                 component.Destroy();
             }
         }
+
+        /// <summary>
+        /// Checks wether the <see cref="GameObject"/> has a component of type <typeparamref name="TComp"/>
+        /// </summary>
+        /// <typeparam name="TComp">Type of the <see cref="Component"/> to search for</typeparam>
+        /// <param name="go">Wether the <see cref="GameObject"/> has a component of type <typeparamref name="TComp"/></param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool HasComponent<TComp>(this GameObject go) where TComp : Component
+        {
+            return go.TryGetComponent(out TComp _);
+        }
     }
     #endregion
 

@@ -21,6 +21,12 @@ namespace UnityUtility.Timer
         }
 
         /// <summary>
+        /// The current progress of the timer 
+        /// </summary>
+        /// <remarks>A value between 0 and 1 (0 : the timer just started a cycle, 1 : the timer just ended a cycle)</remarks>
+        public float Progress => m_currentTime / m_duration;
+
+        /// <summary>
         /// Wether the timer is running (Read-Only)
         /// </summary>
         public bool IsRunning => m_isRunning;
