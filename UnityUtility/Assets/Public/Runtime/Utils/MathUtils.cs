@@ -326,6 +326,14 @@ namespace UnityUtility.Utils
                 deltaX * deltaX +
                 deltaY * deltaY;
         }
+
+
+        /// <summary> Swaps the X and Y components of the vector </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 YX(this Vector3 v)
+        {
+            return new Vector2(v.x, v.y);
+        }
     }
     #endregion
 
@@ -421,6 +429,27 @@ namespace UnityUtility.Utils
                 deltaX * deltaX +
                 deltaY * deltaY +
                 deltaZ * deltaZ;
+        }
+
+        /// <summary> Grabs the X and Y components of the vector </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 XY(this Vector3 v)
+        {
+            return new Vector2(v.x, v.y);
+        }
+
+        /// <summary> Grabs the X and Z components of the vector </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 XZ(this Vector3 v)
+        {
+            return new Vector2(v.x, v.z);
+        }
+
+        /// <summary> Grabs the Y and Z components of the vector </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 YZ(this Vector3 v)
+        {
+            return new Vector2(v.y, v.z);
         }
     }
     #endregion
@@ -525,6 +554,76 @@ namespace UnityUtility.Utils
                 deltaY * deltaY +
                 deltaZ * deltaZ +
                 deltaW * deltaW;
+        }
+
+        /// <summary> Grabs the X and Y components of the vector </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 XY(this Vector4 v)
+        {
+            return new Vector2(v.x, v.y);
+        }
+
+        /// <summary> Grabs the X and Z components of the vector </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 XZ(this Vector4 v)
+        {
+            return new Vector2(v.x, v.z);
+        }
+
+        /// <summary> Grabs the X and W components of the vector </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 XW(this Vector4 v)
+        {
+            return new Vector2(v.y, v.w);
+        }
+
+        /// <summary> Grabs the Y and Z components of the vector </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 YZ(this Vector4 v)
+        {
+            return new Vector2(v.y, v.z);
+        }
+
+        /// <summary> Grabs the Y and W components of the vector </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 YW(this Vector4 v)
+        {
+            return new Vector2(v.y, v.w);
+        }
+        
+        /// <summary> Grabs the Z and W components of the vector </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 ZW(this Vector4 v)
+        {
+            return new Vector2(v.z, v.w);
+        }
+
+        /// <summary> Grabs the X, Y and Z components of the vector </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3 XYZ(this Vector4 v)
+        {
+            return new Vector3(v.x, v.y, v.z);
+        }
+
+        /// <summary> Grabs the X, Y and W components of the vector </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3 XYW(this Vector4 v)
+        {
+            return new Vector3(v.x, v.y, v.w);
+        }
+
+        /// <summary> Grabs the X, Z and W components of the vector </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3 XZW(this Vector4 v)
+        {
+            return new Vector3(v.x, v.z, v.w);
+        }
+
+        /// <summary> Grabs the Y, Z and W components of the vector </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3 YZW(this Vector4 v)
+        {
+            return new Vector3(v.y, v.z, v.w);
         }
     }
     #endregion
