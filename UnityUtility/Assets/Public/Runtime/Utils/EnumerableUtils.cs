@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using UnityUtility.Hash;
 
 namespace UnityUtility.Utils
 {
@@ -26,106 +27,142 @@ namespace UnityUtility.Utils
         /// Formats the <paramref name="enumerable"/> into a nicer looking <see cref="string"/>
         /// </summary>
         /// <typeparam name="T">Type of the elements of the <see cref="IEnumerable"/></typeparam>
-        /// <returns>A <see cref="string"/> representing all the elements of <paramref name="enumerable"/> separated by a comma</returns>
+        /// <returns>A <see cref="string"/> representing all the elements of <paramref name="enumerable"/> separated by a comma and surrounded by square brackets</returns>
         public static string EnumerableToString<T>(this IEnumerable<T> enumerable)
         {
             return $"[{string.Join(", ", enumerable)}]";
         }
 
-        public static IEnumerable<T> Copy<T>(this IEnumerable<T> enumerable)
+        /// <summary>
+        /// Shallow copies the content on the <paramref name="collection"/> into an array
+        /// </summary>
+        /// <typeparam name="T">Type of the elements of the <see cref="ICollection"/></typeparam>
+        /// <param name="collection">The <see cref="ICollection"/> to copy</param>
+        /// <returns>An array containing all the elements of the given <paramref name="collection"/></returns>
+        public static T[] Copy<T>(this ICollection<T> collection)
         {
-            foreach (T item in enumerable)
-            {
-                yield return item;
-            }
+            T[] result = new T[collection.Count];
+            collection.CopyTo(result, 0);
+            return result;
         }
     }
 
     public static class SortUtils
     {
-        public static void Swap<T>(this T[] array, int indexA, int indexB)
+        /// <summary>
+        /// Swaps the elements at index <paramref name="indexA"/> and <paramref name="indexB"/>
+        /// </summary>
+        /// <typeparam name="T">The type of the elments of the <paramref name="list"/></typeparam>
+        /// <param name="list">The <see cref="IList"/> in which to swap the elements</param>
+        /// <param name="indexA">The index of the first element to swap</param>
+        /// <param name="indexB">The index of the second element to swap</param>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public static void Swap<T>(this IList<T> list, int indexA, int indexB)
         {
             if (indexA == indexB)
             {
                 return;
             }
 
-            int arrayLength = array.Length;
-            if (indexA < 0 || arrayLength <= indexA)
+            int listLength = list.Count;
+            if (indexA < 0 || listLength <= indexA)
             {
-                throw new ArgumentOutOfRangeException(nameof(indexA), $"{nameof(indexA)} must belong in the interval [0; array.Length - 1] ([{0}; {arrayLength - 1}]), currently {indexA}");
+                throw new ArgumentOutOfRangeException(nameof(indexA), $"{nameof(indexA)} must belong in the interval [0; list.Count - 1] ([{0}; {listLength - 1}]), currently {indexA}");
             }
-            if (indexB < 0 || arrayLength <= indexB)
+            if (indexB < 0 || listLength <= indexB)
             {
-                throw new ArgumentOutOfRangeException(nameof(indexB), $"{nameof(indexB)} must belong in the interval [0; array.Length - 1] ([{0}; {arrayLength - 1}]), currently {indexB}");
+                throw new ArgumentOutOfRangeException(nameof(indexB), $"{nameof(indexB)} must belong in the interval [0; list.Count - 1] ([{0}; {listLength - 1}]), currently {indexB}");
             }
-            (array[indexB], array[indexA]) = (array[indexA], array[indexB]);
+            (list[indexB], list[indexA]) = (list[indexA], list[indexB]);
         }
 
-        public static IEnumerable<T> ShuffleCopy<T>(this IEnumerable<T> enumerable)
+        public static T[] ShuffleCopy<T>(this IList<T> list)
         {
-            IEnumerable<T> copy = enumerable.Copy();
+            T[] copy = list.Copy();
             copy.Shuffle();
             return copy;
         }
-        public static void Shuffle<T>(this IEnumerable<T> enumerable)
+        public static T[] ShuffleCopy<T>(this IList<T> list, int seed)
         {
-        }
-
-        public static IEnumerable<T> SortCopy<T>(this IEnumerable<T> enumerable, Comparison<T> comparison)
-        {
-            T[] copy = enumerable.ToArray();
-            copy.Sort(comparison);
+            T[] copy = list.Copy();
+            copy.Shuffle(seed);
             return copy;
         }
 
-        public static void Sort<TComparable>(this TComparable[] array)
+        public static void Shuffle<T>(this IList<T> list)
+        {
+            list.ShuffleImpl(new Hasher());
+        }
+        public static void Shuffle<T>(this IList<T> list, int seed)
+        {
+            list.ShuffleImpl(new Hasher(seed));
+        }
+
+        private static void ShuffleImpl<T>(this IList<T> list, Hasher hasher)
+        {
+            list.Sort((T a, T b) => Math.Sign(hasher.RandomInt()));
+        }
+
+        public static T[] SortCopy<T>(this IList<T> list, Comparison<T> comparison)
+        {
+            T[] result = list.Copy();
+            result.Sort(comparison);
+            return result;
+        }
+
+        public static void Sort<TComparable>(this IList<TComparable> list)
             where TComparable : IComparable<TComparable>
         {
-            array.Sort((TComparable a, TComparable b) => a.CompareTo(b));
+            list.Sort(ComparableComparison);
         }
 
-        public static void Sort<TComparable>(this TComparable[] array, int start, int end)
+        public static void Sort<TComparable>(this IList<TComparable> list, int start, int end)
             where TComparable : IComparable<TComparable>
         {
-            array.Sort(start, end, (TComparable a, TComparable b) => a.CompareTo(b));
+            list.Sort(start, end, ComparableComparison);
         }
 
-        public static void Sort<T>(this T[] array, Comparison<T> comparison)
+        private static  int ComparableComparison<TComparable>(TComparable a, TComparable b)
+            where TComparable : IComparable<TComparable>
         {
-            array.Sort(0, array.Length - 1, comparison);
+            return a.CompareTo(b);
         }
 
-        public static void Sort<T>(this T[] array, int start, int end, Comparison<T> comparison)
+        public static void Sort<T>(this IList<T> list, Comparison<T> comparison)
+        {
+            list.Sort(0, list.Count - 1, comparison);
+        }
+
+        public static void Sort<T>(this IList<T> list, int start, int end, Comparison<T> comparison)
         {
             // Quicksort
             if (start < end)
             {
-                int pivot = GetPivot(array, start, end);
-                pivot = Partition(array, start, end, pivot, comparison);
-                array.Sort(start, pivot - 1, comparison);
-                array.Sort(pivot + 1, end, comparison);
+                int pivot = GetPivot(list, start, end);
+                pivot = Partition(list, start, end, pivot, comparison);
+                list.Sort(start, pivot - 1, comparison);
+                list.Sort(pivot + 1, end, comparison);
             }
         }
 
         #region Quicksort methods
-        private static int Partition<T>(T[] array, int start, int end, int pivot, Comparison<T> comparison)
+        private static int Partition<T>(IList<T> list, int start, int end, int pivot, Comparison<T> comparison)
         {
-            array.Swap(pivot, end);
+            list.Swap(pivot, end);
             int j = start;
             for (int i = start; i < end; ++i)
             {
-                if (comparison(array[i], array[end]) <= 0)
+                if (comparison(list[i], list[end]) <= 0)
                 {
-                    array.Swap(i, j);
+                    list.Swap(i, j);
                     ++j;
                 }
             }
-            array.Swap(end, j);
+            list.Swap(end, j);
             return j;
         }
 
-        private static int GetPivot<T>(this T[] array, int start, int end)
+        private static int GetPivot<T>(this IList<T> list, int start, int end)
         {
             return end;
         }
