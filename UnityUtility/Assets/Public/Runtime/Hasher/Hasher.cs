@@ -1,97 +1,132 @@
 using System;
-using UnityUtility.Utils;
+using System.Runtime.CompilerServices;
 
 namespace UnityUtility.Hash
 {
     public class Hasher
     {
-        private int m_hash;
+        private uint m_hash;
 
         public Hasher()
         {
-            m_hash = GetHashCode();
+            m_hash = HashUtils.IntToUInt(GetHashCode());
         }
 
-        public Hasher(int seed)
+        public Hasher(int seed) : this(HashUtils.IntToUInt(seed))
         {
-            m_hash = HasherUtils.Hash(seed);
         }
 
-        public int Add<T>(T other)
+        public Hasher(uint seed)
         {
-            m_hash = HasherUtils.Combine(m_hash, other.GetHashCode());
+            m_hash = HashUtils.Hash(seed);
+        }
+
+        public uint Add<T>(T other)
+        {
+            m_hash = HashUtils.Combine(m_hash, HashUtils.IntToUInt(other.GetHashCode()));
             return m_hash;
         }
 
-        public int Hash()
+        public uint Hash()
         {
-            return HasherUtils.Hash(ref m_hash);
+            return HashUtils.Hash(ref m_hash);
         }
 
         public float RandomFloat01()
         {
-            return HasherUtils.RandomFloat01(ref m_hash);
-        }
-        public float RandomFloat()
-        {
-            return HasherUtils.RandomFloat(ref m_hash);
+            return HashUtils.RandomFloat01(ref m_hash);
         }
 
         public int RandomInt()
         {
-            return HasherUtils.RandomInt(ref m_hash);
+            return HashUtils.RandomInt(ref m_hash);
         }
 
         public bool RandomBool()
         {
-            return HasherUtils.RandomBool(ref m_hash);
+            return HashUtils.RandomBool(ref m_hash);
+        }
+
+        public bool RandomBoolProb(float probability)
+        {
+            return HashUtils.RandomFloat01(ref m_hash) < probability;
         }
     }
 
-    public static class HasherUtils
+    public static class HashUtils
     {
-        public static int Hash(int s)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint IntToUInt(int val)
         {
-            s = ((s >> 16) ^ s) * 0x45d9f3b;
-            s = ((s >> 16) ^ s) * 0x45d9f3b;
-            s = (s >> 16) ^ s;
+            return unchecked((uint)val);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int UIntToInt(uint val)
+        {
+            return unchecked((int)val);
+        }
+
+        // Hash function from H. Schechter & R. Bridson : goo.gl/RXiKaH
+        public static uint Hash(uint s)
+        {
+            s ^= 2747636419u;
+            s *= 2654435769u;
+            s ^= s >> 16;
+            s *= 2654435769u;
+            s ^= s >> 16;
+            s *= 2654435769u;
             return s;
         }
 
-        public static int Hash(ref int s)
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint Hash(ref uint s)
         {
             s = Hash(s);
             return s;
         }
 
-        public static int Combine(int a, int b)
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint Combine(uint a, uint b)
         {
             // From the hash_combine method of the c++ boost library
             // https://www.boost.org/doc/libs/1_55_0/doc/html/hash/reference.html#boost.hash_combine
-            unchecked
-            {
-                return a ^ (Hash(b) + (int)0x9e3779b9 + (a << 6) + (a >> 2));
-            }
+            return a ^ (Hash(b) + 0x9e3779b9 + (a << 6) + (a >> 2));
         }
 
-        public static float RandomFloat01(ref int seed)
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float RandomFloat01(ref uint seed)
         {
-            return (Hash(ref seed) - (float)int.MinValue) / 4294967295.0f; // 2^32-1
+            return Hash(ref seed) / 4294967295.0f; // 2^32-1
         }
 
-        public static float RandomFloat(ref int seed)
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int RandomInt(ref uint seed)
         {
-            return RandomFloat01(ref seed).RemapFrom01(float.MinValue, float.MaxValue);
+            return UIntToInt(Hash(ref seed));
         }
 
-        public static int RandomInt(ref int seed)
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint RandomUInt(ref uint seed)
         {
             return Hash(ref seed);
         }
 
-        public static bool RandomBool(ref int seed)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool RandomBool(ref uint seed)
         {
-            return Math.Sign(Hash(ref seed)) == 1;
+            return Math.Sign(RandomInt(ref seed)) == 1;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool RandomBoolProb(ref uint seed, float probability)
+        {
+            return RandomFloat01(ref seed) < probability;
         }
     }
 }
