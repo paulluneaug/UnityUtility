@@ -49,6 +49,100 @@ namespace UnityUtility.Utils
 
     public static class SortUtils
     {
+        #region Shuffle
+        public static T[] ShuffleCopy<T>(this IList<T> list)
+        {
+            T[] copy = list.Copy();
+            copy.Shuffle();
+            return copy;
+        }
+        public static T[] ShuffleCopy<T>(this IList<T> list, int seed)
+        {
+            T[] copy = list.Copy();
+            copy.Shuffle(seed);
+            return copy;
+        }
+
+        public static void Shuffle<T>(this IList<T> list)
+        {
+            list.ShuffleImpl(new Hasher());
+        }
+        public static void Shuffle<T>(this IList<T> list, int seed)
+        {
+            list.ShuffleImpl(new Hasher(seed));
+        }
+
+        private static void ShuffleImpl<T>(this IList<T> list, Hasher hasher)
+        {
+            list.Sort((T a, T b) => Math.Sign(hasher.RandomInt()));
+        }
+        #endregion
+
+        #region Sort
+        public static T[] SortCopy<T>(this IList<T> list, Comparison<T> comparison)
+        {
+            T[] result = list.Copy();
+            result.Sort(comparison);
+            return result;
+        }
+
+        public static void Sort<TComparable>(this IList<TComparable> list)
+            where TComparable : IComparable<TComparable>
+        {
+            list.Sort(ComparableComparison);
+        }
+
+        public static void Sort<TComparable>(this IList<TComparable> list, int start, int end)
+            where TComparable : IComparable<TComparable>
+        {
+            list.Sort(start, end, ComparableComparison);
+        }
+
+        public static  int ComparableComparison<TComparable>(TComparable a, TComparable b)
+            where TComparable : IComparable<TComparable>
+        {
+            return a.CompareTo(b);
+        }
+
+        public static void Sort<T>(this IList<T> list, Comparison<T> comparison)
+        {
+            list.Sort(0, list.Count - 1, comparison);
+        }
+
+        public static void Sort<T>(this IList<T> list, int start, int end, Comparison<T> comparison)
+        {
+            // Quicksort
+            if (start < end)
+            {
+                int pivot = GetPivot(list, start, end);
+                pivot = Partition(list, start, end, pivot, comparison);
+                list.Sort(start, pivot - 1, comparison);
+                list.Sort(pivot + 1, end, comparison);
+            }
+        }
+        #endregion
+
+        #region Sort Checkers
+        public static bool IsSorted<TComparable>(this IList<TComparable> list)
+                where TComparable : IComparable<TComparable>
+        {
+            return IsSorted(list, ComparableComparison);
+        }
+
+        public static bool IsSorted<T>(this IList<T> list, Comparison<T> comparison)
+        {
+            for (int i = 0; i < list.Count - 1; i++)
+            {
+                if (comparison(list[i], list[i + 1]) == 1)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        #endregion
+
+        #region Quicksort methods
         /// <summary>
         /// Swaps the elements at index <paramref name="indexA"/> and <paramref name="indexB"/>
         /// </summary>
@@ -76,76 +170,6 @@ namespace UnityUtility.Utils
             (list[indexB], list[indexA]) = (list[indexA], list[indexB]);
         }
 
-        public static T[] ShuffleCopy<T>(this IList<T> list)
-        {
-            T[] copy = list.Copy();
-            copy.Shuffle();
-            return copy;
-        }
-        public static T[] ShuffleCopy<T>(this IList<T> list, int seed)
-        {
-            T[] copy = list.Copy();
-            copy.Shuffle(seed);
-            return copy;
-        }
-
-        public static void Shuffle<T>(this IList<T> list)
-        {
-            list.ShuffleImpl(new Hasher());
-        }
-        public static void Shuffle<T>(this IList<T> list, int seed)
-        {
-            list.ShuffleImpl(new Hasher(seed));
-        }
-
-        private static void ShuffleImpl<T>(this IList<T> list, Hasher hasher)
-        {
-            list.Sort((T a, T b) => Math.Sign(hasher.RandomInt()));
-        }
-
-        public static T[] SortCopy<T>(this IList<T> list, Comparison<T> comparison)
-        {
-            T[] result = list.Copy();
-            result.Sort(comparison);
-            return result;
-        }
-
-        public static void Sort<TComparable>(this IList<TComparable> list)
-            where TComparable : IComparable<TComparable>
-        {
-            list.Sort(ComparableComparison);
-        }
-
-        public static void Sort<TComparable>(this IList<TComparable> list, int start, int end)
-            where TComparable : IComparable<TComparable>
-        {
-            list.Sort(start, end, ComparableComparison);
-        }
-
-        private static  int ComparableComparison<TComparable>(TComparable a, TComparable b)
-            where TComparable : IComparable<TComparable>
-        {
-            return a.CompareTo(b);
-        }
-
-        public static void Sort<T>(this IList<T> list, Comparison<T> comparison)
-        {
-            list.Sort(0, list.Count - 1, comparison);
-        }
-
-        public static void Sort<T>(this IList<T> list, int start, int end, Comparison<T> comparison)
-        {
-            // Quicksort
-            if (start < end)
-            {
-                int pivot = GetPivot(list, start, end);
-                pivot = Partition(list, start, end, pivot, comparison);
-                list.Sort(start, pivot - 1, comparison);
-                list.Sort(pivot + 1, end, comparison);
-            }
-        }
-
-        #region Quicksort methods
         private static int Partition<T>(IList<T> list, int start, int end, int pivot, Comparison<T> comparison)
         {
             list.Swap(pivot, end);
