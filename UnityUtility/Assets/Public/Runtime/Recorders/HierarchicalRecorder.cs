@@ -23,6 +23,12 @@ namespace UnityUtility.Recorders
             m_depth++;
         }
 
+        public virtual ScopedEventHandler BeginScopedEvent(string eventName)
+        {
+            BeginEvent(eventName, false);
+            return new ScopedEventHandler(this);
+        }
+
         public virtual void EndEvent(bool log = true)
         {
             if (m_depth == 0)
