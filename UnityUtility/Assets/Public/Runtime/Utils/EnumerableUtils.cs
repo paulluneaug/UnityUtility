@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityUtility.Hash;
 
@@ -50,12 +49,34 @@ namespace UnityUtility.Utils
     public static class SortUtils
     {
         #region Shuffle
-        public static T[] ShuffleCopy<T>(this IList<T> list)
+
+        /// <summary>
+        /// Shuffles the given <paramref name="list"/>
+        /// </summary>
+        /// <typeparam name="T">Type of the elements of the <see cref="IList"/></typeparam>
+        /// <param name="list">The <see cref="IList"/> to shuffle</param>
+        /// <param name="seed">The pseudo random seed used to shuffle the list</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Shuffle<T>(this IList<T> list, int seed)
         {
-            T[] copy = list.Copy();
-            copy.Shuffle();
-            return copy;
+            list.ShuffleImpl(new Hasher(seed));
         }
+
+        /// <inheritdoc cref="Shuffle{T}(IList{T}, int)"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Shuffle<T>(this IList<T> list)
+        {
+            list.ShuffleImpl(new Hasher());
+        }
+
+        /// <summary>
+        /// Copies the given <paramref name="list"/> into a new array and shuffles it
+        /// </summary>
+        /// <typeparam name="T">Type of the elements of the <see cref="IList"/></typeparam>
+        /// <param name="list">The <see cref="IList"/> to copy and shuffle</param>
+        /// <param name="seed">The pseudo random seed used to shuffle the list</param>
+        /// <returns>A shuffled copy of the the given <paramref name="list"/></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T[] ShuffleCopy<T>(this IList<T> list, int seed)
         {
             T[] copy = list.Copy();
@@ -63,15 +84,16 @@ namespace UnityUtility.Utils
             return copy;
         }
 
-        public static void Shuffle<T>(this IList<T> list)
+        /// <inheritdoc cref="ShuffleCopy{T}(IList{T}, int)"/>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T[] ShuffleCopy<T>(this IList<T> list)
         {
-            list.ShuffleImpl(new Hasher());
-        }
-        public static void Shuffle<T>(this IList<T> list, int seed)
-        {
-            list.ShuffleImpl(new Hasher(seed));
+            T[] copy = list.Copy();
+            copy.Shuffle();
+            return copy;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void ShuffleImpl<T>(this IList<T> list, Hasher hasher)
         {
             list.Sort((T a, T b) => Math.Sign(hasher.RandomInt()));
@@ -79,36 +101,14 @@ namespace UnityUtility.Utils
         #endregion
 
         #region Sort
-        public static T[] SortCopy<T>(this IList<T> list, Comparison<T> comparison)
-        {
-            T[] result = list.Copy();
-            result.Sort(comparison);
-            return result;
-        }
-
-        public static void Sort<TComparable>(this IList<TComparable> list)
-            where TComparable : IComparable<TComparable>
-        {
-            list.Sort(ComparableComparison);
-        }
-
-        public static void Sort<TComparable>(this IList<TComparable> list, int start, int end)
-            where TComparable : IComparable<TComparable>
-        {
-            list.Sort(start, end, ComparableComparison);
-        }
-
-        public static  int ComparableComparison<TComparable>(TComparable a, TComparable b)
-            where TComparable : IComparable<TComparable>
-        {
-            return a.CompareTo(b);
-        }
-
-        public static void Sort<T>(this IList<T> list, Comparison<T> comparison)
-        {
-            list.Sort(0, list.Count - 1, comparison);
-        }
-
+        /// <summary>
+        /// Sorts the given <paramref name="list"/> using the quicksort algorithm
+        /// </summary>
+        /// <typeparam name="T">Type of the elements of the <see cref="IList"/></typeparam>
+        /// <param name="list">The <see cref="IList"/> to sort</param>
+        /// <param name="start">The index of the lower bound of the interval to sort</param>
+        /// <param name="end">The index of the higher bound of the interval to sort</param>
+        /// <param name="comparison"></param>
         public static void Sort<T>(this IList<T> list, int start, int end, Comparison<T> comparison)
         {
             // Quicksort
@@ -120,15 +120,70 @@ namespace UnityUtility.Utils
                 list.Sort(pivot + 1, end, comparison);
             }
         }
+
+        /// <inheritdoc cref="Sort{T}(IList{T}, int, int, Comparison{T})"/>
+        public static void Sort<TComp>(this IList<TComp> list, int start, int end)
+            where TComp : IComparable<TComp>
+        {
+            list.Sort(start, end, ComparableComparison);
+        }
+
+        /// <inheritdoc cref="Sort{T}(IList{T}, int, int, Comparison{T})"/>
+        public static void Sort<T>(this IList<T> list, Comparison<T> comparison)
+        {
+            list.Sort(0, list.Count - 1, comparison);
+        }
+
+        /// <inheritdoc cref="Sort{T}(IList{T}, int, int, Comparison{T})"/>
+        public static void Sort<TComp>(this IList<TComp> list)
+            where TComp : IComparable<TComp>
+        {
+            list.Sort(ComparableComparison);
+        }
+
+        /// <summary>
+        /// Copies the given <paramref name="list"/> into a new array and sorts it
+        /// </summary>
+        /// <typeparam name="T">Type of the elements of the <see cref="IList"/></typeparam>
+        /// <param name="list"></param>
+        /// <param name="comparison"></param>
+        /// <returns>A sorted copy of the the given <paramref name="list"/></returns>
+        public static T[] SortCopy<T>(this IList<T> list, Comparison<T> comparison)
+        {
+            T[] result = list.Copy();
+            result.Sort(comparison);
+            return result;
+        }
+
+        /// <inheritdoc cref="SortCopy{T}(IList{T}, Comparison{T})"/>
+        public static TComp[] SortCopy<TComp>(this IList<TComp> list)
+            where TComp : IComparable<TComp>
+        {
+            return list.SortCopy(ComparableComparison);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int ComparableComparison<TComp>(TComp a, TComp b)
+            where TComp : IComparable<TComp>
+        {
+            return a.CompareTo(b);
+        }
         #endregion
 
         #region Sort Checkers
-        public static bool IsSorted<TComparable>(this IList<TComparable> list)
-                where TComparable : IComparable<TComparable>
+        /// <summary>
+        /// Checks wether the given <paramref name="list"/> is sorted
+        /// </summary>
+        /// <typeparam name="TComp"></typeparam>
+        /// <param name="list"></param>
+        /// <returns>Wether the given <see cref="IList"/> is sorted</returns>
+        public static bool IsSorted<TComp>(this IList<TComp> list)
+                where TComp : IComparable<TComp>
         {
             return IsSorted(list, ComparableComparison);
         }
 
+        /// <inheritdoc cref="IsSorted{TComp}(IList{TComp})"/>
         public static bool IsSorted<T>(this IList<T> list, Comparison<T> comparison)
         {
             for (int i = 0; i < list.Count - 1; i++)
