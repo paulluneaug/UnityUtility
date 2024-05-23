@@ -2,11 +2,31 @@ using System;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace UnityUtility.CustomAttributes.Editor
 {
     public static class AttributeUtils
     {
+        public const string WRONG_TYPE_ERROR_FMT = "{0} cannot be applied to variables of type {1}";
+
+        public static Length LabelWidth => s_labelWidth;
+
+        public static Color SeparatorColor => s_separatorColor;
+
+        private static readonly Length s_labelWidth = Length.Percent(42);
+
+        private static readonly Color s_separatorColor = new Color(0.3515625f, 0.3515625f, 0.3515625f);
+
+        public static VisualElement CreateSeparator()
+        {
+            VisualElement line = new VisualElement();
+            line.style.backgroundColor = s_separatorColor;
+            line.style.height = 1;
+            line.name = "Line";
+            return line;
+        }
+
         public static bool ConditionSucessFromFieldOrProperty(SerializedProperty property, string fieldName, object compareValue, bool inverse = false)
         {
             Type parentType = property.serializedObject.targetObject.GetType();
@@ -56,6 +76,44 @@ namespace UnityUtility.CustomAttributes.Editor
 
             Debug.LogError($"[{property.serializedObject.targetObject.GetType()}] Invalid Condition");
             return false;
+        }
+
+        public static FontStyle GetFontStyle(bool bold, bool italic)
+        {
+            if (bold && italic)
+            {
+                return FontStyle.BoldAndItalic;
+            }
+            else
+            {
+                if (bold)
+                {
+                    return FontStyle.Bold;
+                }
+                else if (italic)
+                {
+                    return FontStyle.Italic;
+                }
+            }
+
+            return FontStyle.Normal;
+        }
+
+        public static VisualElement GetWrongTypeHelpBox(SerializedProperty property, Type attributeType)
+        {
+            VisualElement container = new VisualElement();
+            container.style.flexDirection = FlexDirection.Row;
+            Label propertyLabel = new Label(property.displayName);
+            propertyLabel.style.width = LabelWidth;
+            container.Add(propertyLabel);
+
+            container.Add(new HelpBox(GetWrongTypeMessage(property, attributeType), HelpBoxMessageType.Error));
+            return container;
+        }
+
+        public static string GetWrongTypeMessage(SerializedProperty property, Type attributeType)
+        {
+            return string.Format(WRONG_TYPE_ERROR_FMT, attributeType.Name, property.type);
         }
     }
 }

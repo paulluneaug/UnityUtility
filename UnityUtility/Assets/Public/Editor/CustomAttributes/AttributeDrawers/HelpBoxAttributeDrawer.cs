@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.UIElements;
-using UnityEditor.UIElements;
 
 namespace UnityUtility.CustomAttributes.Editor
 {
@@ -10,6 +9,7 @@ namespace UnityUtility.CustomAttributes.Editor
     {
         private const int PADDING = 5;
 
+        #region IMGUI
         public override float GetHeight()
         {
             if (attribute is not HelpBoxAttribute helpBoxAttribute)
@@ -37,12 +37,9 @@ namespace UnityUtility.CustomAttributes.Editor
 
             EditorGUILayout.HelpBox(helpBoxAttribute.Message, GetMessageType(helpBoxAttribute.MessageType));
         }
+        #endregion
 
-        public override bool CanCacheInspectorGUI()
-        {
-            return true;
-        }
-
+        #region UIElements
         public override VisualElement CreatePropertyGUI()
         {
             VisualElement container = new VisualElement();
@@ -58,12 +55,14 @@ namespace UnityUtility.CustomAttributes.Editor
             container.Add(new HelpBox(helpBoxAttribute.Message, helpBoxAttribute.MessageType));
             return container;
         }
+        #endregion
 
         private MessageType GetMessageType(HelpBoxMessageType helpBoxType)
         {
             return helpBoxType switch
             {
                 HelpBoxMessageType.None => MessageType.None,
+                HelpBoxMessageType.Info => MessageType.Info,
                 HelpBoxMessageType.Warning => MessageType.Warning,
                 HelpBoxMessageType.Error => MessageType.Error,
                 _ => MessageType.Info,

@@ -1,8 +1,7 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Reflection;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -11,26 +10,14 @@ namespace UnityUtility.CustomAttributes.Editor
     [CustomPropertyDrawer(typeof(ButtonAttribute))]
     public class ButtonAttributeDrawer : PropertyDrawer
     {
+        private ButtonAttribute m_target = null;
+
         private bool m_isInit = false;
 
         private MethodInfo m_targetMethod = null;
         private object m_targetObject = null;
-        private ButtonAttribute m_target = null;
 
-        public override VisualElement CreatePropertyGUI(SerializedProperty property)
-        {
-            VisualElement container = new VisualElement();
-
-            InitIfNeeded(property);
-            
-            Button b = new Button(() => InvokeMethod());
-            b.text = m_target.DisplayName;
-            container.Add(b);
-            container.Add(base.CreatePropertyGUI(property));
-
-            return container;
-        }
-
+        #region IMGUI
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             InitIfNeeded(property);
@@ -41,13 +28,33 @@ namespace UnityUtility.CustomAttributes.Editor
             {
                 InvokeMethod();
             }
-            base.OnGUI(position, property, label);
+            _ = EditorGUILayout.PropertyField(property, label);
         }
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
             return EditorGUIUtility.singleLineHeight + base.GetPropertyHeight(property, label);
         }
+        #endregion
+
+        #region UIElements
+        public override VisualElement CreatePropertyGUI(SerializedProperty property)
+        {
+            VisualElement container = new VisualElement();
+
+            InitIfNeeded(property);
+
+            Button b = new Button(() => InvokeMethod())
+            {
+                text = m_target.DisplayName
+            };
+            container.Add(b);
+            container.Add(new PropertyField(property));
+
+            return container;
+        }
+        #endregion
+
 
         private void InitIfNeeded(SerializedProperty property)
         {
@@ -56,7 +63,7 @@ namespace UnityUtility.CustomAttributes.Editor
                 return;
             }
             m_target = attribute as ButtonAttribute;
-            GetMethodInfos(property, m_target.MethodName); 
+            GetMethodInfos(property, m_target.MethodName);
             m_isInit = true;
         }
 
@@ -70,7 +77,7 @@ namespace UnityUtility.CustomAttributes.Editor
 
         private void InvokeMethod()
         {
-            m_targetMethod.Invoke(m_targetObject, null);
+            _ = m_targetMethod.Invoke(m_targetObject, null);
         }
     }
 }

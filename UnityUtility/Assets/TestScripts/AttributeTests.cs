@@ -1,13 +1,18 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityUtility.CustomAttributes;
 
 public class AttributeTests : MonoBehaviour
 {
-    protected enum SAU
+    [Serializable]
+    public struct NestedStruct
+    {
+        public string name;
+        public int value;
+    }
+
+    protected enum Sau
     {
         CISSE,
         MURE,
@@ -15,26 +20,34 @@ public class AttributeTests : MonoBehaviour
     }
 
     private bool Condition => B > 2;
-    [Button(nameof(TestMethod), "M�thode Test")]
-    [SerializeField] private bool WhatABool = true;
+    [Button(nameof(TestMethod1), "MÃƒÂ¯Ã‚Â¿Ã‚Â½thode Test0")]
+    [Button(nameof(TestMethod1), "MÃƒÂ¯Ã‚Â¿Ã‚Â½thode Test1")]
+    [Button(nameof(TestMethod2), "MÃƒÂ¯Ã‚Â¿Ã‚Â½thode Test2")]
+    [SerializeField] private bool m_whatABool = true;
     [Title("Title Example", "With Subtitle (and underline)")]
-    [ShowIf(nameof(Condition)), MinMaxSlider(2, 250)] public Vector2[] A;
+    [DisableIf(nameof(Condition)), MinMaxSlider(2, 250, roundDigits: 1)] public Vector2[] A;
     public float B;
-    [Title("No Subtitle nor underline (like a Header)", horizontalLine: false)]
-    [ShowIf("so", SAU.CISSE)] public float C;
+    [Title("No Subtitle nor underline (like a Header)", separator: false)]
+    [ShowIf(nameof(m_so), Sau.CISSE)] public float C;
     public float D;
     [Title("They can be centered", titleAlignment: TitleAlignments.Centered)]
     public float E;
+    [Separator]
     public float F;
     [Title("Or on the right", "And not bold", titleAlignment: TitleAlignments.Right, bold: false)]
     public float G;
+    [Separator, Disable]
     public float H = 20;
+    [Separator]
+    [Separator]
+    [Separator]
 
     [Space]
 
     [Title("HelpBoxes")]
-    [HelpBox("It's possible to display an information,"), ShowIf("so", SAU.CISSE)]
+    [HelpBox("It's possible to display an information,"), ShowIf(nameof(m_so), Sau.CISSE)]
     public float I;
+    [Label("Super name J", bold: true)]
     public float J;
     [HelpBox("A Warning,", messageType: HelpBoxMessageType.Warning)/*, ShowIf("Condition")*/]
     public float K;
@@ -42,14 +55,19 @@ public class AttributeTests : MonoBehaviour
     public Vector2 Sliderscsfc;
     public float L;
     [HelpBox("An Error,", messageType: HelpBoxMessageType.Error)]
-    public float M;
-    public float O;
     [HelpBox("Or just a sentence", messageType: HelpBoxMessageType.None)]
+    public float M;
+    [Layer]
+    public byte B0;
+    public float O;
     public float P;
-    public float Q;
+    [Label("Super name Q", bold: true, italic: true, fontSize: 20)]
+    public NestedStruct Q;
+    [Label("Super name Q[]", bold: true, italic: true, fontSize: 7)]
+    public NestedStruct[] QArray;
 
     [SerializeField]
-    protected SAU so = SAU.CISSE;
+    protected Sau m_so = Sau.CISSE;
 
     [Space]
 
@@ -66,7 +84,9 @@ public class AttributeTests : MonoBehaviour
 
     [MinMaxSlider(-10, 10, showFields: false, roundDigits: 1)]
     public Vector3 SliderWithoutValuesV3;
-
+    [Separator]
+    [Separator]
+    [Separator]
     [HelpBox("It also works on arrays")]
     [MinMaxSlider(-10, 10, roundDigits: 0)]
     public Vector2[] MinMax3;
@@ -75,10 +95,22 @@ public class AttributeTests : MonoBehaviour
 
     [Range(1, 10)]
     public double a;
-    [Range(1, 10)]
+    [Range(1, 10), Layer]
     public byte b;
     [Range(1, 10)]
     public long c;
+
+    [Layer]
+    public int[] layer0;
+    [Layer]
+    public uint layer1;
+    [Layer]
+    public long layer3;
+
+    [Tag]
+    public string Tag0;
+    [Tag]
+    public int Tag1;
 
     private void Start()
     {
@@ -93,8 +125,16 @@ public class AttributeTests : MonoBehaviour
         return Convert.ChangeType(x, y.GetType()).Equals(y);
     }
 
-    private void TestMethod()
+    private void TestMethod0()
     {
-        Debug.Log("Invoked");
+        Debug.Log("Invoked0");
+    }
+    private void TestMethod1()
+    {
+        Debug.Log("Invoked1");
+    }
+    private void TestMethod2()
+    {
+        Debug.Log("Invoked2");
     }
 }

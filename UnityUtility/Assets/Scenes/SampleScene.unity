@@ -366,6 +366,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1057376596}
   - component: {fileID: 1057376595}
+  - component: {fileID: 1057376597}
   m_Layer: 0
   m_Name: Prefab
   m_TagString: Untagged
@@ -392,6 +393,77 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1057376594}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1057376597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1057376594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae62de9213d8de04f869f89b92941aa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dictionary:
+    m_keyValuePairsList:
+    - Key: a
+      Value: 0
+    - Key: a
+      Value: 0
+    - Key: a
+      Value: 0
+    - Key: a
+      Value: 0
+    - Key: a
+      Value: 0
+--- !u!1 &1129898328
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1129898330}
+  - component: {fileID: 1129898329}
+  m_Layer: 0
+  m_Name: ObsFieldTest
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1129898329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1129898328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 993e4448b79b57444931eb18ef360bd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_comp:
+    m_underlyingValue: {fileID: 787051121}
+  m_comp2: {fileID: 1274140158}
+--- !u!4 &1129898330
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1129898328}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -474,36 +546,55 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cb08f91ae1af7b47b083fbabb0721b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WhatABool: 0
+  m_whatABool: 1
   A:
-  - {x: 29.7, y: 141.52}
-  - {x: 9.27, y: 194.05}
-  - {x: 57.49, y: 242.27}
-  B: 2.07
-  C: 0
+  - {x: 55.9, y: 173.9}
+  - {x: 33, y: 98.4}
+  - {x: 19.9, y: 129.9}
+  - {x: 117.9, y: 218.3}
+  - {x: 84.9, y: 250}
+  - {x: 0, y: 0}
+  B: 2.17
+  C: 0.47
   D: 0
-  E: 0
+  E: 1.75
   F: 0
   G: 0
-  H: 20
+  H: -10.7
   I: 0
-  J: 0
+  J: 0.94
   K: 0
   Sliderscsfc: {x: 0, y: 0}
   L: 0
   M: 0
+  B0: 0
   O: 0
   P: 0
-  Q: 0
-  so: 0
-  Slider: {x: 0, y: 0}
-  SliderWithoutValues: {x: 0, y: 0}
+  Q:
+    name: kqskufgsdg
+    value: 0
+  QArray:
+  - name: 
+    value: 0
+  - name: 
+    value: 0
+  m_so: 0
+  Slider: {x: 0, y: 6.34}
+  SliderWithoutValues: {x: -3.4, y: 0.7}
   SliderWithoutValuesV3: {x: 0, y: 0, z: 0}
-  MinMax3: []
-  MinMax2: []
-  a: 0
-  b: 0
-  c: 0
+  MinMax3:
+  - {x: -3, y: 10}
+  - {x: -3, y: 10}
+  MinMax2:
+  - {x: 0, y: 0, z: 0}
+  a: 7.179999828338623
+  b: 3
+  c: 2
+  layer0: 
+  layer1: 0
+  layer3: 0
+  Tag0: 
+  Tag1: 0
 --- !u!114 &1274140161
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -525,3 +616,4 @@ SceneRoots:
   - {fileID: 787051121}
   - {fileID: 1057376596}
   - {fileID: 1274140158}
+  - {fileID: 1129898330}

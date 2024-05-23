@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityUtility.CustomAttributes;
+using UnityUtility.Utils;
 
 namespace UnityUtility.Pools
 {
@@ -15,7 +16,7 @@ namespace UnityUtility.Pools
     /// </para>
     /// </summary>
     /// <typeparam name="TComponent">Pooled component type</typeparam>
-    public abstract class ComponentPool<TComponent> : MonoBehaviour, IObjectPool<TComponent> 
+    public abstract class ComponentPool<TComponent> : MonoBehaviour, IObjectPool<TComponent>
         where TComponent : Component
     {
         public int PoolSize => m_poolSize;
@@ -29,7 +30,7 @@ namespace UnityUtility.Pools
 
         protected virtual void Awake()
         {
-            m_availableComponents = new Stack<TComponent>();
+            m_availableComponents = new Stack<TComponent>(m_initialPoolSize);
             for (int i = 0; i < m_initialPoolSize; ++i)
             {
                 AddItem();
@@ -71,11 +72,7 @@ namespace UnityUtility.Pools
             GameObject newGo = new GameObject($"{typeof(TComponent).Name}_{m_poolSize}");
             newGo.transform.parent = transform;
             newGo.SetActive(false);
-            if (newGo.TryGetComponent(out TComponent foundComponent))
-            {
-                return foundComponent;
-            }
-            return newGo.AddComponent<TComponent>();
+            return newGo.GetOrAddComponent<TComponent>();
         }
     }
 }

@@ -13,8 +13,8 @@ namespace UnityUtility.Singletons
     /// 
     /// See also : <br/>
     /// <seealso cref="ISingleton{T}"/><br/>
-    /// <seealso cref="SingletonMonoBehaviour{T}"/><br/>
-    /// <seealso cref="SingletonScriptable{T}"/><br/>
+    /// <seealso cref="MonoBehaviourSingleton{T}"/><br/>
+    /// <seealso cref="ScriptableSingleton{T}"/><br/>
     /// 
     /// </summary>
     public abstract class Singleton<T> : ISingleton<T> where T : Singleton<T>
@@ -25,10 +25,7 @@ namespace UnityUtility.Singletons
         {
             get
             {
-                if (s_instance == null)
-                {
-                    s_instance = Activator.CreateInstance<T>();
-                }
+                s_instance ??= Activator.CreateInstance<T>();
                 return s_instance;
             }
         }
