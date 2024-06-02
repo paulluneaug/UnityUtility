@@ -28,7 +28,7 @@ namespace UnityUtility.Singletons
         {
             get
             {
-                if (m_applicationIsQuitting)
+                if (s_applicationIsQuitting)
                 {
                     return null;
                 }
@@ -43,7 +43,7 @@ namespace UnityUtility.Singletons
                         {
                             GameObject singleton = new GameObject();
                             s_instance = singleton.AddComponent<T>();
-                            singleton.name = $"[Singleton] {nameof(T)}";
+                            singleton.name = $"[Singleton] {typeof(T).Name}";
 
                             DontDestroyOnLoad(singleton);
                         }
@@ -54,9 +54,9 @@ namespace UnityUtility.Singletons
             }
         }
 
-        private static bool m_applicationIsQuitting = false;
+        private static bool s_applicationIsQuitting = false;
 
-        public static bool ApplicationIsQuitting { get => m_applicationIsQuitting; set => m_applicationIsQuitting = value; }
+        public static bool ApplicationIsQuitting { get => s_applicationIsQuitting; set => s_applicationIsQuitting = value; }
 
         protected virtual void Start()
         {
@@ -85,7 +85,7 @@ namespace UnityUtility.Singletons
         {
             if (s_instance != null && s_instance == this)
             {
-                m_applicationIsQuitting = true;
+                s_applicationIsQuitting = true;
             }
         }
 
