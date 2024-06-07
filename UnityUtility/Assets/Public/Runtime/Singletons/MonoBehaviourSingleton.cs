@@ -18,7 +18,8 @@ namespace UnityUtility.Singletons
     /// <seealso cref="ScriptableSingleton{T}"/><br/>
     /// 
     /// </summary>
-    public abstract class MonoBehaviourSingleton<T> : MonoBehaviour, ISingleton<T> where T : MonoBehaviourSingleton<T>
+    public abstract class MonoBehaviourSingleton<T> : MonoBehaviour, ISingleton<T> 
+        where T : MonoBehaviourSingleton<T>
     {
         protected static T s_instance;
 
@@ -58,7 +59,7 @@ namespace UnityUtility.Singletons
 
         public static bool ApplicationIsQuitting { get => s_applicationIsQuitting; set => s_applicationIsQuitting = value; }
 
-        protected virtual void Start()
+        protected virtual void Awake()
         {
             if (s_instance != null && s_instance != this)
             {
@@ -71,6 +72,10 @@ namespace UnityUtility.Singletons
 
                 Initialize();
             }
+        }
+
+        protected virtual void Start()
+        {
         }
 
         /// <summary>
