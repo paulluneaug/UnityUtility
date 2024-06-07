@@ -1,8 +1,11 @@
 // Author: JohannesMP (2018-08-12)
 // https://gist.github.com/JohannesMP/ec7d3f0bcf167dab3d0d3bb480e0e07b
 
-using UnityEditor;
 using UnityEngine;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace UnityUtility.SceneReference
 {
@@ -43,7 +46,7 @@ namespace UnityUtility.SceneReference
 #else
             // At runtime we rely on the stored path value which we assume was serialized correctly at build time.
             // See OnBeforeSerialize and OnAfterDeserialize
-            return m_scenePath;
+            m_scenePath;
 #endif
 
             set
