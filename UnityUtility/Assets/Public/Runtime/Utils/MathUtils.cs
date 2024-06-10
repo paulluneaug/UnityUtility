@@ -330,9 +330,20 @@ namespace UnityUtility.Utils
 
         /// <summary> Swaps the X and Y components of the vector </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector2 YX(this Vector3 v)
+        public static Vector2 YX(this Vector2 v)
         {
             return new Vector2(v.y, v.x);
+        }
+
+        /// <summary>
+        /// Returns (x, 0, y)
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3 X0Y(this Vector2 v)
+        {
+            return new Vector3(v.x, 0.0f, v.y);
         }
     }
     #endregion
