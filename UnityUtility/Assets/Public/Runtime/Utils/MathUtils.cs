@@ -326,6 +326,25 @@ namespace UnityUtility.Utils
                 deltaX * deltaX +
                 deltaY * deltaY;
         }
+
+
+        /// <summary> Swaps the X and Y components of the vector </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 YX(this Vector2 v)
+        {
+            return new Vector2(v.y, v.x);
+        }
+
+        /// <summary>
+        /// Returns (x, 0, y)
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3 X0Y(this Vector2 v)
+        {
+            return new Vector3(v.x, 0.0f, v.y);
+        }
     }
     #endregion
 
@@ -421,6 +440,27 @@ namespace UnityUtility.Utils
                 deltaX * deltaX +
                 deltaY * deltaY +
                 deltaZ * deltaZ;
+        }
+
+        /// <summary> Grabs the X and Y components of the vector </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 XY(this Vector3 v)
+        {
+            return new Vector2(v.x, v.y);
+        }
+
+        /// <summary> Grabs the X and Z components of the vector </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 XZ(this Vector3 v)
+        {
+            return new Vector2(v.x, v.z);
+        }
+
+        /// <summary> Grabs the Y and Z components of the vector </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 YZ(this Vector3 v)
+        {
+            return new Vector2(v.y, v.z);
         }
     }
     #endregion
@@ -526,6 +566,76 @@ namespace UnityUtility.Utils
                 deltaZ * deltaZ +
                 deltaW * deltaW;
         }
+
+        /// <summary> Grabs the X and Y components of the vector </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 XY(this Vector4 v)
+        {
+            return new Vector2(v.x, v.y);
+        }
+
+        /// <summary> Grabs the X and Z components of the vector </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 XZ(this Vector4 v)
+        {
+            return new Vector2(v.x, v.z);
+        }
+
+        /// <summary> Grabs the X and W components of the vector </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 XW(this Vector4 v)
+        {
+            return new Vector2(v.y, v.w);
+        }
+
+        /// <summary> Grabs the Y and Z components of the vector </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 YZ(this Vector4 v)
+        {
+            return new Vector2(v.y, v.z);
+        }
+
+        /// <summary> Grabs the Y and W components of the vector </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 YW(this Vector4 v)
+        {
+            return new Vector2(v.y, v.w);
+        }
+        
+        /// <summary> Grabs the Z and W components of the vector </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 ZW(this Vector4 v)
+        {
+            return new Vector2(v.z, v.w);
+        }
+
+        /// <summary> Grabs the X, Y and Z components of the vector </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3 XYZ(this Vector4 v)
+        {
+            return new Vector3(v.x, v.y, v.z);
+        }
+
+        /// <summary> Grabs the X, Y and W components of the vector </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3 XYW(this Vector4 v)
+        {
+            return new Vector3(v.x, v.y, v.w);
+        }
+
+        /// <summary> Grabs the X, Z and W components of the vector </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3 XZW(this Vector4 v)
+        {
+            return new Vector3(v.x, v.z, v.w);
+        }
+
+        /// <summary> Grabs the Y, Z and W components of the vector </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3 YZW(this Vector4 v)
+        {
+            return new Vector3(v.y, v.z, v.w);
+        }
     }
     #endregion
 
@@ -558,15 +668,60 @@ namespace UnityUtility.Utils
 
         /// <summary>
         /// Remaps the value of <paramref name="input"/> 
-        /// from the range [<paramref name="initialMin"/>, <paramref name="initialMax"/>] 
-        /// to the range [<paramref name="targetMin"/>, <paramref name="targetMax"/>]
+        /// from the range [<paramref name="initialMin"/>; <paramref name="initialMax"/>] 
+        /// to the range [<paramref name="targetMin"/>; <paramref name="targetMax"/>]
         /// </summary>
         /// <returns>The remapped value of <paramref name="input"/></returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Remap(this float input, float initialMin, float initialMax, float targetMin, float targetMax)
         {
-            float ratio = (input - initialMin) / (initialMax - initialMin);
-            return targetMin + ratio * (targetMax - targetMin);
+            return input.RemapTo01(initialMin, initialMax).RemapFrom01(targetMin, targetMax);
+        }
+
+        /// <summary>
+        /// Remaps the value of <paramref name="input"/> 
+        /// from the range [0; 1] 
+        /// to the range [<paramref name="targetMin"/>; <paramref name="targetMax"/>]
+        /// </summary>
+        /// <returns>The remapped value of <paramref name="input"/></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float RemapFrom01(this float input, float targetMin, float targetMax)
+        {
+            return targetMin + input * (targetMax - targetMin);
+        }
+
+        /// <summary>
+        /// Remaps the value of <paramref name="input"/> 
+        /// from the range [0; 1] to the range <paramref name="targetRange"/>
+        /// </summary>
+        /// <returns>The remapped value of <paramref name="input"/></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float RemapFrom01(this float input, Vector2 targetRange)
+        {
+            return input.RemapFrom01(targetRange.x, targetRange.y);
+        }
+
+        /// <summary>
+        /// Remaps the value of <paramref name="input"/> 
+        /// from the range [<paramref name="initialMin"/>; <paramref name="initialMax"/>]
+        /// to the range [0; 1] 
+        /// </summary>
+        /// <returns>The remapped value of <paramref name="input"/></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float RemapTo01(this float input,float initialMin, float initialMax)
+        {
+            return (input - initialMin) / (initialMax - initialMin);
+        }
+
+        /// <summary>
+        /// Remaps the value of <paramref name="input"/> 
+        /// from the range <paramref name="initialRange"/> to the range [0; 1]
+        /// </summary>
+        /// <returns>The remapped value of <paramref name="input"/></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float RemapTo01(this float input, Vector2 initialRange)
+        {
+            return input.RemapTo01(initialRange.x, initialRange.y);
         }
     }
     #endregion
@@ -576,6 +731,39 @@ namespace UnityUtility.Utils
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool HasFlag(this int val, int flag)
+        {
+            return (val & flag) == flag;
+        }
+    }
+    #endregion
+
+    #region UInt
+    public static class UIntUtils
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool HasFlag(this uint val, uint flag)
+        {
+            return (val & flag) == flag;
+        }
+    }
+    #endregion
+
+    #region Long
+    public static class LongUtils
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool HasFlag(this long val, long flag)
+        {
+            return (val & flag) == flag;
+        }
+    }
+    #endregion
+
+    #region ULong
+    public static class ULongUtils
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool HasFlag(this ulong val, ulong flag)
         {
             return (val & flag) == flag;
         }

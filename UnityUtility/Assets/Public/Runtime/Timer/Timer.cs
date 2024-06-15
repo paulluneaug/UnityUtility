@@ -21,6 +21,12 @@ namespace UnityUtility.Timer
         }
 
         /// <summary>
+        /// The current progress of the timer 
+        /// </summary>
+        /// <remarks>A value between 0 and 1 (0 : the timer just started a cycle, 1 : the timer just ended a cycle)</remarks>
+        public float Progress => m_currentTime / m_duration;
+
+        /// <summary>
         /// Wether the timer is running (Read-Only)
         /// </summary>
         public bool IsRunning => m_isRunning;
@@ -31,17 +37,18 @@ namespace UnityUtility.Timer
         public event Action OnTimerEnds;
 
         [SerializeField, Min(0.0f)] private float m_duration = 1.0f;
-        [SerializeField] private readonly bool m_repeat = false;
+        [SerializeField] private bool m_repeat = false;
 
         // Cache
         [NonSerialized] private float m_currentTime = 0.0f;
         [NonSerialized] private bool m_isRunning = false;
 
-        public Timer(float duration, bool repeat)
+        public Timer(float duration, bool repeat, float startTime = 0.0f)
         {
             m_duration = Math.Max(0.0f, duration);
             m_currentTime = 0.0f;
             m_repeat = repeat;
+            m_currentTime = startTime;
         }
 
         /// <summary>
