@@ -9,6 +9,7 @@ namespace UnityUtility.CustomAttributes.Editor
     public static class AttributeUtils
     {
         public const string WRONG_TYPE_ERROR_FMT = "{0} cannot be applied to variables of type {1}";
+        private const BindingFlags DEFAULT_BINDING_FLAGS = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Public;
 
         public static Length LabelWidth => s_labelWidth;
 
@@ -20,47 +21,70 @@ namespace UnityUtility.CustomAttributes.Editor
 
         public static VisualElement CreateSeparator()
         {
-            VisualElement line = new VisualElement();
-            line.style.backgroundColor = s_separatorColor;
-            line.style.height = 1;
-            line.name = "Line";
-            return line;
+            VisualElement separator = new VisualElement();
+            separator.style.backgroundColor = s_separatorColor;
+            separator.style.height = 1;
+            separator.name = "Separator";
+            return separator;
         }
 
-        public static bool ConditionSucessFromFieldOrProperty(SerializedProperty property, string fieldName, object compareValue, bool inverse = false)
+        private static bool TryGetNestedChildMemberInfos(Type parentType, string memberName, IMemberConditionInfo parentMemberInfo, out IMemberConditionInfo childMemberInfos)
         {
-            Type parentType = property.serializedObject.targetObject.GetType();
-
-            FieldInfo conditionField = parentType.GetField(
-                fieldName,
-                BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static);
-
-            PropertyInfo conditionProperty = parentType.GetProperty(
-                fieldName,
-                BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static);
-
-            Type conditionType;
-            object conditionValue;
-
-            if (conditionField != null)
+            FieldInfo conditionFieldInfo = parentType.GetField(memberName, DEFAULT_BINDING_FLAGS);
+            if (conditionFieldInfo != null)
             {
-                conditionType = conditionField.FieldType;
-                conditionValue = conditionField.GetValue(property.serializedObject.targetObject);
-            }
-            else if (conditionProperty != null)
-            {
-                conditionType = conditionProperty.PropertyType;
-                conditionValue = conditionProperty.GetValue(property.serializedObject.targetObject);
-            }
-            else
-            {
-                Debug.LogError($"[{property.serializedObject.targetObject.GetType()}] Could not find a field or a property named {fieldName}");
-                return false;
+                childMemberInfos = new FieldConditionInfos(conditionFieldInfo, parentMemberInfo);
+                return true;
             }
 
-            if (conditionType == typeof(bool))
+            PropertyInfo conditionPropertyInfo = parentType.GetProperty(memberName, DEFAULT_BINDING_FLAGS);
+            if (conditionPropertyInfo != null)
             {
-                bool? condition = (bool?)conditionValue;
+                childMemberInfos = new PropertyConditionInfos(conditionPropertyInfo, parentMemberInfo);
+                return true;
+            }
+            Debug.LogError($"No field nor property named {memberName} in the type {parentType.Name}");
+            childMemberInfos = null;
+            return false;
+
+        }
+
+        public static bool TryGetNestedMemberInfosChain(SerializedProperty property, string memberName, out IMemberConditionInfo memberInfos)
+        {
+            Type parentObjectType = property.serializedObject.targetObject.GetType();
+
+            string[] splittedPropertyPath = property.propertyPath.Split('.');
+
+            Type parentType = parentObjectType;
+
+            IMemberConditionInfo parentMemberInfo = null;
+
+            for (int i = 0; i < splittedPropertyPath.Length - 1; i++)
+            {
+                string nestedMemberName = splittedPropertyPath[i];
+                if (!TryGetNestedChildMemberInfos(parentType, nestedMemberName, parentMemberInfo, out IMemberConditionInfo childInfos))
+                {
+                    memberInfos = null;
+                    return false;
+                }
+                parentMemberInfo = childInfos;
+                parentType = childInfos.GetMemberType();
+            }
+
+            if (TryGetNestedChildMemberInfos(parentType, memberName, parentMemberInfo, out memberInfos))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public static bool ConditionSucessFromFieldOrProperty(SerializedProperty property, IMemberConditionInfo memberConditionInfos, object compareValue, bool inverse = false)
+        {
+            object conditionMemberValue = memberConditionInfos.GetValue(property.serializedObject.targetObject);
+
+            if (memberConditionInfos.GetMemberType() == typeof(bool))
+            {
+                bool? condition = (bool?)conditionMemberValue;
                 if (condition.HasValue)
                 {
                     return condition.Value != inverse;
@@ -68,13 +92,13 @@ namespace UnityUtility.CustomAttributes.Editor
             }
             else
             {
-                if (conditionValue != null && compareValue != null)
+                if (conditionMemberValue != null && compareValue != null)
                 {
-                    return Convert.ChangeType(compareValue, conditionValue.GetType()).Equals(conditionValue) != inverse;
+                    return Convert.ChangeType(compareValue, conditionMemberValue.GetType()).Equals(conditionMemberValue) != inverse;
                 }
             }
 
-            Debug.LogError($"[{property.serializedObject.targetObject.GetType()}] Invalid Condition");
+            Debug.LogError($"[{property.serializedObject.targetObject.GetType()}] Invalid Condition", property.serializedObject.targetObject);
             return false;
         }
 
