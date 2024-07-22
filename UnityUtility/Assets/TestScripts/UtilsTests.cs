@@ -85,7 +85,7 @@ public class UtilsTests : MonoBehaviour
         IEnumerable<int> intEnum = baseEnum.Select(i => hasher.RandomInt());
         recorder.EndEvent();
         recorder.BeginEvent("Log Ints");
-        using (StreamWriter stream = File.CreateText("C:\\Users\\p.luneau\\Desktop\\Exports\\Ints.txt"))
+        using (StreamWriter stream = File.CreateText(Path.Combine(Application.dataPath, "TestExports", "RandomInts.txt")))
         {
             stream.WriteLine(intEnum.EnumerableToString());
             stream.Close();
@@ -140,7 +140,7 @@ public class UtilsTests : MonoBehaviour
         recorder.EndEvent();
 
         recorder.BeginEvent("LogSorted");
-        using (StreamWriter stream = File.CreateText("C:\\Users\\p.luneau\\Desktop\\Exports\\SortedInts.txt"))
+        using (StreamWriter stream = File.CreateText(Path.Combine(Application.dataPath, "TestExports", "SortedInts.txt")))
         {
             stream.WriteLine(randomArray.EnumerableToString());
             stream.Close();
@@ -153,7 +153,7 @@ public class UtilsTests : MonoBehaviour
         recorder.EndEvent();
 
         recorder.BeginEvent("LogSorted");
-        using (StreamWriter stream = File.CreateText("C:\\Users\\p.luneau\\Desktop\\Exports\\ReshuffledInts.txt"))
+        using (StreamWriter stream = File.CreateText(Path.Combine(Application.dataPath, "TestExports", "ReshuffledInts.txt")))
         {
             stream.WriteLine(randomArray.EnumerableToString());
             stream.Close();

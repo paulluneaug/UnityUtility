@@ -43,11 +43,12 @@ namespace UnityUtility.Timer
         [NonSerialized] private float m_currentTime = 0.0f;
         [NonSerialized] private bool m_isRunning = false;
 
-        public Timer(float duration, bool repeat)
+        public Timer(float duration, bool repeat, float startTime = 0.0f)
         {
             m_duration = Math.Max(0.0f, duration);
             m_currentTime = 0.0f;
             m_repeat = repeat;
+            m_currentTime = startTime;
         }
 
         /// <summary>
