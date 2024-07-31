@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace UnityUtility.Hash
 {
     /// <summary>
@@ -62,6 +64,18 @@ namespace UnityUtility.Hash
         public int RandomInt()
         {
             return HashUtils.RandomInt(ref m_hash);
+        }
+
+        /// <inheritdoc cref="HashUtils.RandomInt(ref uint, int, int)"/>
+        public int RandomInt(int min, int max)
+        {
+            return HashUtils.RandomInt(ref m_hash, min, max);
+        }
+
+        /// <inheritdoc cref="HashUtils.RandomInt(ref uint, Vector2Int)"/>
+        public int RandomInt(Vector2Int range)
+        {
+            return HashUtils.RandomInt(ref m_hash, range);
         }
 
         /// <inheritdoc cref="HashUtils.RandomBool(ref uint)"/>

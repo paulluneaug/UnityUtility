@@ -14,6 +14,7 @@ public class UtilsTests : MonoBehaviour
     [SerializeField] private uint m_count = 10_000;
     [SerializeField] private uint m_seed;
     [SerializeField] private float m_prob;
+    [SerializeField] private Vector2Int m_range;
 
     [ContextMenu(nameof(TestRemaps))]
     public void TestRemaps()
@@ -69,6 +70,18 @@ public class UtilsTests : MonoBehaviour
         Debug.Log($"===={1.CompareTo(2)}");
     }
 
+    private static double Average(IEnumerable<int> ints)
+    {
+        double sum = 0;
+        int count = 0;
+        foreach (int i in ints)
+        {
+            sum += i;
+            count++;
+        }
+        return  sum / count;
+    }
+
     [ContextMenu(nameof(TestHash))]
     private void TestHash()
     {
@@ -90,7 +103,22 @@ public class UtilsTests : MonoBehaviour
             stream.WriteLine(intEnum.EnumerableToString());
             stream.Close();
         }
-        Debug.LogWarning($"{m_count} pseudo random ints mean = {intEnum.Average()}");
+        Debug.LogWarning($"{m_count} pseudo random ints mean = {Average(intEnum)}");
+
+        recorder.EndEvent();
+        recorder.EndEvent();
+
+        recorder.BeginEvent("Random Ints in range");
+        recorder.BeginEvent("Compute Ints in range");
+        IEnumerable<int> intInRangeEnum = baseEnum.Select(i => hasher.RandomInt(m_range));
+        recorder.EndEvent();
+        recorder.BeginEvent("Log Ints");
+        using (StreamWriter stream = File.CreateText(Path.Combine(Application.dataPath, "TestExports", "RandomIntsInRange.txt")))
+        {
+            stream.WriteLine(intInRangeEnum.EnumerableToString());
+            stream.Close();
+        }
+        Debug.LogWarning($"{m_count} pseudo random ints mean = {Average(intInRangeEnum)}");
 
         recorder.EndEvent();
         recorder.EndEvent();

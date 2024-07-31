@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.CompilerServices;
+using UnityEngine;
 using UnityUtility.Utils;
 
 namespace UnityUtility.Hash
@@ -75,12 +76,48 @@ namespace UnityUtility.Hash
         }
 
         /// <summary>
+        /// Returns a pseudo random <see cref="float"/> between <paramref name="min"/> and <paramref name="max"/>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float RandomFloat(ref uint seed, float min, float max)
+        {
+            return RandomFloat01(ref seed).RemapFrom01(min, max);
+        }
+
+        /// <summary>
+        /// Returns a pseudo random <see cref="float"/> within the given <paramref name="range"/>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float RandomFloat(ref uint seed, Vector2 range)
+        {
+            return RandomFloat01(ref seed).RemapFrom01(range);
+        }
+
+        /// <summary>
         /// Returns a pseudo random <see cref="int"/>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int RandomInt(ref uint seed)
         {
             return UIntToInt(Hash(ref seed));
+        }
+
+        /// <summary>
+        /// Returns a pseudo random <see cref="int"/> within the interval [<paramref name="min"/>, <paramref name="max"/>[
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int RandomInt(ref uint seed, int min, int max)
+        {
+            return (int)RandomFloat01(ref seed).RemapFrom01(min, max);
+        }
+
+        /// <summary>
+        /// Returns a pseudo random <see cref="int"/> within the given <paramref name="range"/>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int RandomInt(ref uint seed, Vector2Int range)
+        {
+            return RandomInt(ref seed, range.x, range.y);
         }
 
         /// <summary>
@@ -109,19 +146,6 @@ namespace UnityUtility.Hash
         public static bool RandomBoolProb(ref uint seed, float probability)
         {
             return RandomFloat01(ref seed) < probability;
-        }
-
-        /// <summary>
-        /// Returns a pseudo-random <see cref="int"/> within the interval [<paramref name="lowerBound"/>; <paramref name="higherBound"/>[
-        /// </summary>
-        /// <param name="seed"></param>
-        /// <param name="lowerBound"></param>
-        /// <param name="higherBound"></param>
-        /// <returns></returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int RandomIntInRange(ref uint seed, int lowerBound, int higherBound)
-        {
-            return (int)RandomFloat01(ref seed).RemapFrom01(lowerBound, higherBound);
         }
     }
 }
