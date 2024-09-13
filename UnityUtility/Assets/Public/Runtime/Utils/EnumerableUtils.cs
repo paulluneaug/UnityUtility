@@ -16,9 +16,9 @@ namespace UnityUtility.Utils
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void ForEach<T>(this IEnumerable<T> enumerable, Action<T> action)
         {
-            foreach (T item in enumerable)
+            foreach (T element in enumerable)
             {
-                action(item);
+                action(element);
             }
         }
 
@@ -27,6 +27,7 @@ namespace UnityUtility.Utils
         /// </summary>
         /// <typeparam name="T">Type of the elements of the <see cref="IEnumerable"/></typeparam>
         /// <returns>A <see cref="string"/> representing all the elements of <paramref name="enumerable"/> separated by a comma and surrounded by square brackets</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static string EnumerableToString<T>(this IEnumerable<T> enumerable)
         {
             return $"[{string.Join(", ", enumerable)}]";
@@ -43,6 +44,26 @@ namespace UnityUtility.Utils
             T[] result = new T[collection.Count];
             collection.CopyTo(result, 0);
             return result;
+        }
+
+        public static int IndexOf<T>(this IEnumerable<T> enumerable, T searchedItem, Func<T, T, bool> equalityComparer)
+        {
+            int index = 0;
+            foreach (T element in enumerable)
+            {
+                if (equalityComparer(element, searchedItem))
+                {
+                    return index;
+                }
+                ++index;
+            }
+            return -1;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int IndexOf<T>(this IEnumerable<T> enumerable, T searchedItem)
+        {
+            return IndexOf(enumerable, searchedItem, (item0, item1) => item0.Equals(item1));
         }
     }
 
