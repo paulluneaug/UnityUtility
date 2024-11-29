@@ -14,6 +14,8 @@ namespace UnityUtility.MathU
         public const float RAD_2_DEG = 57.29578f;
         public static readonly float Epsilon = Mathf.Epsilon;
 
+        public const float LOG2 = 0.6931471805599453f;
+
 
         #region System.MathF re-implementation
         public const float E = 2.718_281_828_459_045f;
@@ -96,6 +98,12 @@ namespace UnityUtility.MathU
         public static float Exp(float x)
         {
             return MathF.Exp(x);
+        }
+
+        [MethodImpl(INLINE)]
+        public static float Exp2(float x)
+        {
+            return MathF.Exp(x * LOG2);
         }
 
         [MethodImpl(INLINE)]
@@ -214,46 +222,45 @@ namespace UnityUtility.MathU
         #endregion
 
         #region UnityEngine.Mathf re-implementation
+        public static bool IsPowerOfTwo(int value)
+        {
+            if (value == 0)
+            {
+                return true;
+            }
+
+            byte bytesCount = 0;
+
+            for (int i = 0; i < 32; ++i)
+            {
+                if ((value & 1) == 1) // Is the first byte a 1 ?
+                {
+                    ++bytesCount;
+                }
+                value >>= 1;
+            }
+            return bytesCount == 1; // An int is a power of 2 of only one of its bits is 1
+        }
+
         public static int ClosestPowerOfTwo(int value)
         {
+            // @TODO : replace it with a custom one
             return Mathf.ClosestPowerOfTwo(value);
         }
 
-        public static bool IsPowerOfTwo(int value)
+        public static int PreviousPowerOfTwo(int value)
         {
-            return Mathf.IsPowerOfTwo(value);
+            // @TODO : not event the right method to call + replace it with a custom one
+            return Mathf.NextPowerOfTwo(value);
         }
 
         public static int NextPowerOfTwo(int value)
         {
+            // @TODO : replace it with a custom one
             return Mathf.NextPowerOfTwo(value);
         }
 
-        public static float GammaToLinearSpace(float value)
-        {
-            return Mathf.GammaToLinearSpace(value);
-        }
-
-        public static float LinearToGammaSpace(float value)
-        {
-            return Mathf.LinearToGammaSpace(value);
-        }
-
-        public static Color CorrelatedColorTemperatureToRGB(float kelvin)
-        {
-            return Mathf.CorrelatedColorTemperatureToRGB(kelvin);
-        }
-
-        public static ushort FloatToHalf(float val)
-        {
-            return Mathf.FloatToHalf(val);
-        }
-
-        public static float HalfToFloat(ushort val)
-        {
-            return Mathf.HalfToFloat(val);
-        }
-
+        [MethodImpl(INLINE)]
         public static int Abs(int value)
         {
             return MathU.Abs(value);
@@ -270,6 +277,7 @@ namespace UnityUtility.MathU
         }
 
 
+        [MethodImpl(INLINE)]
         public static int Min(int a, int b)
         {
             return MathU.Min(a, b);
@@ -295,6 +303,7 @@ namespace UnityUtility.MathU
             return max;
         }
 
+        [MethodImpl(INLINE)]
         public static int Max(int a, int b)
         {
             return MathU.Max(a, b);
@@ -310,24 +319,34 @@ namespace UnityUtility.MathU
             return max;
         }
 
+        [MethodImpl(INLINE)]
         public static float Ceil(float f)
         {
             return MathF.Ceiling(f);
         }
 
+        [MethodImpl(INLINE)]
         public static int CeilToInt(float f)
         {
             return (int)MathF.Ceiling(f);
         }
 
+        [MethodImpl(INLINE)]
         public static int FloorToInt(float f)
         {
             return (int)MathF.Floor(f);
         }
 
+        [MethodImpl(INLINE)]
         public static int RoundToInt(float f)
         {
             return (int)MathF.Round(f);
+        }
+
+        [MethodImpl(INLINE)]
+        public static float Clamp(float value, Vector2 range)
+        {
+            return Clamp(value, range.x, range.y);
         }
 
         public static float Clamp(float value, float min, float max)
@@ -357,20 +376,25 @@ namespace UnityUtility.MathU
 
             return value;
         }
+
+        [MethodImpl(INLINE)]
         public static float Clamp01(float value)
         {
             return Clamp(value, 0.0f, 1.0f);
         }
 
+        [MethodImpl(INLINE)]
         public static float Lerp(float a, float b, float t)
         {
             return a + (b - a) * t;
         }
 
+        [MethodImpl(INLINE)]
         public static float LerpClamped(float a, float b, float t)
         {
             return Lerp(a, b, Clamp01(t));
         }
+
         public static float LerpAngle(float a, float b, float t)
         {
             float num = Repeat(b - a, 360f);
@@ -381,6 +405,7 @@ namespace UnityUtility.MathU
 
             return a + num * Clamp01(t);
         }
+
         public static float MoveTowards(float current, float target, float maxDelta)
         {
             if (Abs(target - current) <= maxDelta)
@@ -405,20 +430,56 @@ namespace UnityUtility.MathU
 
         public static float Gamma(float value, float absmax, float gamma)
         {
-            Mathf.Gamma
+            bool flag = value < 0f;
+            float absValue = Abs(value);
+            if (absValue > absmax)
+            {
+                return flag ? -absValue : absValue;
+            }
+
+            float num2 = Pow(absValue / absmax, gamma) * absmax;
+            return flag ? -num2 : num2;
         }
+
         public static bool Approximately(float a, float b)
         {
             return Abs(b - a) < Max(1E-06f * Max(Abs(a), Abs(b)), Epsilon * 8f);
         }
 
-        public static float SmoothDamp(float current, float target, ref float currentVelocity, float smoothTime, float maxSpeed);
+        public static float SmoothDamp(float current, float target, ref float currentVelocity, float smoothTime, float maxSpeed, float deltaTime)
+        {
+            // Based on Game Programming Gems 4 Chapter 1.10
+            smoothTime = Max(0.0001F, smoothTime);
+            float omega = 2F / smoothTime;
 
-        public static float SmoothDamp(float current, float target, ref float currentVelocity, float smoothTime);
-        public static float SmoothDamp(float current, float target, ref float currentVelocity, float smoothTime, float maxSpeed, float deltaTime);
-        public static float SmoothDampAngle(float current, float target, ref float currentVelocity, float smoothTime, float maxSpeed);
-        public static float SmoothDampAngle(float current, float target, ref float currentVelocity, float smoothTime);
-        public static float SmoothDampAngle(float current, float target, ref float currentVelocity, float smoothTime, float maxSpeed, float deltaTime);
+            float x = omega * deltaTime;
+            float exp = 1F / (1F + x + 0.48F * x * x + 0.235F * x * x * x);
+            float change = current - target;
+            float originalTo = target;
+
+            // Clamp maximum speed
+            float maxChange = maxSpeed * smoothTime;
+            change = Clamp(change, -maxChange, maxChange);
+            target = current - change;
+
+            float temp = (currentVelocity + omega * change) * deltaTime;
+            currentVelocity = (currentVelocity - omega * temp) * exp;
+            float output = target + (change + temp) * exp;
+
+            // Prevent overshooting
+            if (originalTo - current > 0.0F == output > originalTo)
+            {
+                output = originalTo;
+                currentVelocity = (output - originalTo) / deltaTime;
+            }
+
+            return output;
+        }
+        public static float SmoothDampAngle(float current, float target, ref float currentVelocity, float smoothTime, float maxSpeed, float deltaTime)
+        {
+            target = current + DeltaAngle(current, target);
+            return SmoothDamp(current, target, ref currentVelocity, smoothTime, maxSpeed, deltaTime);
+        }
 
         public static float Repeat(float t, float length)
         {
@@ -431,7 +492,11 @@ namespace UnityUtility.MathU
             return length - Abs(t - length);
         }
 
-        public static float InverseLerp(float a, float b, float value);
+        [MethodImpl(INLINE)]
+        public static float InverseLerp(float a, float b, float value)
+        {
+            return value.RemapFrom01(a, b);
+        }
 
         public static float DeltaAngle(float current, float target)
         {
@@ -446,10 +511,65 @@ namespace UnityUtility.MathU
         #endregion
 
 
-
+        /// <summary>
+        /// Returns 3<paramref name="x"/>^2 - 2<paramref name="x"/>^3
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        [MethodImpl(INLINE)]
         public static float Smoothstep(float x)
         {
+            x = Clamp01(x);
             return 3 * x * x - 2 * x * x * x;
+        }
+
+        /// <summary>
+        /// Returns 
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        [MethodImpl(INLINE)]
+        public static float SmootherStep(float x)
+        {
+            x = Clamp01(x);
+            return x * x * x * (x * (6.0f * x - 15.0f) + 10.0f);
+        }
+
+        /// <summary>
+        /// A generalized version of the smoothstep function for higher orders
+        /// </summary>
+        /// <remarks>
+        /// Remark : 
+        /// For <paramref name="N"/> = 1 and <paramref name="N"/> = 2, 
+        /// prefer using <see cref="Smoothstep(float)"/> and <see cref="SmootherStep(float)"/> respectivly
+        /// as they are way faster
+        /// </remarks>
+        public static float GeneralSmoothstep(int N, float x)
+        {
+            x = Clamp01(x);
+            float result = 0.0f;
+            for (int n = 0; n <= N; ++n)
+            {
+                result += BinomialCoefficient(-N - 1, n) *
+                          BinomialCoefficient(2 * N + 1, N - n) *
+                          Pow(x, N + n + 1);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Compute the binomial coefficient <paramref name="a"/> choose <paramref name="b"/>
+        /// </summary>
+        /// <returns><paramref name="a"/> choose <paramref name="b"/></returns>
+        public static int BinomialCoefficient(int a, int b)
+        {
+            int result = 1;
+            for (int i = 0; i < b; ++i)
+            {
+                result *= (a - i) / (i + 1);
+            }
+            return result;
         }
 
         /// <summary>
@@ -470,7 +590,7 @@ namespace UnityUtility.MathU
         /// from the range <paramref name="initialRange"/> to the range <paramref name="targetRange"/>
         /// </summary>
         /// <returns>The remapped value of <paramref name="input"/></returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(INLINE)]
         public static float Remap(this float input, Vector2 initialRange, Vector2 targetRange)
         {
             return input.Remap(initialRange.x, initialRange.y, targetRange.x, targetRange.y);
@@ -482,7 +602,7 @@ namespace UnityUtility.MathU
         /// to the range [<paramref name="targetMin"/>; <paramref name="targetMax"/>]
         /// </summary>
         /// <returns>The remapped value of <paramref name="input"/></returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(INLINE)]
         public static float Remap(this float input, float initialMin, float initialMax, float targetMin, float targetMax)
         {
             return input.RemapTo01(initialMin, initialMax).RemapFrom01(targetMin, targetMax);
@@ -494,7 +614,7 @@ namespace UnityUtility.MathU
         /// to the range [<paramref name="targetMin"/>; <paramref name="targetMax"/>]
         /// </summary>
         /// <returns>The remapped value of <paramref name="input"/></returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(INLINE)]
         public static float RemapFrom01(this float input, float targetMin, float targetMax)
         {
             return targetMin + input * (targetMax - targetMin);
@@ -505,7 +625,7 @@ namespace UnityUtility.MathU
         /// from the range [0; 1] to the range <paramref name="targetRange"/>
         /// </summary>
         /// <returns>The remapped value of <paramref name="input"/></returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(INLINE)]
         public static float RemapFrom01(this float input, Vector2 targetRange)
         {
             return input.RemapFrom01(targetRange.x, targetRange.y);
@@ -517,7 +637,7 @@ namespace UnityUtility.MathU
         /// to the range [0; 1] 
         /// </summary>
         /// <returns>The remapped value of <paramref name="input"/></returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(INLINE)]
         public static float RemapTo01(this float input, float initialMin, float initialMax)
         {
             return (input - initialMin) / (initialMax - initialMin);
@@ -528,10 +648,34 @@ namespace UnityUtility.MathU
         /// from the range <paramref name="initialRange"/> to the range [0; 1]
         /// </summary>
         /// <returns>The remapped value of <paramref name="input"/></returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(INLINE)]
         public static float RemapTo01(this float input, Vector2 initialRange)
         {
             return input.RemapTo01(initialRange.x, initialRange.y);
+        }
+
+        /// <summary>
+        /// Returns the absolute value of the difference between 
+        /// </summary>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
+        /// <returns></returns>
+        [MethodImpl(INLINE)]
+        public static int AbsoluteDifference(int from, int to)
+        {
+            return Abs(to - from);
+        }
+
+        /// <summary>
+        /// Returns <paramref name="a"/> or <paramref name="b"/> depending on which is the closest from <paramref name="val"/>
+        /// </summary>
+        public static int GetClosestFrom(int val, int a, int b)
+        {
+            if (AbsoluteDifference(val, a) >= AbsoluteDifference(val, b))
+            {
+                return b;
+            }
+            return a;
         }
     }
 }
