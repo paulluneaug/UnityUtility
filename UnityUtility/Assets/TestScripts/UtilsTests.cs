@@ -5,12 +5,14 @@ using System.Linq;
 using UnityEngine;
 using UnityUtility.CustomAttributes;
 using UnityUtility.Hash;
+using UnityUtility.MathU;
 using UnityUtility.Recorders;
 using UnityUtility.Utils;
 
 public class UtilsTests : MonoBehaviour
 {
     [Button(nameof(TestHash))]
+    [Button(nameof(MathTests))]
     [SerializeField] private uint m_count = 10_000;
     [SerializeField] private uint m_seed;
     [SerializeField] private float m_prob;
@@ -33,6 +35,34 @@ public class UtilsTests : MonoBehaviour
         TestRemap(1, 0, 200, 0, 1);
         TestRemap(0.5f, 0, 200, 0, 1);
         TestRemap(2, 0, 200, 0, 1);
+    }
+
+    [ContextMenu(nameof(MathTests))]
+    private void MathTests()
+    {
+        PowerOfTwos();
+    }
+
+    private void PowerOfTwos()
+    {
+        ComparePowerMethods(0);
+        ComparePowerMethods(-1);
+        ComparePowerMethods(2);
+        ComparePowerMethods((1 << 31) + 1);
+        ComparePowerMethods(1 << 31);
+        ComparePowerMethods(4);
+        ComparePowerMethods(3);
+    }
+
+    private void ComparePowerMethods(int val)
+    {
+        Debug.Log($"For {val}");
+        Debug.Log($"IsPowerOfTwo ? : {Mathf.IsPowerOfTwo(val)} => {MathUf.IsPowerOfTwo(val)}");
+        Debug.Log($"Next : {Mathf.NextPowerOfTwo(val)} => {MathUf.NextPowerOfTwo(val)}");
+        Debug.Log($"Closest : {Mathf.ClosestPowerOfTwo(val)} => {MathUf.ClosestPowerOfTwo(val)}");
+        Debug.Log($"Previous : {MathUf.PreviousPowerOfTwo(val)}");
+        //Debug.Log($"Range : {MathUf.GetPreviousAndNextPowerOfTwo(val)}");
+        Debug.Log($"==========================");
     }
 
     private void TestRemap(float val, float inMin, float inMax, float outMin, float outMax)
