@@ -1,3 +1,5 @@
+using System;
+
 namespace UnityUtility.Pools
 {
     /// <summary>
@@ -17,6 +19,24 @@ namespace UnityUtility.Pools
         /// The number of object created by the pool
         /// </summary>
         int PoolSize { get; }
+
+        /// <summary>
+        /// The number of objects currently in the pool
+        /// </summary>
+        /// <remarks>
+        /// Remark : <i> It is always possible to request items from the pool event if there are none available : the pool will simply create new ones</i>
+        /// </remarks>
+        int ElementsInPool { get; }
+
+        /// <summary>
+        /// Event called when an object is requested from the pool
+        /// </summary>
+        public event Action OnObjectRequested;
+
+        /// <summary>
+        /// Event called when an object is released and gets back in the pool
+        /// </summary>
+        public event Action OnObjectReleased;
 
         /// <summary>
         /// Requests an object from the pool

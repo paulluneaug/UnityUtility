@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityUtility.CustomAttributes;
@@ -21,15 +22,27 @@ namespace UnityUtility.Pools
     {
         public int PoolSize => m_poolSize;
 
+        public int ElementsInPool => m_availableComponents.Count;
+
+        public event Action OnObjectRequested;
+        public event Action OnObjectReleased;
+
         [SerializeField] private int m_initialPoolSize = 10;
         [SerializeField] protected bool m_instantiateFromPrefab = false;
-        [SerializeField, ShowIf(nameof(m_instantiateFromPrefab))] private TComponent m_componentPrefab = null;
+        [SerializeField, ShowIf(nameof(m_instantiateFromPrefab))] private GameObject m_componentPrefab = null;
 
         private Stack<TComponent> m_availableComponents = null;
         private int m_poolSize = 0;
 
+
         protected virtual void Awake()
         {
+            if (!m_componentPrefab.HasComponent<TComponent>())
+            {
+                Debug.LogError($"The given GameObject does not have a component of type {typeof(TComponent).Name} on its root. The pool will not work");
+                return;
+            }
+
             m_availableComponents = new Stack<TComponent>(m_initialPoolSize);
             for (int i = 0; i < m_initialPoolSize; ++i)
             {
@@ -44,13 +57,19 @@ namespace UnityUtility.Pools
                 AddItem();
             }
 
-            return new PooledObject<TComponent>(m_availableComponents.Pop(), this);
+            PooledObject<TComponent> requestedComponent = new PooledObject<TComponent>(m_availableComponents.Pop(), this);
+
+            OnObjectRequested?.Invoke();
+
+            return requestedComponent;
         }
 
         public virtual void Release(TComponent releasedComponent)
         {
             releasedComponent.gameObject.SetActive(false);
             m_availableComponents.Push(releasedComponent);
+
+            OnObjectReleased?.Invoke();
         }
 
         protected virtual void AddItem()
@@ -63,7 +82,7 @@ namespace UnityUtility.Pools
         {
             if (m_instantiateFromPrefab)
             {
-                TComponent newComponent = Instantiate(m_componentPrefab);
+                TComponent newComponent = Instantiate(m_componentPrefab).GetComponent<TComponent>();
                 newComponent.name = newComponent.name.Replace("(Clone)", $"_{m_poolSize}");
                 newComponent.gameObject.SetActive(false);
                 newComponent.transform.parent = transform;
