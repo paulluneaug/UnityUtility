@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityUtility.MathU;
 
 namespace UnityUtility.Utils
 {
@@ -193,7 +194,7 @@ namespace UnityUtility.Utils
         public static Vector2 ProjectOn(this Vector2 vector, Vector2 target)
         {
             float targetDot = Vector2.Dot(target, target);
-            if (targetDot < Mathf.Epsilon)
+            if (targetDot < MathUf.Epsilon)
             {
                 return Vector2.zero;
             }
@@ -222,7 +223,7 @@ namespace UnityUtility.Utils
         /// <summary>
         /// Compares the magnitude and the angle of two vectors and returns wether their difference is less than the given tolerances
         /// </summary>
-        /// <remarks>Warning : This method can use up to 3 times <see cref="Mathf.Sqrt(float)"/></remarks>
+        /// <remarks>Warning : This method can use up to 3 times the square root operation</remarks>
         /// <param name="angleTolerance">Angle tolerance (in degrees)</param>
         /// <returns>Wether the difference in magnitude and angle between the two vectors is less than the tolerances given</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -266,7 +267,7 @@ namespace UnityUtility.Utils
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float AngleSigned(this Vector2 from, Vector2 to)
         {
-            float sign = Mathf.Sign(from.x * to.y - from.y * to.x);
+            float sign = MathUf.Sign(from.x * to.y - from.y * to.x);
             return Vector2.Angle(from, to) * sign;
         }
 
@@ -300,9 +301,9 @@ namespace UnityUtility.Utils
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2 Rotate(this Vector2 v, float angle)
         {
-            float rad = angle * Mathf.Deg2Rad;
-            float c = Mathf.Cos(rad);
-            float s = Mathf.Sin(rad);
+            float rad = angle * MathUf.DEG_2_RAD;
+            float c = MathUf.Cos(rad);
+            float s = MathUf.Sin(rad);
             return new Vector2(c * v.x - s * v.y, s * v.x + c * v.y);
         }
 
@@ -477,14 +478,14 @@ namespace UnityUtility.Utils
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Vector4Angle(Vector4 from, Vector4 to)
         {
-            float num = Mathf.Sqrt(from.sqrMagnitude * to.sqrMagnitude);
+            float num = MathUf.Sqrt(from.sqrMagnitude * to.sqrMagnitude);
             if (num < 1E-15f)
             {
                 return 0f;
             }
 
-            float num2 = Mathf.Clamp(Vector4.Dot(from, to) / num, -1f, 1f);
-            return Mathf.Acos(num2) * Mathf.Rad2Deg;
+            float num2 = MathUf.Clamp(Vector4.Dot(from, to) / num, -1f, 1f);
+            return MathUf.Acos(num2) * MathUf.RAD_2_DEG;
         }
 
         /// <inheritdoc cref="Vector2Utils.ProjectOn"/>
@@ -653,75 +654,6 @@ namespace UnityUtility.Utils
         public static bool Approximately(this float val, float other, float tolerance = 0.0001f)
         {
             return Math.Abs(val - other) < tolerance;
-        }
-
-        /// <summary>
-        /// Remaps the value of <paramref name="input"/> 
-        /// from the range <paramref name="initialRange"/> to the range <paramref name="targetRange"/>
-        /// </summary>
-        /// <returns>The remapped value of <paramref name="input"/></returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Remap(this float input, Vector2 initialRange, Vector2 targetRange)
-        {
-            return input.Remap(initialRange.x, initialRange.y, targetRange.x, targetRange.y);
-        }
-
-        /// <summary>
-        /// Remaps the value of <paramref name="input"/> 
-        /// from the range [<paramref name="initialMin"/>; <paramref name="initialMax"/>] 
-        /// to the range [<paramref name="targetMin"/>; <paramref name="targetMax"/>]
-        /// </summary>
-        /// <returns>The remapped value of <paramref name="input"/></returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Remap(this float input, float initialMin, float initialMax, float targetMin, float targetMax)
-        {
-            return input.RemapTo01(initialMin, initialMax).RemapFrom01(targetMin, targetMax);
-        }
-
-        /// <summary>
-        /// Remaps the value of <paramref name="input"/> 
-        /// from the range [0; 1] 
-        /// to the range [<paramref name="targetMin"/>; <paramref name="targetMax"/>]
-        /// </summary>
-        /// <returns>The remapped value of <paramref name="input"/></returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float RemapFrom01(this float input, float targetMin, float targetMax)
-        {
-            return targetMin + input * (targetMax - targetMin);
-        }
-
-        /// <summary>
-        /// Remaps the value of <paramref name="input"/> 
-        /// from the range [0; 1] to the range <paramref name="targetRange"/>
-        /// </summary>
-        /// <returns>The remapped value of <paramref name="input"/></returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float RemapFrom01(this float input, Vector2 targetRange)
-        {
-            return input.RemapFrom01(targetRange.x, targetRange.y);
-        }
-
-        /// <summary>
-        /// Remaps the value of <paramref name="input"/> 
-        /// from the range [<paramref name="initialMin"/>; <paramref name="initialMax"/>]
-        /// to the range [0; 1] 
-        /// </summary>
-        /// <returns>The remapped value of <paramref name="input"/></returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float RemapTo01(this float input,float initialMin, float initialMax)
-        {
-            return (input - initialMin) / (initialMax - initialMin);
-        }
-
-        /// <summary>
-        /// Remaps the value of <paramref name="input"/> 
-        /// from the range <paramref name="initialRange"/> to the range [0; 1]
-        /// </summary>
-        /// <returns>The remapped value of <paramref name="input"/></returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float RemapTo01(this float input, Vector2 initialRange)
-        {
-            return input.RemapTo01(initialRange.x, initialRange.y);
         }
     }
     #endregion
