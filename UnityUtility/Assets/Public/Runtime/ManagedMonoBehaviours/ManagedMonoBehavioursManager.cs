@@ -11,8 +11,9 @@ namespace UnityUtility.ManagedMonoBehaviours
 
         private List<ManagedMonoBehaviour> m_managedMonoBehaviours;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             m_managedMonoBehaviours = new List<ManagedMonoBehaviour>(m_managedMonoBehavioursStartCapacity);
         }
 

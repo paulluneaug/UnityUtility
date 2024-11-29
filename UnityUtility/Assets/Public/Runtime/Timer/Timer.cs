@@ -92,24 +92,27 @@ namespace UnityUtility.Timer
         /// <returns>Wether the timer ended</returns>
         public bool Update(float deltaTime)
         {
-            if (m_isRunning)
+            if (!m_isRunning)
             {
-                m_currentTime += deltaTime;
-                if (m_currentTime > m_duration)
-                {
-                    if (m_repeat)
-                    {
-                        m_currentTime %= m_duration;
-                    }
-                    else
-                    {
-                        Stop();
-                    }
-                    OnTimerEnds?.Invoke();
-                    return true;
-                }
+                return false;
             }
-            return false;
+
+            m_currentTime += deltaTime;
+            if (m_currentTime < m_duration)
+            {
+                return false;
+            }
+
+            if (m_repeat)
+            {
+                m_currentTime %= m_duration;
+            }
+            else
+            {
+                Stop();
+            }
+            OnTimerEnds?.Invoke();
+            return true;
         }
     }
 }

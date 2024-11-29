@@ -16,9 +16,9 @@ namespace UnityUtility.Utils
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void ForEach<T>(this IEnumerable<T> enumerable, Action<T> action)
         {
-            foreach (T item in enumerable)
+            foreach (T element in enumerable)
             {
-                action(item);
+                action(element);
             }
         }
 
@@ -27,6 +27,7 @@ namespace UnityUtility.Utils
         /// </summary>
         /// <typeparam name="T">Type of the elements of the <see cref="IEnumerable"/></typeparam>
         /// <returns>A <see cref="string"/> representing all the elements of <paramref name="enumerable"/> separated by a comma and surrounded by square brackets</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static string EnumerableToString<T>(this IEnumerable<T> enumerable)
         {
             return $"[{string.Join(", ", enumerable)}]";
@@ -44,6 +45,26 @@ namespace UnityUtility.Utils
             collection.CopyTo(result, 0);
             return result;
         }
+
+        public static int IndexOf<T>(this IEnumerable<T> enumerable, T searchedItem, Func<T, T, bool> equalityComparer)
+        {
+            int index = 0;
+            foreach (T element in enumerable)
+            {
+                if (equalityComparer(element, searchedItem))
+                {
+                    return index;
+                }
+                ++index;
+            }
+            return -1;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int IndexOf<T>(this IEnumerable<T> enumerable, T searchedItem)
+        {
+            return IndexOf(enumerable, searchedItem, (item0, item1) => item0.Equals(item1));
+        }
     }
 
     public static class SortUtils
@@ -55,6 +76,21 @@ namespace UnityUtility.Utils
         /// </summary>
         /// <typeparam name="T">Type of the elements of the <see cref="IList"/></typeparam>
         /// <param name="list">The <see cref="IList"/> to shuffle</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Shuffle<T>(this IList<T> list)
+        {
+            list.ShuffleImpl(new Hasher());
+        }
+
+        /// <inheritdoc cref="Shuffle{T}(IList{T})"/>
+        /// <param name="hasher">The pseudo random number generator used to shuffle the list/param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Shuffle<T>(this IList<T> list, Hasher hasher)
+        {
+            list.ShuffleImpl(hasher);
+        }
+
+        /// <inheritdoc cref="Shuffle{T}(IList{T}, int)"/>
         /// <param name="seed">The pseudo random seed used to shuffle the list</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Shuffle<T>(this IList<T> list, int seed)
@@ -62,34 +98,37 @@ namespace UnityUtility.Utils
             list.ShuffleImpl(new Hasher(seed));
         }
 
-        /// <inheritdoc cref="Shuffle{T}(IList{T}, int)"/>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Shuffle<T>(this IList<T> list)
-        {
-            list.ShuffleImpl(new Hasher());
-        }
-
         /// <summary>
         /// Copies the given <paramref name="list"/> into a new array and shuffles it
         /// </summary>
         /// <typeparam name="T">Type of the elements of the <see cref="IList"/></typeparam>
         /// <param name="list">The <see cref="IList"/> to copy and shuffle</param>
-        /// <param name="seed">The pseudo random seed used to shuffle the list</param>
         /// <returns>A shuffled copy of the the given <paramref name="list"/></returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T[] ShuffleCopy<T>(this IList<T> list, int seed)
-        {
-            T[] copy = list.Copy();
-            copy.Shuffle(seed);
-            return copy;
-        }
-
-        /// <inheritdoc cref="ShuffleCopy{T}(IList{T}, int)"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T[] ShuffleCopy<T>(this IList<T> list)
         {
             T[] copy = list.Copy();
             copy.Shuffle();
+            return copy;
+        }
+
+        /// <inheritdoc cref="ShuffleCopy{T}(IList{T})"/>
+        /// <param name="hasher">The pseudo random number generator used to shuffle the list/param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T[] ShuffleCopy<T>(this IList<T> list, Hasher hasher)
+        {
+            T[] copy = list.Copy();
+            copy.Shuffle(hasher);
+            return copy;
+        }
+
+        /// <inheritdoc cref="ShuffleCopy{T}(IList{T}, int)"/>
+        /// <param name="seed">The pseudo random seed used to shuffle the list</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T[] ShuffleCopy<T>(this IList<T> list, int seed)
+        {
+            T[] copy = list.Copy();
+            copy.Shuffle(seed);
             return copy;
         }
 

@@ -114,6 +114,26 @@ namespace UnityUtility.Utils
     }
     #endregion
 
+    #region Transform
+    public static class TransformeUtils
+    {
+        public static Vector3 Left(this Transform transform)
+        {
+            return -transform.right;
+        }
+
+        public static Vector3 Down(this Transform transform)
+        {
+            return -transform.up;
+        }
+
+        public static Vector3 Backward(this Transform transform)
+        {
+            return -transform.forward;
+        }
+    }
+    #endregion
+
     #region LayerMask
     public static class LayerMaskUtils
     {
