@@ -83,19 +83,19 @@ namespace UnityUtility.Utils
         }
 
         /// <inheritdoc cref="Shuffle{T}(IList{T})"/>
+        /// <param name="hasher">The pseudo random number generator used to shuffle the list/param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Shuffle<T>(this IList<T> list, Hasher hasher)
+        {
+            list.ShuffleImpl(hasher);
+        }
+
+        /// <inheritdoc cref="Shuffle{T}(IList{T}, int)"/>
         /// <param name="seed">The pseudo random seed used to shuffle the list</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Shuffle<T>(this IList<T> list, int seed)
         {
             list.ShuffleImpl(new Hasher(seed));
-        }
-
-        /// <inheritdoc cref="Shuffle{T}(IList{T})"/>
-        /// <param name="hasher">The <see cref="Hasher"/> used to create pseudo random values to shuffle the list</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Shuffle<T>(this IList<T> list, Hasher hasher)
-        {
-            list.ShuffleImpl(hasher);
         }
 
         /// <summary>
@@ -113,22 +113,22 @@ namespace UnityUtility.Utils
         }
 
         /// <inheritdoc cref="ShuffleCopy{T}(IList{T})"/>
+        /// <param name="hasher">The pseudo random number generator used to shuffle the list/param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T[] ShuffleCopy<T>(this IList<T> list, Hasher hasher)
+        {
+            T[] copy = list.Copy();
+            copy.Shuffle(hasher);
+            return copy;
+        }
+
+        /// <inheritdoc cref="ShuffleCopy{T}(IList{T}, int)"/>
         /// <param name="seed">The pseudo random seed used to shuffle the list</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T[] ShuffleCopy<T>(this IList<T> list, int seed)
         {
             T[] copy = list.Copy();
             copy.Shuffle(seed);
-            return copy;
-        }
-
-        /// <inheritdoc cref="ShuffleCopy{T}(IList{T})"/>
-        /// <param name="hasher">The <see cref="Hasher"/> used to create pseudo random values to shuffle the list</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T[] ShuffleCopy<T>(this IList<T> list, Hasher hasher)
-        {
-            T[] copy = list.Copy();
-            copy.Shuffle(hasher);
             return copy;
         }
 
