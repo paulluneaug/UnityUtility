@@ -38,7 +38,7 @@ namespace UnityUtility.Singletons
                 {
                     if (s_instance == null)
                     {
-                        s_instance = FindObjectOfType<T>();
+                        s_instance = FindFirstObjectByType<T>();
 
                         if (s_instance == null)
                         {
@@ -68,7 +68,7 @@ namespace UnityUtility.Singletons
             else
             {
                 DontDestroyOnLoad(gameObject);
-                s_instance = FindObjectOfType<T>();
+                s_instance = FindFirstObjectByType<T>();
 
                 Initialize();
             }
