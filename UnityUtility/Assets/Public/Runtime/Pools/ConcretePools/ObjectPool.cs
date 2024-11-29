@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace UnityUtility.Pools
@@ -16,6 +17,10 @@ namespace UnityUtility.Pools
     public class ObjectPool<T> : IObjectPool<T> where T : class, new()
     {
         public int PoolSize => m_poolSize;
+        public int ElementsInPool => m_availableObjects.Count;
+
+        public event Action OnObjectRequested;
+        public event Action OnObjectReleased;
 
         private readonly Stack<T> m_availableObjects = null;
         private int m_poolSize = 0;
@@ -33,12 +38,18 @@ namespace UnityUtility.Pools
             {
                 AddItem();
             }
-            return new PooledObject<T>(m_availableObjects.Pop(), this);
+
+            PooledObject<T> requestedObject = new PooledObject<T>(m_availableObjects.Pop(), this);
+
+            OnObjectRequested?.Invoke();
+
+            return requestedObject;
         }
 
         public virtual void Release(T releasedObject)
         {
             m_availableObjects.Push(releasedObject);
+            OnObjectReleased?.Invoke();
         }
 
         protected virtual void Populate(int count)
