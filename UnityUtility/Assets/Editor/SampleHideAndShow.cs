@@ -1,27 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Web;
 using UnityEditor;
 using UnityEngine;
+using UnityUtility.Utils;
 
-public class SampleHideAndShow : MonoBehaviour
+public class SampleHideAndShow
 {
+    private const string SAMPLE_RELATIVE_PATH = "Public";
     private const string SHOWN_SAMPLES_DIR = "Samples";
     private const string HIDDEN_SAMPLES_DIR = "Samples~";
+    private const string META_EXTENSION = ".meta";
 
-    [MenuItem("Tools/Hide\\Show Samples")]
+    [MenuItem("Tools/Toggle Samples")]
     public static void HideShowSamples()
     {
-        IEnumerable<string> assetFolderDirectories = Directory.EnumerateDirectories(Application.dataPath, "*", SearchOption.TopDirectoryOnly).Select(path => path.Split('\\').Last()).ToList();
-        if (assetFolderDirectories.Contains(SHOWN_SAMPLES_DIR))
+        string containingDirPath = Path.Combine(Application.dataPath, SAMPLE_RELATIVE_PATH);
+        if (!IOUtils.TryRenameDirectory(Path.Combine(containingDirPath, SHOWN_SAMPLES_DIR), HIDDEN_SAMPLES_DIR))
         {
-            Directory.Move(Path.Join(Application.dataPath, SHOWN_SAMPLES_DIR), Path.Join(Application.dataPath, HIDDEN_SAMPLES_DIR));
+            if (!IOUtils.TryRenameDirectory(Path.Combine(containingDirPath, HIDDEN_SAMPLES_DIR), SHOWN_SAMPLES_DIR))
+            {
+                IOUtils.CreateDirectoryIfNeeded(Path.Combine(containingDirPath, SHOWN_SAMPLES_DIR));
+            }
+            else
+            {
+                File.Delete(Path.Combine(containingDirPath, HIDDEN_SAMPLES_DIR + META_EXTENSION));
+            }
         }
-        else if (assetFolderDirectories.Contains(HIDDEN_SAMPLES_DIR))
+        else
         {
-            Directory.Move(Path.Join(Application.dataPath, HIDDEN_SAMPLES_DIR), Path.Join(Application.dataPath, SHOWN_SAMPLES_DIR));
+            File.Delete(Path.Combine(containingDirPath, SHOWN_SAMPLES_DIR + META_EXTENSION));
         }
     }
 }

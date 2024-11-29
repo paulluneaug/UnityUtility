@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System;
 
@@ -11,30 +9,38 @@ namespace UnityUtility.CustomAttributes
         public string Title { get; }
         public string Subtitle { get; }
         public bool Bold { get; }
-        public bool HorizontalLine { get; }
+        public bool Italic { get; }
+        public int FontSize { get; }
+        public bool Separator { get; }
         public TitleAlignments TitleAlignment { get; }
 
         public TitleAttribute(
             string title,
             string subtitle,
             bool bold = true,
-            bool horizontalLine = true,
+            bool italic = false,
+            int fontSize = 12,
+            bool separator = true,
             TitleAlignments titleAlignment = TitleAlignments.Left)
         {
             Title = title;
             Subtitle = subtitle;
             Bold = bold;
-            HorizontalLine = horizontalLine;
+            Italic = italic;
+            FontSize = fontSize;
+            Separator = separator;
             TitleAlignment = titleAlignment;
         }
 
         public TitleAttribute(
-            string title, 
-            bool bold = true, 
-            bool horizontalLine = true, 
+            string title,
+            bool italic = false,
+            bool bold = true,
+            int fontSize = 12,
+            bool separator = true,
             TitleAlignments titleAlignment = TitleAlignments.Left) :
 
-            this(title, string.Empty, bold, horizontalLine, titleAlignment)
+            this(title, string.Empty, bold, italic, fontSize, separator, titleAlignment)
         {
         }
     }

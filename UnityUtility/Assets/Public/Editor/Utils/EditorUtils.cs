@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEditor;
 
@@ -16,12 +17,22 @@ namespace UnityUtility.Utils.Editor
         /// <returns>Wether <paramref name="property"/> is part of an array property</returns>
         public static bool IsPropertyPartOfArray(this SerializedProperty property, out SerializedProperty arrayProperty, out int index)
         {
+            arrayProperty = null;
+            index = -1;
+
             // Get the index
-            string indexText = Regex.Match(property.propertyPath, @"(\d+)(?!.*\d)").Value;
+            MatchCollection matches = Regex.Matches(property.propertyPath, @"\.Array\.data\[[0-9]*\]");
+
+            if (matches.Count == 0)
+            {
+                return false;
+            }
+
+            string lastMatch = matches.Last().Value;
+            string indexText = Regex.Match(lastMatch, "(?<=\\[)[0-9]*(?=\\])").Value;
+
             if (string.IsNullOrEmpty(indexText))
             {
-                arrayProperty = null;
-                index = -1;
                 return false;
             }
 

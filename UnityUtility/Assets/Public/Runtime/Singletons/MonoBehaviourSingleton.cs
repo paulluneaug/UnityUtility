@@ -15,25 +15,26 @@ namespace UnityUtility.Singletons
     /// See also : <br/>
     /// <seealso cref="ISingleton{T}"/><br/>
     /// <seealso cref="Singleton{T}"/><br/>
-    /// <seealso cref="SingletonScriptable{T}"/><br/>
+    /// <seealso cref="ScriptableSingleton{T}"/><br/>
     /// 
     /// </summary>
-    public abstract class SingletonMonoBehaviour<T> : MonoBehaviour, ISingleton<T> where T : SingletonMonoBehaviour<T>
+    public abstract class MonoBehaviourSingleton<T> : MonoBehaviour, ISingleton<T> 
+        where T : MonoBehaviourSingleton<T>
     {
         protected static T s_instance;
 
-        private static object m_lock = new object();
+        private static readonly object s_lock = new object();
 
         public static T Instance
         {
             get
             {
-                if (m_applicationIsQuitting)
+                if (s_applicationIsQuitting)
                 {
                     return null;
                 }
 
-                lock (m_lock)
+                lock (s_lock)
                 {
                     if (s_instance == null)
                     {
@@ -43,7 +44,7 @@ namespace UnityUtility.Singletons
                         {
                             GameObject singleton = new GameObject();
                             s_instance = singleton.AddComponent<T>();
-                            singleton.name = $"[Singleton] {nameof(T)}";
+                            singleton.name = $"[Singleton] {typeof(T).Name}";
 
                             DontDestroyOnLoad(singleton);
                         }
@@ -54,11 +55,11 @@ namespace UnityUtility.Singletons
             }
         }
 
-        private static bool m_applicationIsQuitting = false;
+        private static bool s_applicationIsQuitting = false;
 
-        public static bool ApplicationIsQuitting { get => m_applicationIsQuitting; set => m_applicationIsQuitting = value; }
+        public static bool ApplicationIsQuitting { get => s_applicationIsQuitting; set => s_applicationIsQuitting = value; }
 
-        protected virtual void Start()
+        protected virtual void Awake()
         {
             if (s_instance != null && s_instance != this)
             {
@@ -73,6 +74,10 @@ namespace UnityUtility.Singletons
             }
         }
 
+        protected virtual void Start()
+        {
+        }
+
         /// <summary>
         /// When Unity quits, it destroys objects in a random order.
         /// In principle, a Singleton is only destroyed when application quits.
@@ -85,7 +90,7 @@ namespace UnityUtility.Singletons
         {
             if (s_instance != null && s_instance == this)
             {
-                m_applicationIsQuitting = true;
+                s_applicationIsQuitting = true;
             }
         }
 

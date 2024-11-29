@@ -1,8 +1,11 @@
 // Author: JohannesMP (2018-08-12)
 // https://gist.github.com/JohannesMP/ec7d3f0bcf167dab3d0d3bb480e0e07b
 
-using UnityEditor;
 using UnityEngine;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace UnityUtility.SceneReference
 {
@@ -13,19 +16,20 @@ namespace UnityUtility.SceneReference
     public class SceneReference : ISerializationCallbackReceiver
     {
 #if UNITY_EDITOR
-        // What we use in editor to select the scene
-        [SerializeField] private Object m_sceneAsset = null;
-        bool IsValidSceneAsset
+        private bool IsValidSceneAsset
         {
             get
             {
-                if (m_sceneAsset == null) 
-                { 
-                    return false; 
+                if (m_sceneAsset == null)
+                {
+                    return false;
                 }
                 return m_sceneAsset.GetType().Equals(typeof(SceneAsset));
             }
         }
+
+        // What we use in editor to select the scene
+        [SerializeField] private Object m_sceneAsset = null;
 #endif
 
         // This should only ever be set during serialization/deserialization!
@@ -35,17 +39,16 @@ namespace UnityUtility.SceneReference
         // Use this when you want to actually have the scene path
         public string ScenePath
         {
-            get
-            {
+            get =>
 #if UNITY_EDITOR
                 // In editor we always use the asset's path
-                return GetScenePathFromAsset();
+                GetScenePathFromAsset();
 #else
             // At runtime we rely on the stored path value which we assume was serialized correctly at build time.
             // See OnBeforeSerialize and OnAfterDeserialize
-            return m_scenePath;
+            m_scenePath;
 #endif
-            }
+
             set
             {
                 m_scenePath = value;
@@ -76,8 +79,6 @@ namespace UnityUtility.SceneReference
             EditorApplication.update += HandleAfterDeserialize;
 #endif
         }
-
-
 
 #if UNITY_EDITOR
         private SceneAsset GetSceneAssetFromPath()

@@ -15,11 +15,11 @@ namespace UnityUtility.Singletons
     /// See also : <br/>
     /// <seealso cref="ISingleton{T}"/><br/>
     /// <seealso cref="Singleton{T}"/><br/>
-    /// <seealso cref="SingletonMonoBehaviour{T}"/><br/>
+    /// <seealso cref="MonoBehaviourSingleton{T}"/><br/>
     /// </summary>
-    public abstract class SingletonScriptable<T> : ScriptableObject, ISingleton<T> where T : SingletonScriptable<T>
+    public abstract class ScriptableSingleton<T> : ScriptableObject, ISingleton<T> where T : ScriptableSingleton<T>
     {
-        private static T s_instance = default(T);
+        private static T s_instance = null;
 
         public static T Instance
         {
@@ -34,7 +34,7 @@ namespace UnityUtility.Singletons
         {
             if (s_instance == null)
             {
-                s_instance = Resources.Load<T>(nameof(T));
+                s_instance = Resources.Load<T>(typeof(T).Name);
             }
         }
     }

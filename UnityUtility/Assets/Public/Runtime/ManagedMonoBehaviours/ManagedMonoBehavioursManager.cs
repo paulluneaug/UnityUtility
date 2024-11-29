@@ -5,7 +5,7 @@ using UnityUtility.Singletons;
 
 namespace UnityUtility.ManagedMonoBehaviours
 {
-    public class ManagedMonoBehavioursManager : SingletonMonoBehaviour<ManagedMonoBehavioursManager>
+    public class ManagedMonoBehavioursManager : MonoBehaviourSingleton<ManagedMonoBehavioursManager>
     {
         [SerializeField] private int m_managedMonoBehavioursStartCapacity = 100;
 

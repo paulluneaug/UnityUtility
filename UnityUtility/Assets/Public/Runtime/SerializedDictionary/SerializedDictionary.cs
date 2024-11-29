@@ -21,21 +21,20 @@ namespace UnityUtility.SerializedDictionary
                 Value = value;
             }
 
-            public override bool Equals(object obj)
+            public override readonly bool Equals(object obj)
             {
                 return obj is KeyValuePair pair &&
                        EqualityComparer<TKey>.Default.Equals(Key, pair.Key) &&
                        EqualityComparer<TValue>.Default.Equals(Value, pair.Value);
             }
 
-            public override int GetHashCode()
+            public override readonly int GetHashCode()
             {
                 return HashCode.Combine(Key, Value);
             }
         }
 
         [SerializeField] private List<KeyValuePair> m_keyValuePairsList = new List<KeyValuePair>();
-        [SerializeField] private int m_keyValuePairsCount = 0;
 
         private Dictionary<TKey, TValue> m_dictionary = new Dictionary<TKey, TValue>();
         private bool m_duplicateKeys = false;
