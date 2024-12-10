@@ -24,6 +24,10 @@ namespace UnityUtility.Pools
 
         public int ElementsInPool => m_availableComponents.Count;
 
+#if UNITY_EDITOR
+        public GameObject Prefab => m_componentPrefab;
+#endif
+
         public event Action OnObjectRequested;
         public event Action OnObjectReleased;
 
@@ -37,7 +41,7 @@ namespace UnityUtility.Pools
 
         protected virtual void Awake()
         {
-            if (!m_componentPrefab.HasComponent<TComponent>())
+            if (m_instantiateFromPrefab && !m_componentPrefab.HasComponent<TComponent>())
             {
                 Debug.LogError($"The given GameObject does not have a component of type {typeof(TComponent).Name} on its root. The pool will not work");
                 return;
