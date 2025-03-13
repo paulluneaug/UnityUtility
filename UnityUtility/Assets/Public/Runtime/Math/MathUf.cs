@@ -10,8 +10,8 @@ namespace UnityUtility.MathU
 
         public const float INFINITY = float.PositiveInfinity;
         public const float NEGATIVE_INFINITY = float.NegativeInfinity;
-        public const float DEG_2_RAD = MathF.PI / 180f;
-        public const float RAD_2_DEG = 57.29578f;
+        public const float DEG_2_RAD = PI / 180.0f;
+        public const float RAD_2_DEG = 180.0f / PI;
         public static readonly float Epsilon = Mathf.Epsilon;
 
         public const float LOG2 = 0.6931471805599453f;
@@ -250,7 +250,7 @@ namespace UnityUtility.MathU
 
         public static int PreviousPowerOfTwo(int value)
         {
-            // @TODO : not event the right method to call + replace it with a custom one
+            // @TODO : not even the right method to call + replace it with a custom one
             return Mathf.NextPowerOfTwo(value);
         }
 
@@ -351,13 +351,13 @@ namespace UnityUtility.MathU
 
         public static float Clamp(float value, float min, float max)
         {
-            if (value < min)
+            if (value <= min)
             {
-                value = min;
+                return min;
             }
-            else if (value > max)
+            if (value >= max)
             {
-                value = max;
+                return max;
             }
 
             return value;
@@ -365,13 +365,13 @@ namespace UnityUtility.MathU
 
         public static int Clamp(int value, int min, int max)
         {
-            if (value < min)
+            if (value <= min)
             {
-                value = min;
+                return min;
             }
-            else if (value > max)
+            if (value >= max)
             {
-                value = max;
+                return max;
             }
 
             return value;
@@ -393,6 +393,22 @@ namespace UnityUtility.MathU
         public static float LerpClamped(float a, float b, float t)
         {
             return Lerp(a, b, Clamp01(t));
+        }
+
+        [MethodImpl(INLINE)]
+        public static float SmoothLerp(float a, float b, float deltaTime, float halfLife)
+        {
+            return b + (a - b) * Exp2(-deltaTime / halfLife);
+        }
+
+        [MethodImpl(INLINE)]
+        public static Vector3 SmoothLerp(Vector3 a, Vector3 b, float deltaTime, float halfLife)
+        {
+            float lerpFactor = Exp2(-deltaTime / halfLife);
+            return new Vector3(
+                b.x + (a.x - b.x) * lerpFactor, 
+                b.y + (a.y - b.y) * lerpFactor, 
+                b.z + (a.z - b.z) * lerpFactor);
         }
 
         public static float LerpAngle(float a, float b, float t)
@@ -510,54 +526,6 @@ namespace UnityUtility.MathU
         }
         #endregion
 
-
-        /// <summary>
-        /// Returns 3<paramref name="x"/>^2 - 2<paramref name="x"/>^3
-        /// </summary>
-        /// <param name="x"></param>
-        /// <returns></returns>
-        [MethodImpl(INLINE)]
-        public static float Smoothstep(float x)
-        {
-            x = Clamp01(x);
-            return 3 * x * x - 2 * x * x * x;
-        }
-
-        /// <summary>
-        /// Returns 
-        /// </summary>
-        /// <param name="x"></param>
-        /// <returns></returns>
-        [MethodImpl(INLINE)]
-        public static float SmootherStep(float x)
-        {
-            x = Clamp01(x);
-            return x * x * x * (x * (6.0f * x - 15.0f) + 10.0f);
-        }
-
-        /// <summary>
-        /// A generalized version of the smoothstep function for higher orders
-        /// </summary>
-        /// <remarks>
-        /// Remark : 
-        /// For <paramref name="N"/> = 1 and <paramref name="N"/> = 2, 
-        /// prefer using <see cref="Smoothstep(float)"/> and <see cref="SmootherStep(float)"/> respectivly
-        /// as they are way faster
-        /// </remarks>
-        public static float GeneralSmoothstep(int N, float x)
-        {
-            x = Clamp01(x);
-            float result = 0.0f;
-            for (int n = 0; n <= N; ++n)
-            {
-                result += BinomialCoefficient(-N - 1, n) *
-                          BinomialCoefficient(2 * N + 1, N - n) *
-                          Pow(x, N + n + 1);
-            }
-
-            return result;
-        }
-
         /// <summary>
         /// Compute the binomial coefficient <paramref name="a"/> choose <paramref name="b"/>
         /// </summary>
@@ -655,13 +623,20 @@ namespace UnityUtility.MathU
         }
 
         /// <summary>
-        /// Returns the absolute value of the difference between 
+        /// Returns the absolute value of the difference between <paramref name="from"/> and <paramref name="to"/>
         /// </summary>
         /// <param name="from"></param>
         /// <param name="to"></param>
         /// <returns></returns>
         [MethodImpl(INLINE)]
         public static int AbsoluteDifference(int from, int to)
+        {
+            return Abs(to - from);
+        }
+
+        /// <inheritdoc cref="AbsoluteDifference"/>
+        [MethodImpl(INLINE)]
+        public static float AbsoluteDifference(float from, float to)
         {
             return Abs(to - from);
         }
