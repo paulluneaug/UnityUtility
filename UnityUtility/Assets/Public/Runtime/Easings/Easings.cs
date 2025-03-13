@@ -39,7 +39,7 @@ namespace UnityUtility.Easings
         {
             return function switch
             {
-                EasingFunction.Linear => x,
+                EasingFunction.Linear => MathUf.Clamp01(x),
                 EasingFunction.Smoothstep => Smoothstep(x),
                 EasingFunction.Smootherstep => Smootherstep(x),
                 EasingFunction.EaseInSine => EaseInSine(x),
@@ -63,8 +63,8 @@ namespace UnityUtility.Easings
                 EasingFunction.EaseInCirc => EaseInCirc(x),
                 EasingFunction.EaseOutCirc => EaseOutCirc(x),
                 EasingFunction.EaseInOutCirc => EaseInOutCirc(x),
-                EasingFunction.Count => throw new ArgumentException($"{EasingFunction.Count} is not a valid easing function. It's only used to count them "),
-                _ => throw new System.NotImplementedException(),
+                EasingFunction.Count => throw new ArgumentException($"{EasingFunction.Count} is not a valid easing function. It's only used to count them"),
+                _ => throw new NotImplementedException(),
             };
         }
 
@@ -112,18 +112,21 @@ namespace UnityUtility.Easings
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float EaseInSine(float x)
         {
+            x = MathUf.Clamp01(x);
             return 1 - MathUf.Cos((x * MathUf.PI) / 2.0f);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float EaseOutSine(float x)
         {
+            x = MathUf.Clamp01(x);
             return MathUf.Sin((x * MathUf.PI) / 2.0f);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float EaseInOutSine(float x)
         {
+            x = MathUf.Clamp01(x);
             return -(MathUf.Cos(MathUf.PI * x) - 1.0f) / 2.0f;
         }
         #endregion
@@ -132,12 +135,14 @@ namespace UnityUtility.Easings
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float EaseInQuad(float x)
         {
+            x = MathUf.Clamp01(x);
             return x * x;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float EaseOutQuad(float x)
         {
+            x = MathUf.Clamp01(x);
             float val0 = 1.0f - x;
             return 1.0f - val0 * val0;
         }
@@ -145,6 +150,7 @@ namespace UnityUtility.Easings
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float EaseInOutQuad(float x)
         {
+            x = MathUf.Clamp01(x);
             float val0 = -2.0f * x + 2.0f;
             return x < 0.5f ?
                 2.0f * x * x :
@@ -156,12 +162,14 @@ namespace UnityUtility.Easings
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float EaseInCubic(float x)
         {
+            x = MathUf.Clamp01(x);
             return x * x * x;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float EaseOutCubic(float x)
         {
+            x = MathUf.Clamp01(x);
             float val0 = 1.0f - x;
             return 1.0f - val0 * val0 * val0;
         }
@@ -169,6 +177,7 @@ namespace UnityUtility.Easings
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float EaseInOutCubic(float x)
         {
+            x = MathUf.Clamp01(x);
             float val0 = -2.0f * x + 2.0f;
             return x < 0.5f ?
                 4.0f * x * x * x :
@@ -180,12 +189,14 @@ namespace UnityUtility.Easings
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float EaseInQuart(float x)
         {
+            x = MathUf.Clamp01(x);
             return x * x * x * x;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float EaseOutQuart(float x)
         {
+            x = MathUf.Clamp01(x);
             float val0 = 1.0f - x;
             return 1.0f - val0 * val0 * val0 * val0;
         }
@@ -193,6 +204,7 @@ namespace UnityUtility.Easings
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float EaseInOutQuart(float x)
         {
+            x = MathUf.Clamp01(x);
             float val0 = -2.0f * x + 2.0f;
             return x < 0.5f ?
                 8.0f * x * x * x * x :
@@ -204,12 +216,14 @@ namespace UnityUtility.Easings
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float EaseInQuint(float x)
         {
+            x = MathUf.Clamp01(x);
             return x * x * x * x * x;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float EaseOutQuint(float x)
         {
+            x = MathUf.Clamp01(x);
             float val0 = 1.0f - x;
             return 1.0f - val0 * val0 * val0 * val0 * val0;
         }
@@ -217,6 +231,7 @@ namespace UnityUtility.Easings
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float EaseInOutQuint(float x)
         {
+            x = MathUf.Clamp01(x);
             float val0 = -2.0f * x + 2.0f;
             return x < 0.5 ?
                 16 * x * x * x * x * x :
@@ -228,18 +243,21 @@ namespace UnityUtility.Easings
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float EaseInExpo(float x)
         {
+            x = MathUf.Clamp01(x);
             return x == 0.0f ? 0.0f : MathUf.Pow(2.0f, 10.0f * x - 10.0f);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float EaseOutExpo(float x)
         {
+            x = MathUf.Clamp01(x);
             return x == 1.0f ? 1.0f : 1.0f - MathUf.Pow(2, -10.0f * x);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float EaseInOutExpo(float x)
         {
+            x = MathUf.Clamp01(x);
             return
                 x == 0.0f ? 0.0f :
                 x == 1.0f ? 1.0f :
@@ -252,12 +270,14 @@ namespace UnityUtility.Easings
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float EaseInCirc(float x)
         {
+            x = MathUf.Clamp01(x);
             return 1 - MathUf.Sqrt(1 - x * x);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float EaseOutCirc(float x)
         {
+            x = MathUf.Clamp01(x);
             float val0 = x - 1;
             return MathUf.Sqrt(1 - val0 * val0);
         }
@@ -265,6 +285,7 @@ namespace UnityUtility.Easings
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float EaseInOutCirc(float x)
         {
+            x = MathUf.Clamp01(x);
             float val0 = 2.0f * x;
             float val1 = -2.0f * x + 2.0f;
             return x < 0.5 ?
