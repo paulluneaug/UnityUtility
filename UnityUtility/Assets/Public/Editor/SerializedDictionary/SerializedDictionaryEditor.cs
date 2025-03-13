@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
-using UnityUtility.Utils.Editor;
+using UnityUtility.Extensions.Editor;
 
 namespace UnityUtility.SerializedDictionary.Editor
 {

@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityUtility.Hash;
 
-namespace UnityUtility.Utils
+namespace UnityUtility.Extensions
 {
-    public static class EnumerableUtils
+    public static class EnumerableExtensions
     {
         /// <summary>
         /// Execute the specified <paramref name="action"/> on each element of <paramref name="enumerable"/>
@@ -67,7 +67,7 @@ namespace UnityUtility.Utils
         }
     }
 
-    public static class SortUtils
+    public static class SortExtensions
     {
         #region Shuffle
 

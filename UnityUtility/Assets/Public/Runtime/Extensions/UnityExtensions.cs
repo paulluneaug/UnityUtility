@@ -2,35 +2,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine;
-
 using Object = UnityEngine.Object;
 
-namespace UnityUtility.Utils
+namespace UnityUtility.Extensions
 {
-    #region Axis
-    [System.Flags]
-    public enum Axis : int
-    {
-        X = 0x1,
-        Y = 0x2,
-        Z = 0x4,
-    }
-
-    public static class AxisUtils
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector3 ToVector(this Axis axis)
-        {
-            return new Vector3(
-                (int)(axis & Axis.X) / (int)Axis.X,
-                (int)(axis & Axis.Y) / (int)Axis.Y,
-                (int)(axis & Axis.Z) / (int)Axis.Z);
-        }
-    }
-    #endregion
-
     #region Object 
-    public static class ObjectUtils
+    public static class ObjectExtensions
     {
 
         /// <summary>
@@ -59,7 +36,7 @@ namespace UnityUtility.Utils
     #endregion
 
     #region GameObject
-    public static class GameObjectUtils
+    public static class GameObjectExtensions
     {
         /// <summary>
         /// Tries to get <see cref="Component"/> on the given <see cref="GameObject"/> and if none are found, one is added and returned
@@ -115,7 +92,7 @@ namespace UnityUtility.Utils
     #endregion
 
     #region Transform
-    public static class TransformeUtils
+    public static class TransformeExtensions
     {
         public static Vector3 Left(this Transform transform)
         {
@@ -135,7 +112,7 @@ namespace UnityUtility.Utils
     #endregion
 
     #region LayerMask
-    public static class LayerMaskUtils
+    public static class LayerMaskExtensions
     {
         /// <summary>
         /// Checks if a <paramref name="layer"/> is in a <see cref="LayerMask"/>
@@ -152,78 +129,38 @@ namespace UnityUtility.Utils
     #endregion
 
     #region Color
-    public static class ColorUtils
+    public static class ColorExtensions
     {
-        /// <summary>
-        /// Parse a string to a color 
-        /// </summary>
-        /// <remarks>
-        /// Supported formats : <br/>
-        /// - "(r, g, b)" where r, g and b belongs to [0; 255]<br/>
-        /// - "(r, g, b, a)" where r, g, b and a belongs to [0; 255]<br/>
-        /// - "#rgb" where r, g and b are hexadecimal numbers of 2 characters each<br/>
-        /// <br/>
-        /// Note : The whitespaces are ignored
-        /// </remarks>
-        /// <param name="colorString"></param>
-        /// <param name="color"></param>
-        /// <returns>Wether the conversion was a success</returns>
-        public static bool TryParseColor(string colorString, out Color color)
+        /// <summary> Copies the given <see cref="Color"/>, sets its red value and returns it </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Color WhereR(this Color color, float rValue)
         {
-            color = Color.black;
-            if (string.IsNullOrEmpty(colorString))
-            {
-                return false;
-            }
+            color.r = rValue;
+            return color;
+        }
 
-            colorString = colorString.Replace(" ", "");
-            if (colorString.StartsWith('(') && colorString.EndsWith(')')) // For the formats (r, g, b) and (r, g, b, a)
-            {
-                string colorValuesString = colorString[1..^1];
-                List<(bool parseSuceeded, int parsedValue)> parsedValues = colorValuesString.Split(',').Select((string s) => (int.TryParse(s, out int parsedValue), parsedValue)).ToList();
-                if (parsedValues.All((result) => result.parseSuceeded))
-                {
-                    int parsedValueCount = parsedValues.Count;
-                    if (parsedValueCount == 3)
-                    {
-                        color = new Color(
-                            parsedValues[0].parsedValue / 255.0f,
-                            parsedValues[1].parsedValue / 255.0f,
-                            parsedValues[2].parsedValue / 255.0f);
-                        return true;
-                    }
-                    if (parsedValueCount == 4)
-                    {
-                        color = new Color(
-                            parsedValues[0].parsedValue / 255.0f,
-                            parsedValues[1].parsedValue / 255.0f,
-                            parsedValues[2].parsedValue / 255.0f,
-                            parsedValues[3].parsedValue / 255.0f);
-                        return true;
-                    }
-                }
-            }
-            else if (colorString.StartsWith('#')) // For the format #rgb
-            {
-                colorString = colorString[1..];
-                if (colorString.Length == 6)
-                {
-                    (bool isHex, int intValue)[] hexParseResults =
-                        colorString.SplitBySize(2)
-                        .Select((string hexSt) => (MathUtils.TryHexToInt(hexSt, out int intValue), intValue))
-                        .ToArray();
+        /// <summary> Copies the given <see cref="Color"/>, sets its green value and returns it </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Color WhereG(this Color color, float gValue)
+        {
+            color.g = gValue;
+            return color;
+        }
 
-                    if (hexParseResults.All(result => result.isHex))
-                    {
-                        color = new Color(
-                            hexParseResults[0].intValue / 255.0f,
-                            hexParseResults[1].intValue / 255.0f,
-                            hexParseResults[2].intValue / 255.0f);
-                        return true;
-                    }
-                }
-            }
-            return false;
+        /// <summary> Copies the given <see cref="Color"/>, sets its blue value and returns it </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Color WhereB(this Color color, float bValue)
+        {
+            color.b = bValue;
+            return color;
+        }
+
+        /// <summary> Copies the given <see cref="Color"/>, sets its alpha value and returns it </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Color WhereA(this Color color, float aValue)
+        {
+            color.a = aValue;
+            return color;
         }
     }
     #endregion

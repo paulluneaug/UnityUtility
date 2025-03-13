@@ -2,9 +2,9 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEditor;
 
-namespace UnityUtility.Utils.Editor
+namespace UnityUtility.Extensions.Editor
 {
-    public static class EditorUtils
+    public static class SerializedPropertyExtensions
     {
         /// <summary>
         /// Checks wether a <see cref="SerializedProperty"/> is the child of an array property and if so,
@@ -38,7 +38,7 @@ namespace UnityUtility.Utils.Editor
 
             // Get the parent's propertyPath
             string parentPath = property.propertyPath.ReplaceLast($".Array.data[{indexText}]", string.Empty);
-
+            
             arrayProperty = property.serializedObject.FindProperty(parentPath);
             index = int.Parse(indexText);
             return true;
