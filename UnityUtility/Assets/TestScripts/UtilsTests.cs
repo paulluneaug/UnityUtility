@@ -7,7 +7,7 @@ using UnityUtility.CustomAttributes;
 using UnityUtility.Hash;
 using UnityUtility.MathU;
 using UnityUtility.Recorders;
-using UnityUtility.Utils;
+using UnityUtility.Extensions;
 
 public class UtilsTests : MonoBehaviour
 {
