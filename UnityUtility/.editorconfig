@@ -19,7 +19,7 @@ insert_final_newline = false
 #### Conventions de codage .NET ####
 
 # Organiser les instructions Using
-dotnet_separate_import_directive_groups = false
+dotnet_separate_import_directive_groups = true
 dotnet_sort_system_directives_first = true
 file_header_template = unset
 
@@ -99,9 +99,9 @@ csharp_style_prefer_switch_expression = true
 
 # Préférences de vérification de valeur Null
 csharp_style_conditional_delegate_call = true
-
+    
 # Préférences de modificateur
-csharp_prefer_static_local_function = true
+csharp_prefer_static_local_function = false
 csharp_preferred_modifier_order = public,private,protected,internal,static,extern,new,virtual,abstract,sealed,override,readonly,unsafe,volatile,async
 
 # Préférences de bloc de code
@@ -418,7 +418,7 @@ dotnet_diagnostic.IDE1005.severity = warning
 
 dotnet_naming_symbols.public_symbols.applicable_kinds           = property,method,field,event,delegate
 dotnet_naming_symbols.public_symbols.applicable_accessibilities = public
-dotnet_naming_symbols.public_symbols.required_modifiers         = readonly
+#dotnet_naming_symbols.public_symbols.required_modifiers         = readonly
 
 dotnet_naming_symbols.methods_symbols.applicable_kinds           = method, local_function
 dotnet_naming_symbols.methods_symbols.applicable_accessibilities = *

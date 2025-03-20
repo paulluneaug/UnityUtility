@@ -2,11 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using UnityUtility.Hash;
 
-namespace UnityUtility.Utils
+using UnityUtility.MathU;
+using UnityUtility.Random;
+
+namespace UnityUtility.Extensions
 {
-    public static class EnumerableUtils
+    public static class EnumerableExtensions
     {
         /// <summary>
         /// Execute the specified <paramref name="action"/> on each element of <paramref name="enumerable"/>
@@ -67,7 +69,7 @@ namespace UnityUtility.Utils
         }
     }
 
-    public static class SortUtils
+    public static class SortExtensions
     {
         #region Shuffle
 
@@ -79,15 +81,15 @@ namespace UnityUtility.Utils
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Shuffle<T>(this IList<T> list)
         {
-            list.ShuffleImpl(new Hasher());
+            list.ShuffleImpl(new RandomGenerator());
         }
 
         /// <inheritdoc cref="Shuffle{T}(IList{T})"/>
-        /// <param name="hasher">The pseudo random number generator used to shuffle the list/param>
+        /// <param name="random">The pseudo random number generator used to shuffle the list/param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Shuffle<T>(this IList<T> list, Hasher hasher)
+        public static void Shuffle<T>(this IList<T> list, RandomGenerator random)
         {
-            list.ShuffleImpl(hasher);
+            list.ShuffleImpl(random);
         }
 
         /// <inheritdoc cref="Shuffle{T}(IList{T}, int)"/>
@@ -95,7 +97,7 @@ namespace UnityUtility.Utils
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Shuffle<T>(this IList<T> list, int seed)
         {
-            list.ShuffleImpl(new Hasher(seed));
+            list.ShuffleImpl(new RandomGenerator(seed));
         }
 
         /// <summary>
@@ -113,12 +115,12 @@ namespace UnityUtility.Utils
         }
 
         /// <inheritdoc cref="ShuffleCopy{T}(IList{T})"/>
-        /// <param name="hasher">The pseudo random number generator used to shuffle the list/param>
+        /// <param name="random">The pseudo random number generator used to shuffle the list/param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T[] ShuffleCopy<T>(this IList<T> list, Hasher hasher)
+        public static T[] ShuffleCopy<T>(this IList<T> list, RandomGenerator random)
         {
             T[] copy = list.Copy();
-            copy.Shuffle(hasher);
+            copy.Shuffle(random);
             return copy;
         }
 
@@ -133,9 +135,9 @@ namespace UnityUtility.Utils
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static void ShuffleImpl<T>(this IList<T> list, Hasher hasher)
+        private static void ShuffleImpl<T>(this IList<T> list, RandomGenerator random)
         {
-            list.Sort((T a, T b) => Math.Sign(hasher.RandomInt()));
+            list.Sort((T a, T b) => MathUf.Sign(random.RandomInt()));
         }
         #endregion
 
@@ -219,7 +221,7 @@ namespace UnityUtility.Utils
         public static bool IsSorted<TComp>(this IList<TComp> list)
                 where TComp : IComparable<TComp>
         {
-            return IsSorted(list, ComparableComparison);
+            return list.IsSorted(ComparableComparison);
         }
 
         /// <inheritdoc cref="IsSorted{TComp}(IList{TComp})"/>

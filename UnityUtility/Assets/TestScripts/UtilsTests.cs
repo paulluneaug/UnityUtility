@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+
 using UnityEngine;
+
 using UnityUtility.CustomAttributes;
-using UnityUtility.Hash;
+using UnityUtility.Extensions;
 using UnityUtility.MathU;
 using UnityUtility.Recorders;
-using UnityUtility.Utils;
 
 public class UtilsTests : MonoBehaviour
 {
@@ -109,7 +110,7 @@ public class UtilsTests : MonoBehaviour
             sum += i;
             count++;
         }
-        return  sum / count;
+        return sum / count;
     }
 
     [ContextMenu(nameof(TestHash))]
@@ -121,7 +122,7 @@ public class UtilsTests : MonoBehaviour
         recorder.BeginEvent("Init");
         Debug.LogError($"====={nameof(TestHash)}=====");
         IEnumerable<int> baseEnum = Enumerable.Repeat(0, (int)m_count);
-        Hasher hasher = new Hasher(m_seed);
+        UnityUtility.Random.RandomGenerator hasher = new UnityUtility.Random.RandomGenerator(m_seed);
 
         recorder.BeginEvent("Random Ints");
         recorder.BeginEvent("Compute Ints");
