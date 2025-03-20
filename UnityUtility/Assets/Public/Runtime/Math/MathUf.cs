@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.CompilerServices;
+
 using UnityEngine;
 
 namespace UnityUtility.MathU
@@ -406,8 +407,8 @@ namespace UnityUtility.MathU
         {
             float lerpFactor = Exp2(-deltaTime / halfLife);
             return new Vector3(
-                b.x + (a.x - b.x) * lerpFactor, 
-                b.y + (a.y - b.y) * lerpFactor, 
+                b.x + (a.x - b.x) * lerpFactor,
+                b.y + (a.y - b.y) * lerpFactor,
                 b.z + (a.z - b.z) * lerpFactor);
         }
 

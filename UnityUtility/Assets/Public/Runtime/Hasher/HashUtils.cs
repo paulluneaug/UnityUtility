@@ -1,9 +1,6 @@
-using System;
 using System.Runtime.CompilerServices;
-using UnityEngine;
-using UnityUtility.MathU;
 
-namespace UnityUtility.Hash
+namespace UnityUtility.Hasher
 {
     public static class HashUtils
     {
@@ -64,88 +61,6 @@ namespace UnityUtility.Hash
         public static uint Combine(uint a, uint b)
         {
             return a ^ (Hash(b) + 0x9e3779b9 + (a << 6) + (a >> 2));
-        }
-
-        /// <summary>
-        /// Returns a pseudo random <see cref="float"/> between 0 and 1
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float RandomFloat01(ref uint seed)
-        {
-            return Hash(ref seed) / 4294967295.0f; // 2^32-1
-        }
-
-        /// <summary>
-        /// Returns a pseudo random <see cref="float"/> between <paramref name="min"/> and <paramref name="max"/>
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float RandomFloat(ref uint seed, float min, float max)
-        {
-            return RandomFloat01(ref seed).RemapFrom01(min, max);
-        }
-
-        /// <summary>
-        /// Returns a pseudo random <see cref="float"/> within the given <paramref name="range"/>
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float RandomFloat(ref uint seed, Vector2 range)
-        {
-            return RandomFloat01(ref seed).RemapFrom01(range);
-        }
-
-        /// <summary>
-        /// Returns a pseudo random <see cref="int"/>
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int RandomInt(ref uint seed)
-        {
-            return UIntToInt(Hash(ref seed));
-        }
-
-        /// <summary>
-        /// Returns a pseudo random <see cref="int"/> within the interval [<paramref name="min"/>, <paramref name="max"/>[
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int RandomInt(ref uint seed, int min, int max)
-        {
-            return (int)RandomFloat01(ref seed).RemapFrom01(min, max);
-        }
-
-        /// <summary>
-        /// Returns a pseudo random <see cref="int"/> within the given <paramref name="range"/>
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int RandomInt(ref uint seed, Vector2Int range)
-        {
-            return RandomInt(ref seed, range.x, range.y);
-        }
-
-        /// <summary>
-        /// Returns a pseudo random <see cref="uint"/>
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint RandomUInt(ref uint seed)
-        {
-            return Hash(ref seed);
-        }
-
-        /// <summary>
-        /// Returns a pseudo random <see cref="bool"/>
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool RandomBool(ref uint seed)
-        {
-            return Math.Sign(RandomInt(ref seed)) == 1;
-        }
-
-        /// <summary>
-        /// Returns <see langword="true"/> according to the given <paramref name="probability"/>
-        /// </summary>
-        /// <param name="probability">The probability of returning <see langword="true"/></param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool RandomBoolProb(ref uint seed, float probability)
-        {
-            return RandomFloat01(ref seed) < probability;
         }
     }
 }
