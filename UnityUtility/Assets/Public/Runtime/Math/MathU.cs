@@ -10,6 +10,7 @@ namespace UnityUtility.MathU
         #region System.Math re-implementation
         public const double E = 2.7182818284590451;
         public const double PI = 3.1415926535897931;
+        public const double TAU = 2 * PI;
 
         [MethodImpl(INLINE)]
         public static decimal Abs(decimal value)
