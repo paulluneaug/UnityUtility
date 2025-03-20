@@ -1,7 +1,8 @@
 using System;
-using System.Linq;
 using System.Runtime.CompilerServices;
+
 using UnityEngine;
+
 using UnityUtility.MathU;
 
 namespace UnityUtility.Extensions
@@ -565,7 +566,7 @@ namespace UnityUtility.Extensions
         {
             return new Vector2(v.y, v.w);
         }
-        
+
         /// <summary> Grabs the Z and W components of the vector </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2 ZW(this Vector4 v)
