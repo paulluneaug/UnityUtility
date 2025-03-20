@@ -1,5 +1,6 @@
 
 using System.Runtime.CompilerServices;
+
 using UnityEngine;
 
 namespace UnityUtility.Utils

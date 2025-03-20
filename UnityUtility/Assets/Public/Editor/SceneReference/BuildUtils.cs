@@ -3,7 +3,9 @@
 
 using System.Collections.Generic;
 using System.Linq;
+
 using UnityEditor;
+
 using UnityEngine;
 
 namespace UnityUtility.SceneReference.Editor
@@ -34,7 +36,7 @@ namespace UnityUtility.SceneReference.Editor
         /// Check if the build settings asset is readonly.
         /// Caches value and only queries state a max of every 'minCheckWait' seconds.
         /// </summary>
-        static public bool IsReadOnly()
+        public static bool IsReadOnly()
         {
             float curTime = Time.realtimeSinceStartup;
             float timeSinceLastCheck = curTime - s_lastTimeChecked;
@@ -52,7 +54,7 @@ namespace UnityUtility.SceneReference.Editor
         /// A blocking call to the Version Control system to see if the build settings asset is readonly.
         /// Use BuildSettingsIsReadOnly for version that caches the value for better responsivenes.
         /// </summary>
-        static private bool QueryBuildSettingsStatus()
+        private static bool QueryBuildSettingsStatus()
         {
             // If no version control provider, assume not readonly
             if (UnityEditor.VersionControl.Provider.enabled == false)
@@ -87,7 +89,7 @@ namespace UnityUtility.SceneReference.Editor
         /// <summary>
         /// For a given Scene Asset object reference, extract its build settings data, including buildIndex.
         /// </summary>
-        static public BuildScene GetBuildScene(Object sceneObject)
+        public static BuildScene GetBuildScene(Object sceneObject)
         {
             BuildScene entry = new BuildScene()
             {
@@ -119,7 +121,7 @@ namespace UnityUtility.SceneReference.Editor
         /// <summary>
         /// Enable/Disable a given scene in the buildSettings
         /// </summary>
-        static public void SetBuildSceneState(BuildScene buildScene, bool enabled)
+        public static void SetBuildSceneState(BuildScene buildScene, bool enabled)
         {
             bool modified = false;
             EditorBuildSettingsScene[] scenesToModify = EditorBuildSettings.scenes;
@@ -141,7 +143,7 @@ namespace UnityUtility.SceneReference.Editor
         /// <summary>
         /// Display Dialog to add a scene to build settings
         /// </summary>
-        static public void AddBuildScene(BuildScene buildScene, bool force = false, bool enabled = true)
+        public static void AddBuildScene(BuildScene buildScene, bool force = false, bool enabled = true)
         {
             if (force == false)
             {
@@ -177,7 +179,7 @@ namespace UnityUtility.SceneReference.Editor
         /// <summary>
         /// Display Dialog to remove a scene from build settings (or just disable it)
         /// </summary>
-        static public void RemoveBuildScene(BuildScene buildScene, bool force = false)
+        public static void RemoveBuildScene(BuildScene buildScene, bool force = false)
         {
             bool onlyDisable = false;
             if (force == false)
@@ -234,7 +236,7 @@ namespace UnityUtility.SceneReference.Editor
         /// <summary>
         /// Open the default Unity Build Settings window
         /// </summary>
-        static public void OpenBuildSettings()
+        public static void OpenBuildSettings()
         {
             _ = EditorWindow.GetWindow(typeof(BuildPlayerWindow));
         }

@@ -2,6 +2,7 @@
 // https://gist.github.com/JohannesMP/ec7d3f0bcf167dab3d0d3bb480e0e07b
 
 using UnityEditor;
+
 using UnityEngine;
 
 namespace UnityUtility.SceneReference.Editor
@@ -196,7 +197,7 @@ namespace UnityUtility.SceneReference.Editor
             /// <summary>
             /// Draw a GUI button, choosing between a short and a long button text based on if it fits
             /// </summary>
-            static public bool ButtonHelper(Rect position, string msgShort, string msgLong, GUIStyle style, string tooltip = null)
+            public static bool ButtonHelper(Rect position, string msgShort, string msgLong, GUIStyle style, string tooltip = null)
             {
                 GUIContent content = new GUIContent(msgLong)
                 {
@@ -215,7 +216,7 @@ namespace UnityUtility.SceneReference.Editor
             /// <summary>
             /// Given a position rect, get its field portion
             /// </summary>
-            static public Rect GetFieldRect(Rect position)
+            public static Rect GetFieldRect(Rect position)
             {
                 position.width -= EditorGUIUtility.labelWidth;
                 position.x += EditorGUIUtility.labelWidth;
@@ -224,7 +225,7 @@ namespace UnityUtility.SceneReference.Editor
             /// <summary>
             /// Given a position rect, get its label portion
             /// </summary>
-            static public Rect GetLabelRect(Rect position)
+            public static Rect GetLabelRect(Rect position)
             {
                 position.width = EditorGUIUtility.labelWidth - s_padSize;
                 return position;

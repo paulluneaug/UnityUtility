@@ -1,6 +1,8 @@
 using UnityEditor;
-using UnityEngine.UIElements;
 using UnityEditor.UIElements;
+
+using UnityEngine.UIElements;
+
 using UnityUtility.Extensions.Editor;
 
 namespace UnityUtility.CustomAttributes.Editor

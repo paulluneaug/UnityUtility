@@ -1,4 +1,5 @@
 using System;
+
 using UnityUtility.Extensions;
 
 namespace UnityUtility.Utils

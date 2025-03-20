@@ -1,8 +1,10 @@
 using System;
 using System.Runtime.CompilerServices;
+
 using UnityEngine;
-using UnityUtility.MathU;
+
 using UnityUtility.Hasher;
+using UnityUtility.MathU;
 
 namespace UnityUtility.Random
 {

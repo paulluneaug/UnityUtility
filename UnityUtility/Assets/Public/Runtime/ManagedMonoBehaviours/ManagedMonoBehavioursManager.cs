@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+
 using UnityEngine;
 
 using UnityUtility.Singletons;
@@ -24,7 +25,7 @@ namespace UnityUtility.ManagedMonoBehaviours
 
         public void RemoveManagedMonoBehaviour(ManagedMonoBehaviour managedMonoBehaviour)
         {
-            m_managedMonoBehaviours.Remove(managedMonoBehaviour);
+            _ = m_managedMonoBehaviours.Remove(managedMonoBehaviour);
         }
 
         private void Update()

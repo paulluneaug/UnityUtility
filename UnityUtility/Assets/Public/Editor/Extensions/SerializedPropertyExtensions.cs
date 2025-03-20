@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Text.RegularExpressions;
+
 using UnityEditor;
 
 namespace UnityUtility.Extensions.Editor
@@ -38,7 +39,7 @@ namespace UnityUtility.Extensions.Editor
 
             // Get the parent's propertyPath
             string parentPath = property.propertyPath.ReplaceLast($".Array.data[{indexText}]", string.Empty);
-            
+
             arrayProperty = property.serializedObject.FindProperty(parentPath);
             index = int.Parse(indexText);
             return true;
