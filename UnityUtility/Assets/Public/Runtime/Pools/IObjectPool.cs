@@ -31,23 +31,23 @@ namespace UnityUtility.Pools
         /// <summary>
         /// Event called when an object is requested from the pool
         /// </summary>
-        public event Action OnObjectRequested;
+        event Action OnObjectRequested;
 
         /// <summary>
         /// Event called when an object is released and gets back in the pool
         /// </summary>
-        public event Action OnObjectReleased;
+        event Action OnObjectReleased;
 
         /// <summary>
         /// Requests an object from the pool
         /// </summary>
         /// <returns>A wrapper arround the requested object</returns>
-        public PooledObject<T> Request();
+        PooledObject<T> Request();
 
         /// <summary>
         /// Releases the object so that it can be re-used by something else
         /// </summary>
         /// <param name="releasedObject">The object to release</param>
-        public void Release(T releasedObject);
+        void Release(T releasedObject);
     }
 }

@@ -1,10 +1,15 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 using UnityEditor;
 
 using UnityEngine;
 using UnityEngine.UIElements;
+
+using UnityUtility.Utils;
 
 namespace UnityUtility.CustomAttributes.Editor
 {
@@ -21,6 +26,10 @@ namespace UnityUtility.CustomAttributes.Editor
 
         private static readonly Color s_separatorColor = new Color(0.3515625f, 0.3515625f, 0.3515625f);
 
+        /// <summary>
+        /// Creates and returns a <see cref="VisualElement"/> that can be used to separate fields in the inspector
+        /// </summary>
+        /// <returns></returns>
         public static VisualElement CreateSeparator()
         {
             VisualElement separator = new VisualElement();
@@ -30,19 +39,36 @@ namespace UnityUtility.CustomAttributes.Editor
             return separator;
         }
 
-        private static bool TryGetNestedChildMemberInfos(Type parentType, string memberName, IMemberConditionInfo parentMemberInfo, out IMemberConditionInfo childMemberInfos)
+        /// <summary>
+        /// Given a type and a member name, tries to find the <see cref="FieldInfo"/> or <see cref="PropertyInfo"/> of this member, wrapped in a <see cref="IMemberConditionInfo"/>
+        /// </summary>
+        private static bool TryGetNestedChildMemberInfos(Type parentType, string memberName, int arrayIndex, IMemberConditionInfo parentMemberInfo, out IMemberConditionInfo childMemberInfos)
         {
             FieldInfo conditionFieldInfo = parentType.GetField(memberName, DEFAULT_BINDING_FLAGS);
             if (conditionFieldInfo != null)
             {
-                childMemberInfos = new FieldConditionInfos(conditionFieldInfo, parentMemberInfo);
+                if (arrayIndex == -1)
+                {
+                    childMemberInfos = new FieldConditionInfos(conditionFieldInfo, parentMemberInfo);
+                }
+                else
+                {
+                    childMemberInfos = new ArrayFieldConditionInfos(conditionFieldInfo, arrayIndex, parentMemberInfo);
+                }
                 return true;
             }
 
             PropertyInfo conditionPropertyInfo = parentType.GetProperty(memberName, DEFAULT_BINDING_FLAGS);
             if (conditionPropertyInfo != null)
             {
-                childMemberInfos = new PropertyConditionInfos(conditionPropertyInfo, parentMemberInfo);
+                if (arrayIndex == -1)
+                {
+                    childMemberInfos = new PropertyConditionInfos(conditionPropertyInfo, parentMemberInfo);
+                }
+                else
+                {
+                    childMemberInfos = new ArrayPropertyConditionInfos(conditionPropertyInfo, arrayIndex, parentMemberInfo);
+                }
                 return true;
             }
             Debug.LogError($"No field nor property named {memberName} in the type {parentType.Name}");
@@ -51,20 +77,69 @@ namespace UnityUtility.CustomAttributes.Editor
 
         }
 
+        private static string FormatArrayData(string pathStep)
+        {
+            Match arrayIndexMatch = Regex.Match(pathStep, "(?<=data\\[)[0-9]*(?=\\])");
+            if (arrayIndexMatch.Success)
+            {
+                return arrayIndexMatch.Value;
+            }
+            return pathStep;
+        }
+
+        private static IEnumerable<(string memberName, int arrayIndex)> CurateArrayMembers(string[] splittedPath)
+        {
+            splittedPath = splittedPath.Select(FormatArrayData).ToArray();
+            for (int i = 0; i < splittedPath.Length; ++i)
+            {
+                string memberName = splittedPath[i];
+                if (StringUtils.IsInteger(memberName))
+                {
+                    continue;
+                }
+
+                if (i < splittedPath.Length - 1)
+                {
+                    if (string.Equals(memberName, "Array") && StringUtils.IsInteger(splittedPath[i + 1]))
+                    {
+                        continue;
+                    }
+                }
+
+
+                if (i < splittedPath.Length - 2)
+                {
+                    if (string.Equals(splittedPath[i + 1], "Array") && int.TryParse(splittedPath[i + 2], out int arrayIndex))
+                    {
+                        yield return (memberName, arrayIndex);
+                        continue;
+                    }
+                }
+
+                yield return (memberName, -1);
+
+            }
+        }
+
+        /// <summary>
+        /// Tries to find a member in the <see cref="SerializedObject"/> of a <see cref="SerializedProperty"/> 
+        /// </summary>
         public static bool TryGetNestedMemberInfosChain(SerializedProperty property, string memberName, out IMemberConditionInfo memberInfos)
         {
             Type parentObjectType = property.serializedObject.targetObject.GetType();
 
             string[] splittedPropertyPath = property.propertyPath.Split('.');
+            (string memberName, int arrayIndex)[] memberHierarchy = CurateArrayMembers(splittedPropertyPath).ToArray();
 
             Type parentType = parentObjectType;
 
             IMemberConditionInfo parentMemberInfo = null;
 
-            for (int i = 0; i < splittedPropertyPath.Length - 1; i++)
+            for (int i = 0; i < memberHierarchy.Length - 1; i++)
             {
-                string nestedMemberName = splittedPropertyPath[i];
-                if (!TryGetNestedChildMemberInfos(parentType, nestedMemberName, parentMemberInfo, out IMemberConditionInfo childInfos))
+                (string nestedMemberName, int arrayIndex) = memberHierarchy[i];
+
+                if (!TryGetNestedChildMemberInfos(parentType, nestedMemberName, arrayIndex, parentMemberInfo, out IMemberConditionInfo childInfos))
                 {
                     memberInfos = null;
                     return false;
@@ -73,7 +148,7 @@ namespace UnityUtility.CustomAttributes.Editor
                 parentType = childInfos.GetMemberType();
             }
 
-            if (TryGetNestedChildMemberInfos(parentType, memberName, parentMemberInfo, out memberInfos))
+            if (TryGetNestedChildMemberInfos(parentType, memberName, -1, parentMemberInfo, out memberInfos))
             {
                 return true;
             }

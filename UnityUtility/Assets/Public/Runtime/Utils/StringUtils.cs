@@ -108,5 +108,22 @@ namespace UnityUtility.Utils
             }
             return false;
         }
+
+        public static bool IsInteger(string st)
+        {
+            for (int iChar = 0; iChar < st.Length; iChar++)
+            {
+                char c = st[iChar];
+                if (!char.IsDigit(c))
+                {
+                    if (iChar == 0 && c == '-')
+                    {
+                        continue;
+                    }
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }

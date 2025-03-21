@@ -1,4 +1,5 @@
 using UnityEngine;
+
 using UnityUtility.ObservableFields;
 
 public class ObservableFieldsTEsts : MonoBehaviour
@@ -28,5 +29,6 @@ public class ObservableFieldsTEsts : MonoBehaviour
     private void ChangeComp()
     {
         m_comp.Value = m_comp2;
+        m_comps.Add(m_comp2);
     }
 }
