@@ -8,7 +8,7 @@ using UnityUtility.SerializedDictionary;
 public class SerializedDictionaryTests : MonoBehaviour
 {
     [Button(nameof(TestDict))]
-    [SerializeField] SerializedDictionary<string, float> dictionary;
+    [SerializeField] private SerializedDictionary<string, float> dictionary;
 
     public void TestDict()
     {

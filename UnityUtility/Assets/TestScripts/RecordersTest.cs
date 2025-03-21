@@ -1,9 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Threading;
-using Unity.VisualScripting;
+
 using UnityEngine;
+
 using UnityUtility.Recorders;
 
 public class RecordersTest : MonoBehaviour
@@ -12,7 +10,7 @@ public class RecordersTest : MonoBehaviour
     private HierarchicalRecorder r2;
     private HierarchicalProfilingRecorder r3;
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         r0 = new Recorder("R0", LogType.Warning);
         r2 = new HierarchicalRecorder("R2", LogType.Warning);
@@ -20,7 +18,7 @@ public class RecordersTest : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         TestRecorder(r0);
         TestRecorder(r2);

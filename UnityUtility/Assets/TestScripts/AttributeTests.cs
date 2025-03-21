@@ -1,6 +1,8 @@
 using System;
+
 using UnityEngine;
 using UnityEngine.UIElements;
+
 using UnityUtility.CustomAttributes;
 using UnityUtility.SceneReference;
 
@@ -51,11 +53,11 @@ public class AttributeTests : MonoBehaviour
     [Button(nameof(TestMethod2), "MÃƒÂ¯Ã‚Â¿Ã‚Â½thode Test2")]
     [SerializeField] private bool m_whatABool = true;
     [Title("Title Example", "With Subtitle (and underline)")]
-    [DisableIf(nameof(Condition)), MinMaxSlider(2, 250, roundDigits: 1)] 
+    [DisableIf(nameof(Condition)), MinMaxSlider(2, 250, roundDigits: 1)]
     public Vector2[] A;
     public float B;
     [Title("No Subtitle nor underline (like a Header)", separator: false)]
-    [ShowIf(nameof(m_so), Sau.CISSE)] 
+    [ShowIf(nameof(m_so), Sau.CISSE)]
     public float C;
     public float D;
     [Title("They can be centered", titleAlignment: TitleAlignments.Centered)]
