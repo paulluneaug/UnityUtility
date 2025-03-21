@@ -14,11 +14,11 @@ namespace UnityUtility.Pools
         /// <summary>
         /// Called when the object exits the pool
         /// </summary>
-        public void OnObjectRequested();
+        void OnObjectRequested();
 
         /// <summary>
         /// Called when the object gets back in the pool
         /// </summary>
-        public void OnObjectReleased();
+        void OnObjectReleased();
     }
 }
