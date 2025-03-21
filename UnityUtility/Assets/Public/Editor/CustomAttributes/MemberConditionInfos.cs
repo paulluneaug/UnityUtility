@@ -28,14 +28,11 @@ namespace UnityUtility.CustomAttributes.Editor
 
         public object GetValue(object serializedObject)
         {
-            object returnValue;
             if (m_parentNestedMember == null)
             {
-                returnValue = m_fieldInfos.GetValue(serializedObject);
-                return returnValue;
+                return m_fieldInfos.GetValue(serializedObject);
             }
-            returnValue = m_fieldInfos.GetValue(m_parentNestedMember.GetValue(serializedObject));
-            return returnValue;
+            return m_fieldInfos.GetValue(m_parentNestedMember.GetValue(serializedObject));
         }
     }
 
