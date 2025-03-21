@@ -1,61 +1,15 @@
 using System;
-using System.Linq;
 using System.Runtime.CompilerServices;
+
 using UnityEngine;
 
-namespace UnityUtility.Utils
+using UnityUtility.MathU;
+
+namespace UnityUtility.Extensions
 {
     #region Comparisons
-    public static class ComparisonUtils
+    public static class IComparableExtensions
     {
-        /// <summary>
-        /// The different comparison operators
-        /// </summary>
-        /// 
-        /// <remarks>
-        /// Values : <br/>
-        /// <see cref="Inferior"/> = 0 <br/>
-        /// <see cref="InferiorEqual"/> = 1 <br/>
-        /// <see cref="Equal"/> = 2 <br/>
-        /// <see cref="Superior"/> = 3 <br/>
-        /// <see cref="SuperiorEqual"/> = 4 <br/>
-        /// <see cref="NotEquals"/> = 5 <br/>
-        /// </remarks>
-        public enum ComparisonOperator
-        {
-            Inferior = 0,
-            InferiorEqual = 1,
-            Equal = 2,
-            Superior = 3,
-            SuperiorEqual = 4,
-            NotEquals = 5,
-        };
-
-        /// <summary>
-        /// Returns wether <paramref name="value1"/> and <paramref name="value2"/> 
-        /// resolves the <see cref="ComparisonOperator"/> <paramref name="op"/>
-        /// </summary>
-        /// 
-        /// <typeparam name="T">Type of the operandes</typeparam>
-        /// <param name="value1">The first value to compare</param>
-        /// <param name="op">Operator</param>
-        /// <param name="value2">The second value to compare</param>
-        /// <returns>Wether <paramref name="value1"/> and <paramref name="value2"/> resolves the operator <paramref name="op"/></returns>
-        public static bool ResolveComparison<T>(T value1, ComparisonOperator op, T value2)
-            where T : IComparable<T>
-        {
-            return op switch
-            {
-                ComparisonOperator.Inferior => value1.SmallerThan(value2),
-                ComparisonOperator.InferiorEqual => value1.SmallerOrEqualsTo(value2),
-                ComparisonOperator.Equal => value1.EqualsTo(value2),
-                ComparisonOperator.Superior => value1.GreaterThan(value2),
-                ComparisonOperator.SuperiorEqual => value1.GreaterOrEqualsTo(value2),
-                ComparisonOperator.NotEquals => value1.NotEqualsTo(value2),
-                _ => false,
-            }; ;
-        }
-
         /// <summary>
         /// Compares <paramref name="value"/>, <paramref name="min"/> and <paramref name="max"/>
         /// and returns wether <paramref name="value"/> belongs in the interval [<paramref name="min"/> ; <paramref name="max"/>]
@@ -181,7 +135,7 @@ namespace UnityUtility.Utils
     #endregion
 
     #region Vector2
-    public static class Vector2Utils
+    public static class Vector2Extensions
     {
         /// <summary>
         /// Projects a vector onto another vector 
@@ -193,7 +147,7 @@ namespace UnityUtility.Utils
         public static Vector2 ProjectOn(this Vector2 vector, Vector2 target)
         {
             float targetDot = Vector2.Dot(target, target);
-            if (targetDot < Mathf.Epsilon)
+            if (targetDot < MathUf.Epsilon)
             {
                 return Vector2.zero;
             }
@@ -222,7 +176,7 @@ namespace UnityUtility.Utils
         /// <summary>
         /// Compares the magnitude and the angle of two vectors and returns wether their difference is less than the given tolerances
         /// </summary>
-        /// <remarks>Warning : This method can use up to 3 times <see cref="Mathf.Sqrt(float)"/></remarks>
+        /// <remarks>Warning : This method can use up to 3 times the square root operation</remarks>
         /// <param name="angleTolerance">Angle tolerance (in degrees)</param>
         /// <returns>Wether the difference in magnitude and angle between the two vectors is less than the tolerances given</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -266,7 +220,7 @@ namespace UnityUtility.Utils
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float AngleSigned(this Vector2 from, Vector2 to)
         {
-            float sign = Mathf.Sign(from.x * to.y - from.y * to.x);
+            float sign = MathUf.Sign(from.x * to.y - from.y * to.x);
             return Vector2.Angle(from, to) * sign;
         }
 
@@ -300,9 +254,9 @@ namespace UnityUtility.Utils
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2 Rotate(this Vector2 v, float angle)
         {
-            float rad = angle * Mathf.Deg2Rad;
-            float c = Mathf.Cos(rad);
-            float s = Mathf.Sin(rad);
+            float rad = angle * MathUf.DEG_2_RAD;
+            float c = MathUf.Cos(rad);
+            float s = MathUf.Sin(rad);
             return new Vector2(c * v.x - s * v.y, s * v.x + c * v.y);
         }
 
@@ -326,20 +280,50 @@ namespace UnityUtility.Utils
                 deltaX * deltaX +
                 deltaY * deltaY;
         }
+
+
+        /// <summary> Swaps the X and Y components of the vector </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 YX(this Vector2 v)
+        {
+            return new Vector2(v.y, v.x);
+        }
+
+        /// <summary>
+        /// Returns (x, 0, y)
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3 X0Y(this Vector2 v)
+        {
+            return new Vector3(v.x, 0.0f, v.y);
+        }
+
+        /// <summary>
+        /// Returns (x, y, 0)
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3 XY0(this Vector2 v)
+        {
+            return new Vector3(v.x, v.y, 0.0f);
+        }
     }
     #endregion
 
     #region Vector3
-    public static class Vector3Utils
+    public static class Vector3Extensions
     {
-        /// <inheritdoc cref="Vector2Utils.ProjectOn"/>
+        /// <inheritdoc cref="Vector2Extensions.ProjectOn"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 ProjectOn(this Vector3 vector, Vector3 target)
         {
             return Vector3.Project(vector, target);
         }
 
-        /// <inheritdoc cref="Vector2Utils.ApproximatelyEqualsPoint"/>
+        /// <inheritdoc cref="Vector2Extensions.ApproximatelyEqualsPoint"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool ApproximatelyEqualsPoint(this Vector3 point, Vector3 other, Vector3 tolerance)
         {
@@ -349,14 +333,14 @@ namespace UnityUtility.Utils
                 point.z.Approximately(other.z, tolerance.z);
         }
 
-        /// <inheritdoc cref="Vector2Utils.ApproximatelyEqualsPoint"/>
+        /// <inheritdoc cref="Vector2Extensions.ApproximatelyEqualsPoint"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool ApproximatelyEqualsPoint(this Vector3 point, Vector3 other, float tolerance = 0.001f)
         {
             return ApproximatelyEqualsPoint(point, other, Vector3.one * tolerance);
         }
 
-        /// <inheritdoc cref="Vector2Utils.ApproximatelyEqualsDir"/>
+        /// <inheritdoc cref="Vector2Extensions.ApproximatelyEqualsDir"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool ApproximatelyEqualsDir(this Vector3 dir, Vector3 other, float magnitudeTolerance = 0.001f, float angleTolerance = 0.01f)
         {
@@ -410,7 +394,7 @@ namespace UnityUtility.Utils
             return Vector3.Scale(v1, v2);
         }
 
-        /// <inheritdoc cref="Vector2Utils.SqrDistance(Vector2, Vector2)"/>
+        /// <inheritdoc cref="Vector2Extensions.SqrDistance(Vector2, Vector2)"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float SqrDistance(this Vector3 p1, Vector3 p2)
         {
@@ -422,11 +406,32 @@ namespace UnityUtility.Utils
                 deltaY * deltaY +
                 deltaZ * deltaZ;
         }
+
+        /// <summary> Grabs the X and Y components of the vector </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 XY(this Vector3 v)
+        {
+            return new Vector2(v.x, v.y);
+        }
+
+        /// <summary> Grabs the X and Z components of the vector </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 XZ(this Vector3 v)
+        {
+            return new Vector2(v.x, v.z);
+        }
+
+        /// <summary> Grabs the Y and Z components of the vector </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 YZ(this Vector3 v)
+        {
+            return new Vector2(v.y, v.z);
+        }
     }
     #endregion
 
     #region Vector4
-    public static class Vector4Utils
+    public static class Vector4Extensions
     {
         /// <summary>
         /// Computes the angle in degrees between two <see cref="Vector4"/>
@@ -437,24 +442,24 @@ namespace UnityUtility.Utils
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Vector4Angle(Vector4 from, Vector4 to)
         {
-            float num = Mathf.Sqrt(from.sqrMagnitude * to.sqrMagnitude);
+            float num = MathUf.Sqrt(from.sqrMagnitude * to.sqrMagnitude);
             if (num < 1E-15f)
             {
                 return 0f;
             }
 
-            float num2 = Mathf.Clamp(Vector4.Dot(from, to) / num, -1f, 1f);
-            return Mathf.Acos(num2) * Mathf.Rad2Deg;
+            float num2 = MathUf.Clamp(Vector4.Dot(from, to) / num, -1f, 1f);
+            return MathUf.Acos(num2) * MathUf.RAD_2_DEG;
         }
 
-        /// <inheritdoc cref="Vector2Utils.ProjectOn"/>
+        /// <inheritdoc cref="Vector2Extensions.ProjectOn"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4 ProjectOn(this Vector4 vector, Vector4 target)
         {
             return Vector4.Project(vector, target);
         }
 
-        /// <inheritdoc cref="Vector2Utils.ApproximatelyEqualsPoint"/>
+        /// <inheritdoc cref="Vector2Extensions.ApproximatelyEqualsPoint"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool ApproximatelyEqualsPoint(this Vector4 point, Vector4 other, Vector4 tolerance)
         {
@@ -465,14 +470,14 @@ namespace UnityUtility.Utils
                 point.w.Approximately(other.w, tolerance.w);
         }
 
-        /// <inheritdoc cref="Vector2Utils.ApproximatelyEqualsPoint"/>
+        /// <inheritdoc cref="Vector2Extensions.ApproximatelyEqualsPoint"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool ApproximatelyEqualsPoint(this Vector4 point, Vector4 other, float tolerance = 0.001f)
         {
             return ApproximatelyEqualsPoint(point, other, Vector4.one * tolerance);
         }
 
-        /// <inheritdoc cref="Vector2Utils.ApproximatelyEqualsDir"/>
+        /// <inheritdoc cref="Vector2Extensions.ApproximatelyEqualsDir"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool ApproximatelyEqualsDir(this Vector4 dir, Vector4 other, float magnitudeTolerance = 0.001f, float angleTolerance = 0.01f)
         {
@@ -512,7 +517,7 @@ namespace UnityUtility.Utils
             return Vector4.Scale(v1, v2);
         }
 
-        /// <inheritdoc cref="Vector2Utils.SqrDistance(Vector2, Vector2)"/>
+        /// <inheritdoc cref="Vector2Extensions.SqrDistance(Vector2, Vector2)"/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float SqrDistance(this Vector4 p1, Vector4 p2)
         {
@@ -526,11 +531,81 @@ namespace UnityUtility.Utils
                 deltaZ * deltaZ +
                 deltaW * deltaW;
         }
+
+        /// <summary> Grabs the X and Y components of the vector </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 XY(this Vector4 v)
+        {
+            return new Vector2(v.x, v.y);
+        }
+
+        /// <summary> Grabs the X and Z components of the vector </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 XZ(this Vector4 v)
+        {
+            return new Vector2(v.x, v.z);
+        }
+
+        /// <summary> Grabs the X and W components of the vector </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 XW(this Vector4 v)
+        {
+            return new Vector2(v.y, v.w);
+        }
+
+        /// <summary> Grabs the Y and Z components of the vector </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 YZ(this Vector4 v)
+        {
+            return new Vector2(v.y, v.z);
+        }
+
+        /// <summary> Grabs the Y and W components of the vector </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 YW(this Vector4 v)
+        {
+            return new Vector2(v.y, v.w);
+        }
+
+        /// <summary> Grabs the Z and W components of the vector </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 ZW(this Vector4 v)
+        {
+            return new Vector2(v.z, v.w);
+        }
+
+        /// <summary> Grabs the X, Y and Z components of the vector </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3 XYZ(this Vector4 v)
+        {
+            return new Vector3(v.x, v.y, v.z);
+        }
+
+        /// <summary> Grabs the X, Y and W components of the vector </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3 XYW(this Vector4 v)
+        {
+            return new Vector3(v.x, v.y, v.w);
+        }
+
+        /// <summary> Grabs the X, Z and W components of the vector </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3 XZW(this Vector4 v)
+        {
+            return new Vector3(v.x, v.z, v.w);
+        }
+
+        /// <summary> Grabs the Y, Z and W components of the vector </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3 YZW(this Vector4 v)
+        {
+            return new Vector3(v.y, v.z, v.w);
+        }
     }
     #endregion
 
     #region Float
-    public static class FloatUtils
+    public static class FloatExtensions
     {
         /// <summary>
         /// Compares 2 floats and returns wether their difference is less than a tolerance
@@ -544,80 +619,11 @@ namespace UnityUtility.Utils
         {
             return Math.Abs(val - other) < tolerance;
         }
-
-        /// <summary>
-        /// Remaps the value of <paramref name="input"/> 
-        /// from the range <paramref name="initialRange"/> to the range <paramref name="targetRange"/>
-        /// </summary>
-        /// <returns>The remapped value of <paramref name="input"/></returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Remap(this float input, Vector2 initialRange, Vector2 targetRange)
-        {
-            return input.Remap(initialRange.x, initialRange.y, targetRange.x, targetRange.y);
-        }
-
-        /// <summary>
-        /// Remaps the value of <paramref name="input"/> 
-        /// from the range [<paramref name="initialMin"/>; <paramref name="initialMax"/>] 
-        /// to the range [<paramref name="targetMin"/>; <paramref name="targetMax"/>]
-        /// </summary>
-        /// <returns>The remapped value of <paramref name="input"/></returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Remap(this float input, float initialMin, float initialMax, float targetMin, float targetMax)
-        {
-            return input.RemapTo01(initialMin, initialMax).RemapFrom01(targetMin, targetMax);
-        }
-
-        /// <summary>
-        /// Remaps the value of <paramref name="input"/> 
-        /// from the range [0; 1] 
-        /// to the range [<paramref name="targetMin"/>; <paramref name="targetMax"/>]
-        /// </summary>
-        /// <returns>The remapped value of <paramref name="input"/></returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float RemapFrom01(this float input, float targetMin, float targetMax)
-        {
-            return targetMin + input * (targetMax - targetMin);
-        }
-
-        /// <summary>
-        /// Remaps the value of <paramref name="input"/> 
-        /// from the range [0; 1] to the range <paramref name="targetRange"/>
-        /// </summary>
-        /// <returns>The remapped value of <paramref name="input"/></returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float RemapFrom01(this float input, Vector2 targetRange)
-        {
-            return input.RemapFrom01(targetRange.x, targetRange.y);
-        }
-
-        /// <summary>
-        /// Remaps the value of <paramref name="input"/> 
-        /// from the range [<paramref name="initialMin"/>; <paramref name="initialMax"/>]
-        /// to the range [0; 1] 
-        /// </summary>
-        /// <returns>The remapped value of <paramref name="input"/></returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float RemapTo01(this float input,float initialMin, float initialMax)
-        {
-            return (input - initialMin) / (initialMax - initialMin);
-        }
-
-        /// <summary>
-        /// Remaps the value of <paramref name="input"/> 
-        /// from the range <paramref name="initialRange"/> to the range [0; 1]
-        /// </summary>
-        /// <returns>The remapped value of <paramref name="input"/></returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float RemapTo01(this float input, Vector2 initialRange)
-        {
-            return input.RemapTo01(initialRange.x, initialRange.y);
-        }
     }
     #endregion
 
     #region Int
-    public static class IntUtils
+    public static class IntExtensions
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool HasFlag(this int val, int flag)
@@ -628,7 +634,7 @@ namespace UnityUtility.Utils
     #endregion
 
     #region UInt
-    public static class UIntUtils
+    public static class UIntExtensions
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool HasFlag(this uint val, uint flag)
@@ -639,7 +645,7 @@ namespace UnityUtility.Utils
     #endregion
 
     #region Long
-    public static class LongUtils
+    public static class LongExtensions
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool HasFlag(this long val, long flag)
@@ -650,7 +656,7 @@ namespace UnityUtility.Utils
     #endregion
 
     #region ULong
-    public static class ULongUtils
+    public static class ULongExtensions
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool HasFlag(this ulong val, ulong flag)
@@ -661,30 +667,8 @@ namespace UnityUtility.Utils
     #endregion
 
     #region Misc
-    public static class MathUtils
+    public static class MathExtensions
     {
-        /// <summary>
-        /// Tries to parse a <see cref="string"/> representing an hexadecimal number to an <see cref="int"/>
-        /// </summary>
-        /// <param name="hex"></param>
-        /// <param name="intValue"></param>
-        /// <returns>Wether the conversion was a success</returns>
-        public static bool TryHexToInt(string hex, out int intValue)
-        {
-            intValue = 0;
-            if (string.IsNullOrEmpty(hex))
-            {
-                return false;
-            }
-            hex = hex.ToLower();
-            if (hex.All((char c) => c.Between('0', '9') || c.Between('a', 'f')))
-            {
-                intValue = Convert.ToInt32(hex, 16);
-                return true;
-            }
-
-            return false;
-        }
     }
     #endregion
 }

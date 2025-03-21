@@ -18,7 +18,8 @@ namespace UnityUtility.Singletons
     /// <seealso cref="ScriptableSingleton{T}"/><br/>
     /// 
     /// </summary>
-    public abstract class MonoBehaviourSingleton<T> : MonoBehaviour, ISingleton<T> where T : MonoBehaviourSingleton<T>
+    public abstract class MonoBehaviourSingleton<T> : MonoBehaviour, ISingleton<T>
+        where T : MonoBehaviourSingleton<T>
     {
         protected static T s_instance;
 
@@ -28,7 +29,7 @@ namespace UnityUtility.Singletons
         {
             get
             {
-                if (m_applicationIsQuitting)
+                if (s_applicationIsQuitting)
                 {
                     return null;
                 }
@@ -37,13 +38,13 @@ namespace UnityUtility.Singletons
                 {
                     if (s_instance == null)
                     {
-                        s_instance = FindObjectOfType<T>();
+                        s_instance = FindFirstObjectByType<T>();
 
                         if (s_instance == null)
                         {
                             GameObject singleton = new GameObject();
                             s_instance = singleton.AddComponent<T>();
-                            singleton.name = $"[Singleton] {nameof(T)}";
+                            singleton.name = $"[Singleton] {typeof(T).Name}";
 
                             DontDestroyOnLoad(singleton);
                         }
@@ -54,11 +55,11 @@ namespace UnityUtility.Singletons
             }
         }
 
-        private static bool m_applicationIsQuitting = false;
+        private static bool s_applicationIsQuitting = false;
 
-        public static bool ApplicationIsQuitting { get => m_applicationIsQuitting; set => m_applicationIsQuitting = value; }
+        public static bool ApplicationIsQuitting { get => s_applicationIsQuitting; set => s_applicationIsQuitting = value; }
 
-        protected virtual void Start()
+        protected virtual void Awake()
         {
             if (s_instance != null && s_instance != this)
             {
@@ -67,10 +68,14 @@ namespace UnityUtility.Singletons
             else
             {
                 DontDestroyOnLoad(gameObject);
-                s_instance = FindObjectOfType<T>();
+                s_instance = FindFirstObjectByType<T>();
 
                 Initialize();
             }
+        }
+
+        protected virtual void Start()
+        {
         }
 
         /// <summary>
@@ -85,7 +90,7 @@ namespace UnityUtility.Singletons
         {
             if (s_instance != null && s_instance == this)
             {
-                m_applicationIsQuitting = true;
+                s_applicationIsQuitting = true;
             }
         }
 

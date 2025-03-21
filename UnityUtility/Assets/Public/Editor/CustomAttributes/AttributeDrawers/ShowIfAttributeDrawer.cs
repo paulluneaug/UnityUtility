@@ -1,9 +1,10 @@
 using UnityEditor;
-using UnityEngine;
 using UnityEditor.UIElements;
+
+using UnityEngine;
 using UnityEngine.UIElements;
-using System;
-using UnityUtility.Utils.Editor;
+
+using UnityUtility.Extensions.Editor;
 
 namespace UnityUtility.CustomAttributes.Editor
 {
@@ -35,11 +36,18 @@ namespace UnityUtility.CustomAttributes.Editor
         {
             if (attribute is ShowIfAttribute showIfAttribute)
             {
-                m_conditionSucess = AttributeUtils.ConditionSucessFromFieldOrProperty(
-                    property,
-                    showIfAttribute.FieldName,
-                    showIfAttribute.CompareValue,
-                    showIfAttribute.Inverse);
+                if (AttributeUtils.TryGetNestedMemberInfosChain(property, showIfAttribute.FieldName, out IMemberConditionInfo memberInfos))
+                {
+                    m_conditionSucess = AttributeUtils.ConditionSucessFromFieldOrProperty(
+                        property,
+                        memberInfos,
+                        showIfAttribute.CompareValue,
+                        showIfAttribute.Inverse);
+                }
+                else
+                {
+                    m_conditionSucess = true;
+                }
 
                 if (m_conditionSucess)
                 {
@@ -73,11 +81,18 @@ namespace UnityUtility.CustomAttributes.Editor
         {
             try
             {
-                m_conditionSucess = AttributeUtils.ConditionSucessFromFieldOrProperty(
-                    m_property,
-                    m_showIfAttribute.FieldName,
-                    m_showIfAttribute.CompareValue,
-                    m_showIfAttribute.Inverse);
+                if (AttributeUtils.TryGetNestedMemberInfosChain(m_property, m_showIfAttribute.FieldName, out IMemberConditionInfo memberInfos))
+                {
+                    m_conditionSucess = AttributeUtils.ConditionSucessFromFieldOrProperty(
+                        m_property,
+                        memberInfos,
+                        m_showIfAttribute.CompareValue,
+                        m_showIfAttribute.Inverse);
+                }
+                else
+                {
+                    m_conditionSucess = true;
+                }
 
                 if (m_isPartOfArray)
                 {
@@ -90,7 +105,7 @@ namespace UnityUtility.CustomAttributes.Editor
                 }
 
             }
-            catch (ArgumentNullException)
+            catch
             {
                 EditorApplication.update -= OnEditorUpdate;
                 return;

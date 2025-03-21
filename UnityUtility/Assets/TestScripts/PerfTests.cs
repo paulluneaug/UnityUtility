@@ -1,11 +1,10 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 
 using System.Linq;
+
 using UnityEditor;
+
 using UnityEngine;
-using UnityEngine.UIElements;
 
 using UnityUtility.ManagedMonoBehaviours;
 
@@ -29,7 +28,9 @@ public class PerfTests : MonoBehaviour
         TimeSpan spawnDeltaTime = DateTime.Now - strartTime;
 
         if (m_spawnedMB == null)
+        {
             return;
+        }
 
         Debug.LogError($"Took {spawnDeltaTime.TotalMilliseconds} ms to spawn {m_mbCountToSpawn} objects");
     }
@@ -38,8 +39,8 @@ public class PerfTests : MonoBehaviour
     {
         System.Random r = new System.Random();
         var spawnedMBs = m_container.GetComponentsInChildren<ManagedMonoBehaviour>().ToList();
-        spawnedMBs.Remove(m_container);
-        spawnedMBs.OrderBy((mmb) => r.Next());
+        _ = spawnedMBs.Remove(m_container);
+        _ = spawnedMBs.OrderBy((mmb) => r.Next());
         m_spawnedMB = spawnedMBs.ToArray();
         int childCount = m_spawnedMB.Length;
         DateTime strartTime = DateTime.Now;

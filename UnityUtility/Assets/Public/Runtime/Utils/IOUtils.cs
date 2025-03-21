@@ -1,5 +1,7 @@
 using System.IO;
 
+using UnityUtility.Extensions;
+
 namespace UnityUtility.Utils
 {
     public static class IOUtils

@@ -1,4 +1,5 @@
 using System;
+
 using UnityEngine;
 
 namespace UnityUtility.Timer
@@ -43,11 +44,12 @@ namespace UnityUtility.Timer
         [NonSerialized] private float m_currentTime = 0.0f;
         [NonSerialized] private bool m_isRunning = false;
 
-        public Timer(float duration, bool repeat)
+        public Timer(float duration, bool repeat, float startTime = 0.0f)
         {
             m_duration = Math.Max(0.0f, duration);
             m_currentTime = 0.0f;
             m_repeat = repeat;
+            m_currentTime = startTime;
         }
 
         /// <summary>
@@ -91,24 +93,27 @@ namespace UnityUtility.Timer
         /// <returns>Wether the timer ended</returns>
         public bool Update(float deltaTime)
         {
-            if (m_isRunning)
+            if (!m_isRunning)
             {
-                m_currentTime += deltaTime;
-                if (m_currentTime > m_duration)
-                {
-                    if (m_repeat)
-                    {
-                        m_currentTime %= m_duration;
-                    }
-                    else
-                    {
-                        Stop();
-                    }
-                    OnTimerEnds?.Invoke();
-                    return true;
-                }
+                return false;
             }
-            return false;
+
+            m_currentTime += deltaTime;
+            if (m_currentTime < m_duration)
+            {
+                return false;
+            }
+
+            if (m_repeat)
+            {
+                m_currentTime %= m_duration;
+            }
+            else
+            {
+                Stop();
+            }
+            OnTimerEnds?.Invoke();
+            return true;
         }
     }
 }

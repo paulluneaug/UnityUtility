@@ -1,9 +1,10 @@
 using UnityEditor;
-using UnityEngine;
 using UnityEditor.UIElements;
+
+using UnityEngine;
 using UnityEngine.UIElements;
-using System;
-using UnityUtility.Utils.Editor;
+
+using UnityUtility.Extensions.Editor;
 
 namespace UnityUtility.CustomAttributes.Editor
 {
@@ -36,11 +37,18 @@ namespace UnityUtility.CustomAttributes.Editor
         {
             if (attribute is DisableIfAttribute disableIfAttribute)
             {
-                m_conditionSucess = AttributeUtils.ConditionSucessFromFieldOrProperty(
-                    property,
-                    disableIfAttribute.FieldName,
-                    disableIfAttribute.CompareValue,
-                    disableIfAttribute.Inverse);
+                if (AttributeUtils.TryGetNestedMemberInfosChain(property, disableIfAttribute.FieldName, out IMemberConditionInfo memberInfos))
+                {
+                    m_conditionSucess = AttributeUtils.ConditionSucessFromFieldOrProperty(
+                        property,
+                        memberInfos,
+                        disableIfAttribute.CompareValue,
+                        disableIfAttribute.Inverse);
+                }
+                else
+                {
+                    m_conditionSucess = true;
+                }
 
                 EditorGUI.BeginDisabledGroup(m_conditionSucess);
                 _ = EditorGUILayout.PropertyField(property, label);
@@ -75,11 +83,18 @@ namespace UnityUtility.CustomAttributes.Editor
         {
             try
             {
-                m_conditionSucess = AttributeUtils.ConditionSucessFromFieldOrProperty(
-                    m_property,
-                    m_disableIfAttribute.FieldName,
-                    m_disableIfAttribute.CompareValue,
-                    m_disableIfAttribute.Inverse);
+                if (AttributeUtils.TryGetNestedMemberInfosChain(m_property, m_disableIfAttribute.FieldName, out IMemberConditionInfo memberInfos))
+                {
+                    m_conditionSucess = AttributeUtils.ConditionSucessFromFieldOrProperty(
+                        m_property,
+                        memberInfos,
+                        m_disableIfAttribute.CompareValue,
+                        m_disableIfAttribute.Inverse);
+                }
+                else
+                {
+                    m_conditionSucess = true;
+                }
 
                 if (m_isPartOfArray)
                 {
@@ -92,7 +107,7 @@ namespace UnityUtility.CustomAttributes.Editor
                 }
 
             }
-            catch (ArgumentNullException)
+            catch
             {
                 EditorApplication.update -= OnEditorUpdate;
                 return;

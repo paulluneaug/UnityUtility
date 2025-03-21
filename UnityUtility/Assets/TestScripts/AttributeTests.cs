@@ -1,15 +1,41 @@
 using System;
+
 using UnityEngine;
 using UnityEngine.UIElements;
+
 using UnityUtility.CustomAttributes;
+using UnityUtility.SceneReference;
 
 public class AttributeTests : MonoBehaviour
 {
     [Serializable]
     public struct NestedStruct
     {
-        public string name;
+        private bool ShowName => value > 12;
+
         public int value;
+        [ShowIf(nameof(ShowName))]
+        public SuperNestedStruct child;
+    }
+
+    [Serializable]
+    public struct SuperNestedStruct
+    {
+        private bool ShowName => value > 12;
+
+        public int value;
+        [ShowIf(nameof(ShowName))]
+        public SuperSuperNestedStruct child;
+    }
+
+    [Serializable]
+    public struct SuperSuperNestedStruct
+    {
+        private bool ShowName => value > 12;
+
+        public int value;
+        [ShowIf(nameof(ShowName))]
+        public string child;
     }
 
     protected enum Sau
@@ -19,16 +45,20 @@ public class AttributeTests : MonoBehaviour
         DIUM
     }
 
+    [SerializeField] private SceneReference m_sceneRef;
+
     private bool Condition => B > 2;
     [Button(nameof(TestMethod1), "MÃƒÂ¯Ã‚Â¿Ã‚Â½thode Test0")]
     [Button(nameof(TestMethod1), "MÃƒÂ¯Ã‚Â¿Ã‚Â½thode Test1")]
     [Button(nameof(TestMethod2), "MÃƒÂ¯Ã‚Â¿Ã‚Â½thode Test2")]
     [SerializeField] private bool m_whatABool = true;
     [Title("Title Example", "With Subtitle (and underline)")]
-    [DisableIf(nameof(Condition)), MinMaxSlider(2, 250, roundDigits: 1)] public Vector2[] A;
+    [DisableIf(nameof(Condition)), MinMaxSlider(2, 250, roundDigits: 1)]
+    public Vector2[] A;
     public float B;
     [Title("No Subtitle nor underline (like a Header)", separator: false)]
-    [ShowIf(nameof(m_so), Sau.CISSE)] public float C;
+    [ShowIf(nameof(m_so), Sau.CISSE)]
+    public float C;
     public float D;
     [Title("They can be centered", titleAlignment: TitleAlignments.Centered)]
     public float E;
