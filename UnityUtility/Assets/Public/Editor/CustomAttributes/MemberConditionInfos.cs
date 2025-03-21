@@ -1,13 +1,14 @@
 
 using System;
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace UnityUtility.CustomAttributes.Editor
 {
     public interface IMemberConditionInfo
     {
-        public object GetValue(object obj);
-        public Type GetMemberType();
+        object GetValue(object obj);
+        Type GetMemberType();
     }
 
     public class FieldConditionInfos : IMemberConditionInfo
@@ -28,11 +29,48 @@ namespace UnityUtility.CustomAttributes.Editor
 
         public object GetValue(object serializedObject)
         {
+            object returnValue;
             if (m_parentNestedMember == null)
             {
-                return m_fieldInfos.GetValue(serializedObject);
+                returnValue = m_fieldInfos.GetValue(serializedObject);
+                return returnValue;
             }
-            return m_fieldInfos.GetValue(m_parentNestedMember.GetValue(serializedObject));
+            returnValue = m_fieldInfos.GetValue(m_parentNestedMember.GetValue(serializedObject));
+            return returnValue;
+        }
+    }
+
+    public class ArrayFieldConditionInfos : IMemberConditionInfo
+    {
+        private readonly FieldInfo m_fieldInfos;
+        private readonly IMemberConditionInfo m_parentNestedMember;
+        private readonly int m_arrayIndex;
+
+        public ArrayFieldConditionInfos(FieldInfo fieldInfos, int arrayIndex, IMemberConditionInfo parentNestedMember)
+        {
+            m_fieldInfos = fieldInfos;
+            m_parentNestedMember = parentNestedMember;
+            m_arrayIndex = arrayIndex;
+        }
+
+        public Type GetMemberType()
+        {
+            return m_fieldInfos.FieldType.GetElementType();
+        }
+
+        public object GetValue(object serializedObject)
+        {
+            Array array;
+            if (m_parentNestedMember == null)
+            {
+                array = (Array)m_fieldInfos.GetValue(serializedObject);
+            }
+            else
+            {
+                array = (Array)m_fieldInfos.GetValue(m_parentNestedMember.GetValue(serializedObject));
+            }
+
+            return array.GetValue(m_arrayIndex);
         }
     }
 
@@ -59,6 +97,40 @@ namespace UnityUtility.CustomAttributes.Editor
                 return m_propertyInfos.GetValue(serializedObject);
             }
             return m_propertyInfos.GetValue(m_parentNestedMember.GetValue(serializedObject));
+        }
+    }
+
+    public class ArrayPropertyConditionInfos : IMemberConditionInfo
+    {
+        private readonly PropertyInfo m_propertyInfos;
+        private readonly IMemberConditionInfo m_parentNestedMember;
+        private readonly int m_arrayIndex;
+
+        public ArrayPropertyConditionInfos(PropertyInfo fieldInfos, int arrayIndex, IMemberConditionInfo parentNestedMember)
+        {
+            m_propertyInfos = fieldInfos;
+            m_parentNestedMember = parentNestedMember;
+            m_arrayIndex = arrayIndex;
+        }
+
+        public Type GetMemberType()
+        {
+            return m_propertyInfos.PropertyType.GetElementType();
+        }
+
+        public object GetValue(object serializedObject)
+        {
+            Array array;
+            if (m_parentNestedMember == null)
+            {
+                array = (Array)m_propertyInfos.GetValue(serializedObject);
+            }
+            else
+            {
+                array = (Array)m_propertyInfos.GetValue(m_parentNestedMember.GetValue(serializedObject));
+            }
+
+            return array.GetValue(m_arrayIndex);
         }
     }
 }
