@@ -1,7 +1,6 @@
 
 using System;
 using System.Reflection;
-using System.Runtime.InteropServices;
 
 namespace UnityUtility.CustomAttributes.Editor
 {
