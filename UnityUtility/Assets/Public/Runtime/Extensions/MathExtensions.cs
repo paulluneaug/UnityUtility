@@ -281,6 +281,22 @@ namespace UnityUtility.Extensions
                 deltaY * deltaY;
         }
 
+        /// <summary> Returns a copy of the given <see cref="Vector2"/> where the x component is <paramref name="xValue"/> </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 WhereX(this Vector2 v, float xValue)
+        {
+            v.x = xValue;
+            return v;
+        }
+
+        /// <summary> Returns a copy of the given <see cref="Vector2"/> where the y component is <paramref name="yValue"/> </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 WhereY(this Vector2 v, float yValue)
+        {
+            v.y = yValue;
+            return v;
+        }
+
 
         /// <summary> Swaps the X and Y components of the vector </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -407,6 +423,30 @@ namespace UnityUtility.Extensions
                 deltaZ * deltaZ;
         }
 
+        /// <summary> Returns a copy of the given <see cref="Vector3"/> where the x component is <paramref name="xValue"/> </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3 WhereX(this Vector3 v, float xValue)
+        {
+            v.x = xValue;
+            return v;
+        }
+
+        /// <summary> Returns a copy of the given <see cref="Vector3"/> where the y component is <paramref name="yValue"/> </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3 WhereY(this Vector3 v, float yValue)
+        {
+            v.y = yValue;
+            return v;
+        }
+
+        /// <summary> Returns a copy of the given <see cref="Vector3"/> where the z component is <paramref name="zValue"/> </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3 WhereZ(this Vector3 v, float zValue)
+        {
+            v.z = zValue;
+            return v;
+        }
+
         /// <summary> Grabs the X and Y components of the vector </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2 XY(this Vector3 v)
@@ -530,6 +570,38 @@ namespace UnityUtility.Extensions
                 deltaY * deltaY +
                 deltaZ * deltaZ +
                 deltaW * deltaW;
+        }
+
+        /// <summary> Returns a copy of the given <see cref="Vector4"/> where the x component is <paramref name="xValue"/> </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4 WhereX(this Vector4 v, float xValue)
+        {
+            v.x = xValue;
+            return v;
+        }
+
+        /// <summary> Returns a copy of the given <see cref="Vector4"/> where the y component is <paramref name="yValue"/> </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4 WhereY(this Vector4 v, float yValue)
+        {
+            v.y = yValue;
+            return v;
+        }
+
+        /// <summary> Returns a copy of the given <see cref="Vector4"/> where the z component is <paramref name="zValue"/> </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4 WhereZ(this Vector4 v, float zValue)
+        {
+            v.z = zValue;
+            return v;
+        }
+
+        /// <summary> Returns a copy of the given <see cref="Vector4"/> where the w component is <paramref name="wValue"/> </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4 WhereW(this Vector4 v, float wValue)
+        {
+            v.w = wValue;
+            return v;
         }
 
         /// <summary> Grabs the X and Y components of the vector </summary>
