@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 
 using UnityEngine;
 
+using UnityUtility.Extensions;
 using UnityUtility.Hash;
 using UnityUtility.MathU;
 
