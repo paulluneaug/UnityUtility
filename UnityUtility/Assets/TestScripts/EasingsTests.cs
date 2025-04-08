@@ -3,6 +3,7 @@ using System;
 using UnityEngine;
 
 using UnityUtility.Easings;
+using UnityUtility.Extensions;
 using UnityUtility.MathU;
 using UnityUtility.Pools;
 using UnityUtility.Timer;
