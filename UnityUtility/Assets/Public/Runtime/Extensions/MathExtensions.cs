@@ -281,6 +281,22 @@ namespace UnityUtility.Extensions
                 deltaY * deltaY;
         }
 
+        /// <summary> Returns a copy of the given <see cref="Vector2"/> where the x component is <paramref name="xValue"/> </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 WhereX(this Vector2 v, float xValue)
+        {
+            v.x = xValue;
+            return v;
+        }
+
+        /// <summary> Returns a copy of the given <see cref="Vector2"/> where the y component is <paramref name="yValue"/> </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 WhereY(this Vector2 v, float yValue)
+        {
+            v.y = yValue;
+            return v;
+        }
+
 
         /// <summary> Swaps the X and Y components of the vector </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -405,6 +421,30 @@ namespace UnityUtility.Extensions
                 deltaX * deltaX +
                 deltaY * deltaY +
                 deltaZ * deltaZ;
+        }
+
+        /// <summary> Returns a copy of the given <see cref="Vector3"/> where the x component is <paramref name="xValue"/> </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3 WhereX(this Vector3 v, float xValue)
+        {
+            v.x = xValue;
+            return v;
+        }
+
+        /// <summary> Returns a copy of the given <see cref="Vector3"/> where the y component is <paramref name="yValue"/> </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3 WhereY(this Vector3 v, float yValue)
+        {
+            v.y = yValue;
+            return v;
+        }
+
+        /// <summary> Returns a copy of the given <see cref="Vector3"/> where the z component is <paramref name="zValue"/> </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector3 WhereZ(this Vector3 v, float zValue)
+        {
+            v.z = zValue;
+            return v;
         }
 
         /// <summary> Grabs the X and Y components of the vector </summary>
@@ -532,6 +572,38 @@ namespace UnityUtility.Extensions
                 deltaW * deltaW;
         }
 
+        /// <summary> Returns a copy of the given <see cref="Vector4"/> where the x component is <paramref name="xValue"/> </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4 WhereX(this Vector4 v, float xValue)
+        {
+            v.x = xValue;
+            return v;
+        }
+
+        /// <summary> Returns a copy of the given <see cref="Vector4"/> where the y component is <paramref name="yValue"/> </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4 WhereY(this Vector4 v, float yValue)
+        {
+            v.y = yValue;
+            return v;
+        }
+
+        /// <summary> Returns a copy of the given <see cref="Vector4"/> where the z component is <paramref name="zValue"/> </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4 WhereZ(this Vector4 v, float zValue)
+        {
+            v.z = zValue;
+            return v;
+        }
+
+        /// <summary> Returns a copy of the given <see cref="Vector4"/> where the w component is <paramref name="wValue"/> </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4 WhereW(this Vector4 v, float wValue)
+        {
+            v.w = wValue;
+            return v;
+        }
+
         /// <summary> Grabs the X and Y components of the vector </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2 XY(this Vector4 v)
@@ -550,7 +622,7 @@ namespace UnityUtility.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2 XW(this Vector4 v)
         {
-            return new Vector2(v.y, v.w);
+            return new Vector2(v.x, v.w);
         }
 
         /// <summary> Grabs the Y and Z components of the vector </summary>
@@ -618,6 +690,75 @@ namespace UnityUtility.Extensions
         public static bool Approximately(this float val, float other, float tolerance = 0.0001f)
         {
             return Math.Abs(val - other) < tolerance;
+        }
+
+        /// <summary>
+        /// Remaps the value of <paramref name="input"/> 
+        /// from the range <paramref name="initialRange"/> to the range <paramref name="targetRange"/>
+        /// </summary>
+        /// <returns>The remapped value of <paramref name="input"/></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float Remap(this float input, Vector2 initialRange, Vector2 targetRange)
+        {
+            return input.Remap(initialRange.x, initialRange.y, targetRange.x, targetRange.y);
+        }
+
+        /// <summary>
+        /// Remaps the value of <paramref name="input"/> 
+        /// from the range [<paramref name="initialMin"/>; <paramref name="initialMax"/>] 
+        /// to the range [<paramref name="targetMin"/>; <paramref name="targetMax"/>]
+        /// </summary>
+        /// <returns>The remapped value of <paramref name="input"/></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float Remap(this float input, float initialMin, float initialMax, float targetMin, float targetMax)
+        {
+            return input.RemapTo01(initialMin, initialMax).RemapFrom01(targetMin, targetMax);
+        }
+
+        /// <summary>
+        /// Remaps the value of <paramref name="input"/> 
+        /// from the range [0; 1] 
+        /// to the range [<paramref name="targetMin"/>; <paramref name="targetMax"/>]
+        /// </summary>
+        /// <returns>The remapped value of <paramref name="input"/></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float RemapFrom01(this float input, float targetMin, float targetMax)
+        {
+            return targetMin + input * (targetMax - targetMin);
+        }
+
+        /// <summary>
+        /// Remaps the value of <paramref name="input"/> 
+        /// from the range [0; 1] to the range <paramref name="targetRange"/>
+        /// </summary>
+        /// <returns>The remapped value of <paramref name="input"/></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float RemapFrom01(this float input, Vector2 targetRange)
+        {
+            return input.RemapFrom01(targetRange.x, targetRange.y);
+        }
+
+        /// <summary>
+        /// Remaps the value of <paramref name="input"/> 
+        /// from the range [<paramref name="initialMin"/>; <paramref name="initialMax"/>]
+        /// to the range [0; 1] 
+        /// </summary>
+        /// <returns>The remapped value of <paramref name="input"/></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float RemapTo01(this float input, float initialMin, float initialMax)
+        {
+            return (input - initialMin) / (initialMax - initialMin);
+        }
+
+        /// <summary>
+        /// Remaps the value of <paramref name="input"/> 
+        /// from the range <paramref name="initialRange"/> to the range [0; 1]
+        /// </summary>
+        /// <returns>The remapped value of <paramref name="input"/></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float RemapTo01(this float input, Vector2 initialRange)
+        {
+            return input.RemapTo01(initialRange.x, initialRange.y);
         }
     }
     #endregion
