@@ -3,8 +3,7 @@ using System.Runtime.CompilerServices;
 
 using UnityEngine;
 
-using UnityUtility.Extensions;
-using UnityUtility.Hasher;
+using UnityUtility.Hash;
 using UnityUtility.MathU;
 
 namespace UnityUtility.Random
@@ -18,16 +17,16 @@ namespace UnityUtility.Random
 
         public RandomGenerator()
         {
-            m_seed = HashUtils.IntToUInt(GetHashCode());
+            m_seed = Hasher.IntToUInt(GetHashCode());
         }
 
-        public RandomGenerator(int seed) : this(HashUtils.IntToUInt(seed))
+        public RandomGenerator(int seed) : this(Hasher.IntToUInt(seed))
         {
         }
 
         public RandomGenerator(uint seed)
         {
-            m_seed = HashUtils.Hash(seed);
+            m_seed = Hasher.Hash(seed);
         }
 
         /// <inheritdoc cref="RandomUtils.RandomFloat01(ref uint)"/>
@@ -116,7 +115,7 @@ namespace UnityUtility.Random
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float RandomFloat01(ref uint seed)
         {
-            return HashUtils.Hash(ref seed) / 4294967295.0f; // 2^32-1
+            return Hasher.Hash(ref seed) / 4294967295.0f; // 2^32-1
         }
 
         /// <summary>
@@ -143,7 +142,7 @@ namespace UnityUtility.Random
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int RandomInt(ref uint seed)
         {
-            return HashUtils.UIntToInt(HashUtils.Hash(ref seed));
+            return Hasher.UIntToInt(Hasher.Hash(ref seed));
         }
 
         /// <summary>
@@ -170,7 +169,7 @@ namespace UnityUtility.Random
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint RandomUInt(ref uint seed)
         {
-            return HashUtils.Hash(ref seed);
+            return Hasher.Hash(ref seed);
         }
 
         /// <summary>
