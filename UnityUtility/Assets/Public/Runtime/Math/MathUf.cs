@@ -398,22 +398,6 @@ namespace UnityUtility.MathU
             return Lerp(a, b, Clamp01(t));
         }
 
-        [MethodImpl(INLINE)]
-        public static float SmoothLerp(float a, float b, float deltaTime, float halfLife)
-        {
-            return b + (a - b) * Exp2(-deltaTime / halfLife);
-        }
-
-        [MethodImpl(INLINE)]
-        public static Vector3 SmoothLerp(Vector3 a, Vector3 b, float deltaTime, float halfLife)
-        {
-            float lerpFactor = Exp2(-deltaTime / halfLife);
-            return new Vector3(
-                b.x + (a.x - b.x) * lerpFactor,
-                b.y + (a.y - b.y) * lerpFactor,
-                b.z + (a.z - b.z) * lerpFactor);
-        }
-
         public static float LerpAngle(float a, float b, float t)
         {
             float num = Repeat(b - a, 360f);
@@ -572,6 +556,42 @@ namespace UnityUtility.MathU
                 return b;
             }
             return a;
+        }
+
+        [MethodImpl(INLINE)]
+        public static float SmoothLerp(float a, float b, float deltaTime, float halfLife)
+        {
+            return b + (a - b) * Exp2(-deltaTime / halfLife);
+        }
+
+        [MethodImpl(INLINE)]
+        public static Vector2 SmoothLerp(Vector2 a, Vector2 b, float deltaTime, float halfLife)
+        {
+            float lerpFactor = Exp2(-deltaTime / halfLife);
+            return new Vector2(
+                b.x + (a.x - b.x) * lerpFactor,
+                b.y + (a.y - b.y) * lerpFactor);
+        }
+
+        [MethodImpl(INLINE)]
+        public static Vector3 SmoothLerp(Vector3 a, Vector3 b, float deltaTime, float halfLife)
+        {
+            float lerpFactor = Exp2(-deltaTime / halfLife);
+            return new Vector3(
+                b.x + (a.x - b.x) * lerpFactor,
+                b.y + (a.y - b.y) * lerpFactor,
+                b.z + (a.z - b.z) * lerpFactor);
+        }
+
+        [MethodImpl(INLINE)]
+        public static Vector4 SmoothLerp(Vector4 a, Vector4 b, float deltaTime, float halfLife)
+        {
+            float lerpFactor = Exp2(-deltaTime / halfLife);
+            return new Vector4(
+                b.x + (a.x - b.x) * lerpFactor,
+                b.y + (a.y - b.y) * lerpFactor,
+                b.z + (a.z - b.z) * lerpFactor,
+                b.w + (a.w - b.w) * lerpFactor);
         }
     }
 }
