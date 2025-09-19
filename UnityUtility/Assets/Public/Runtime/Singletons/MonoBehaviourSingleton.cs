@@ -1,5 +1,7 @@
 using UnityEngine;
 
+using UnityUtility.CustomAttributes;
+
 namespace UnityUtility.Singletons
 {
     /// <summary>
@@ -21,6 +23,10 @@ namespace UnityUtility.Singletons
     public abstract class MonoBehaviourSingleton<T> : MonoBehaviour, ISingleton<T>
         where T : MonoBehaviourSingleton<T>
     {
+        [Title("Singleton settings")]
+        [SerializeField] private bool m_dontDestroyOnLoad = true;
+
+
         protected static T s_instance;
 
         private static readonly object s_lock = new object();
@@ -36,19 +42,22 @@ namespace UnityUtility.Singletons
 
                 lock (s_lock)
                 {
-                    if (s_instance == null)
+                    if (s_instance != null)
                     {
-                        s_instance = FindFirstObjectByType<T>();
-
-                        if (s_instance == null)
-                        {
-                            GameObject singleton = new GameObject();
-                            s_instance = singleton.AddComponent<T>();
-                            singleton.name = $"[Singleton] {typeof(T).Name}";
-
-                            DontDestroyOnLoad(singleton);
-                        }
+                        return s_instance;
                     }
+
+                    s_instance = FindFirstObjectByType<T>();
+
+                    if (s_instance != null)
+                    {
+                        return s_instance;
+                    }
+
+
+                    GameObject singleton = new GameObject();
+                    s_instance = singleton.AddComponent<T>();
+                    singleton.name = $"[Singleton] {typeof(T).Name}";
 
                     return s_instance;
                 }
@@ -67,9 +76,6 @@ namespace UnityUtility.Singletons
             }
             else
             {
-                DontDestroyOnLoad(gameObject);
-                s_instance = FindFirstObjectByType<T>();
-
                 Initialize();
             }
         }
@@ -96,7 +102,10 @@ namespace UnityUtility.Singletons
 
         public virtual void Initialize()
         {
-
+            if (m_dontDestroyOnLoad)
+            {
+                DontDestroyOnLoad(gameObject);
+            }
         }
 
         public static bool IsInstanciated()

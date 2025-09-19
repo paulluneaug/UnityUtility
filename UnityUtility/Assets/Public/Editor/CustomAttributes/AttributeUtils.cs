@@ -185,16 +185,13 @@ namespace UnityUtility.CustomAttributes.Editor
             {
                 return FontStyle.BoldAndItalic;
             }
-            else
+            if (bold)
             {
-                if (bold)
-                {
-                    return FontStyle.Bold;
-                }
-                else if (italic)
-                {
-                    return FontStyle.Italic;
-                }
+                return FontStyle.Bold;
+            }
+            if (italic)
+            {
+                return FontStyle.Italic;
             }
 
             return FontStyle.Normal;
