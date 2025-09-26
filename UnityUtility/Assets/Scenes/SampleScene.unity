@@ -28665,7 +28665,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &787051121
 Transform:
   m_ObjectHideFlags: 0
@@ -28695,7 +28695,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_initialPoolSize: 10
   m_instantiateFromPrefab: 1
-  m_componentPrefab: {fileID: 0}
+  m_componentPrefab: {fileID: 482433955221564847, guid: 8eb06da38bacb804584b6fa8fe280c1d, type: 3}
 --- !u!1 &787510087
 GameObject:
   m_ObjectHideFlags: 0
@@ -37369,7 +37369,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_initialPoolSize: 10
   m_instantiateFromPrefab: 1
-  m_componentPrefab: {fileID: 1095299611}
+  m_componentPrefab: {fileID: 1095299612}
 --- !u!4 &1067050252
 Transform:
   m_ObjectHideFlags: 0
@@ -38603,7 +38603,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1095299612
 Transform:
   m_ObjectHideFlags: 0
