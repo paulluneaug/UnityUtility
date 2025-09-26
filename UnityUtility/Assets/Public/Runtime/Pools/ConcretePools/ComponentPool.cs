@@ -27,7 +27,7 @@ namespace UnityUtility.Pools
         public int ElementsInPool => m_availableComponents.Count;
 
 #if UNITY_EDITOR
-        public GameObject Prefab => m_componentPrefab;
+        public TComponent Prefab => m_componentPrefab;
 #endif
 
         public event Action OnObjectRequested;
@@ -35,7 +35,7 @@ namespace UnityUtility.Pools
 
         [SerializeField] private int m_initialPoolSize = 10;
         [SerializeField] protected bool m_instantiateFromPrefab = false;
-        [SerializeField, ShowIf(nameof(m_instantiateFromPrefab))] private GameObject m_componentPrefab = null;
+        [SerializeField, ShowIf(nameof(m_instantiateFromPrefab))] private TComponent m_componentPrefab = null;
 
         private Stack<TComponent> m_availableComponents = null;
         private int m_poolSize = 0;
@@ -43,12 +43,6 @@ namespace UnityUtility.Pools
 
         protected virtual void Awake()
         {
-            if (m_instantiateFromPrefab && !m_componentPrefab.HasComponent<TComponent>())
-            {
-                Debug.LogError($"The given GameObject does not have a component of type {typeof(TComponent).Name} on its root. The pool will not work");
-                return;
-            }
-
             m_availableComponents = new Stack<TComponent>(m_initialPoolSize);
             for (int i = 0; i < m_initialPoolSize; ++i)
             {
@@ -88,12 +82,13 @@ namespace UnityUtility.Pools
         {
             if (m_instantiateFromPrefab)
             {
-                TComponent newComponent = Instantiate(m_componentPrefab).GetComponent<TComponent>();
+                TComponent newComponent = Instantiate(m_componentPrefab);
                 newComponent.name = newComponent.name.Replace("(Clone)", $"_{m_poolSize}");
                 newComponent.gameObject.SetActive(false);
                 newComponent.transform.parent = transform;
                 return newComponent;
             }
+
             GameObject newGo = new GameObject($"{typeof(TComponent).Name}_{m_poolSize}");
             newGo.transform.parent = transform;
             newGo.SetActive(false);
