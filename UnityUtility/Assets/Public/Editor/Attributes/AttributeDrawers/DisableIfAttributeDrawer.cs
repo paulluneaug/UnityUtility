@@ -6,14 +6,15 @@ using UnityEngine.UIElements;
 
 using UnityUtility.Extensions.Editor;
 
-namespace UnityUtility.CustomAttributes.Editor
+namespace UnityUtility.Attributes.Editor
 {
-    [CustomPropertyDrawer(typeof(ShowIfAttribute))]
-    public class ShowIfAttributeDrawer : PropertyDrawer
+    [CustomPropertyDrawer(typeof(DisableIfAttribute))]
+    public class DisableIfAttributeDrawer : PropertyDrawer
     {
-        private ShowIfAttribute m_showIfAttribute = null;
+        private DisableIfAttribute m_disableIfAttribute = null;
 
         private bool m_conditionSucess;
+        private bool m_wasDisabled = false;
 
         private SerializedProperty m_property = null;
 
@@ -34,25 +35,24 @@ namespace UnityUtility.CustomAttributes.Editor
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            if (attribute is ShowIfAttribute showIfAttribute)
+            if (attribute is DisableIfAttribute disableIfAttribute)
             {
-                if (AttributeUtils.TryGetNestedMemberInfosChain(property, showIfAttribute.FieldName, out IMemberConditionInfo memberInfos))
+                if (AttributeUtils.TryGetNestedMemberInfosChain(property, disableIfAttribute.FieldName, out IMemberConditionInfo memberInfos))
                 {
                     m_conditionSucess = AttributeUtils.ConditionSucessFromFieldOrProperty(
                         property,
                         memberInfos,
-                        showIfAttribute.CompareValue,
-                        showIfAttribute.Inverse);
+                        disableIfAttribute.CompareValue,
+                        disableIfAttribute.Inverse);
                 }
                 else
                 {
                     m_conditionSucess = true;
                 }
 
-                if (m_conditionSucess)
-                {
-                    _ = EditorGUILayout.PropertyField(property, label);
-                }
+                EditorGUI.BeginDisabledGroup(m_conditionSucess);
+                _ = EditorGUILayout.PropertyField(property, label);
+                EditorGUI.EndDisabledGroup();
             }
         }
         #endregion
@@ -62,15 +62,17 @@ namespace UnityUtility.CustomAttributes.Editor
         {
             VisualElement container = new VisualElement();
 
-            if (attribute is ShowIfAttribute showIfAttribute)
+            if (attribute is DisableIfAttribute disableIfAttribute)
             {
-                m_showIfAttribute = showIfAttribute;
+                m_disableIfAttribute = disableIfAttribute;
                 m_property = property;
                 m_propertyField = new PropertyField(property);
 
                 m_isPartOfArray = property.IsPropertyPartOfArray(out SerializedProperty _, out int _);
 
                 container.Add(m_propertyField);
+
+                m_wasDisabled = false;
 
                 EditorApplication.update += OnEditorUpdate;
             }
@@ -81,13 +83,13 @@ namespace UnityUtility.CustomAttributes.Editor
         {
             try
             {
-                if (AttributeUtils.TryGetNestedMemberInfosChain(m_property, m_showIfAttribute.FieldName, out IMemberConditionInfo memberInfos))
+                if (AttributeUtils.TryGetNestedMemberInfosChain(m_property, m_disableIfAttribute.FieldName, out IMemberConditionInfo memberInfos))
                 {
                     m_conditionSucess = AttributeUtils.ConditionSucessFromFieldOrProperty(
                         m_property,
                         memberInfos,
-                        m_showIfAttribute.CompareValue,
-                        m_showIfAttribute.Inverse);
+                        m_disableIfAttribute.CompareValue,
+                        m_disableIfAttribute.Inverse);
                 }
                 else
                 {
@@ -97,11 +99,11 @@ namespace UnityUtility.CustomAttributes.Editor
                 if (m_isPartOfArray)
                 {
                     m_listProperty ??= m_propertyField.GetFirstAncestorOfType<ListView>();
-                    m_listProperty.style.display = m_conditionSucess ? DisplayStyle.Flex : DisplayStyle.None;
+                    DisableField(m_listProperty, m_conditionSucess);
                 }
                 else
                 {
-                    m_propertyField.style.display = m_conditionSucess ? DisplayStyle.Flex : DisplayStyle.None;
+                    DisableField(m_propertyField, m_conditionSucess);
                 }
 
             }
@@ -109,6 +111,15 @@ namespace UnityUtility.CustomAttributes.Editor
             {
                 EditorApplication.update -= OnEditorUpdate;
                 return;
+            }
+        }
+
+        private void DisableField(VisualElement propertyField, bool disable)
+        {
+            if (m_wasDisabled ^ disable)
+            {
+                propertyField.SetEnabled(!disable);
+                m_wasDisabled = disable;
             }
         }
         #endregion

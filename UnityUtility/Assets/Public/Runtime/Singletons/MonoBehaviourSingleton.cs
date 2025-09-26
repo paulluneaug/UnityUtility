@@ -1,6 +1,6 @@
 using UnityEngine;
 
-using UnityUtility.CustomAttributes;
+using UnityUtility.Attributes;
 
 namespace UnityUtility.Singletons
 {

@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace UnityUtility.CustomAttributes
+namespace UnityUtility.Attributes
 {
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = true, Inherited = true)]
     public class HelpBoxAttribute : PropertyAttribute
