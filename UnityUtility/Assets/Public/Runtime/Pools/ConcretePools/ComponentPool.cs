@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-using UnityUtility.CustomAttributes;
+using UnityUtility.Attributes;
 using UnityUtility.Extensions;
 
 namespace UnityUtility.Pools

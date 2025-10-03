@@ -42,7 +42,7 @@ namespace UnityUtility.Hash
         /// </summary>
         /// <remarks>
         /// For more details on the hash function used : 
-        /// <see cref="RandomUtils.Hash(uint)"/><br/>
+        /// <see cref="Hash(uint)"/><br/>
         /// </remarks>
         /// <returns>The new current hash value</returns>
         public uint Hash()

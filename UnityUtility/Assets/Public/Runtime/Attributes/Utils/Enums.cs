@@ -1,4 +1,4 @@
-namespace UnityUtility.CustomAttributes
+namespace UnityUtility.Attributes
 {
     public enum TitleAlignments
     {

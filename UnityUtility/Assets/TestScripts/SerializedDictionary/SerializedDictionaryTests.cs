@@ -2,7 +2,7 @@ using System.Text;
 
 using UnityEngine;
 
-using UnityUtility.CustomAttributes;
+using UnityUtility.Attributes;
 using UnityUtility.SerializedDictionary;
 
 public class SerializedDictionaryTests : MonoBehaviour

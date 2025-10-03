@@ -30,79 +30,79 @@ namespace UnityUtility.Random
             m_seed = Hasher.Hash(seed);
         }
 
-        /// <inheritdoc cref="RandomUtils.RandomFloat01(ref uint)"/>
+        /// <inheritdoc cref="RandomFloat01(ref uint)"/>
         public float RandomFloat01()
         {
             return RandomFloat01(ref m_seed);
         }
 
-        /// <inheritdoc cref="RandomUtils.RandomFloat(ref uint, float, float)"/>
+        /// <inheritdoc cref="RandomFloat(ref uint, float, float)"/>
         public float RandomFloat(float min, float max)
         {
             return RandomFloat(ref m_seed, min, max);
         }
 
-        /// <inheritdoc cref="RandomUtils.RandomFloat(ref uint, Vector2)"/>
+        /// <inheritdoc cref="RandomFloat(ref uint, Vector2)"/>
         public float RandomFloat(Vector2 range)
         {
             return RandomFloat(ref m_seed, range);
         }
 
-        /// <inheritdoc cref="RandomUtils.RandomInt(ref uint)"/>
+        /// <inheritdoc cref="RandomInt(ref uint)"/>
         public int RandomInt()
         {
             return RandomInt(ref m_seed);
         }
 
-        /// <inheritdoc cref="RandomUtils.RandomInt(ref uint, int, int)"/>
+        /// <inheritdoc cref="RandomInt(ref uint, int, int)"/>
         public int RandomInt(int min, int max)
         {
             return RandomInt(ref m_seed, min, max);
         }
 
-        /// <inheritdoc cref="RandomUtils.RandomInt(ref uint, Vector2Int)"/>
+        /// <inheritdoc cref="RandomInt(ref uint, Vector2Int)"/>
         public int RandomInt(Vector2Int range)
         {
             return RandomInt(ref m_seed, range);
         }
 
-        /// <inheritdoc cref="RandomUtils.RandomBool(ref uint)"/>
+        /// <inheritdoc cref="RandomBool(ref uint)"/>
         public bool RandomBool()
         {
             return RandomBool(ref m_seed);
         }
 
-        /// <inheritdoc cref="RandomUtils.RandomBoolProb(ref uint, float)"/>
+        /// <inheritdoc cref="RandomBoolProb(ref uint, float)"/>
         public bool RandomBoolProb(float probability)
         {
             return RandomBoolProb(ref m_seed, probability);
         }
 
-        /// <inheritdoc cref="RandomUtils.RandomOnUnitCircle(ref uint)"/>
+        /// <inheritdoc cref="RandomOnUnitCircle(ref uint)"/>
         public Vector2 RandomOnUnitCircle()
         {
             return RandomOnUnitCircle(ref m_seed);
         }
 
-        /// <inheritdoc cref="RandomUtils.RandomInUnitCircle(ref uint)"/>
+        /// <inheritdoc cref="RandomInUnitCircle(ref uint)"/>
         public Vector2 RandomInUnitCircle()
         {
             return RandomInUnitCircle(ref m_seed);
         }
 
-        /// <inheritdoc cref="RandomUtils.RandomOnUnitSphere(ref uint)"/>
+        /// <inheritdoc cref="RandomOnUnitSphere(ref uint)"/>
         public Vector3 RandomOnUnitSphere()
         {
             return RandomOnUnitSphere(ref m_seed);
         }
 
-        /// <inheritdoc cref="RandomUtils.RandomInUnitSphere(ref uint)"/>
+        /// <inheritdoc cref="RandomInUnitSphere(ref uint)"/>
         public Vector3 RandomInUnitSphere()
         {
             return RandomInUnitSphere(ref m_seed);
         }
 
-        /// <inheritdoc cref="RandomUtils.RandomRotation(ref uint)"/>
+        /// <inheritdoc cref="RandomRotation(ref uint)"/>
         public Quaternion RandomRotation()
         {
             return RandomRotation(ref m_seed);

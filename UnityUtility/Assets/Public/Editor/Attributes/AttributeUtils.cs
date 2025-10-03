@@ -11,7 +11,7 @@ using UnityEngine.UIElements;
 
 using UnityUtility.Utils;
 
-namespace UnityUtility.CustomAttributes.Editor
+namespace UnityUtility.Attributes.Editor
 {
     public static class AttributeUtils
     {
