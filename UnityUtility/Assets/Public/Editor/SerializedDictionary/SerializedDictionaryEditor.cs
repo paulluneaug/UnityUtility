@@ -19,7 +19,7 @@ namespace UnityUtility.SerializedDictionary.Editor
         {
             m_container = new VisualElement();
             m_property = property;
-            m_pairListProperty = m_property.FindPropertyRelative("m_keyValuePairsList");
+            m_pairListProperty = m_property.FindPropertyRelative(SerializedDictionary<byte, byte>.PairsListPropertyName);
             FillContainer();
 
             return m_container;

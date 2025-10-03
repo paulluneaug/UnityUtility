@@ -3,6 +3,8 @@ using System.Runtime.CompilerServices;
 
 using UnityEngine;
 
+using UnityUtility.Extensions;
+
 namespace UnityUtility.MathU
 {
     public static class MathUf
@@ -396,22 +398,6 @@ namespace UnityUtility.MathU
             return Lerp(a, b, Clamp01(t));
         }
 
-        [MethodImpl(INLINE)]
-        public static float SmoothLerp(float a, float b, float deltaTime, float halfLife)
-        {
-            return b + (a - b) * Exp2(-deltaTime / halfLife);
-        }
-
-        [MethodImpl(INLINE)]
-        public static Vector3 SmoothLerp(Vector3 a, Vector3 b, float deltaTime, float halfLife)
-        {
-            float lerpFactor = Exp2(-deltaTime / halfLife);
-            return new Vector3(
-                b.x + (a.x - b.x) * lerpFactor,
-                b.y + (a.y - b.y) * lerpFactor,
-                b.z + (a.z - b.z) * lerpFactor);
-        }
-
         public static float LerpAngle(float a, float b, float t)
         {
             float num = Repeat(b - a, 360f);
@@ -542,88 +528,6 @@ namespace UnityUtility.MathU
         }
 
         /// <summary>
-        /// Compares 2 floats and returns wether their difference is less than a tolerance
-        /// </summary>
-        /// <param name="val"></param>
-        /// <param name="other"></param>
-        /// <param name="tolerance"></param>
-        /// <returns>Wether the difference between the two floats is less than the given tolerance</returns>
-        [MethodImpl(INLINE)]
-        public static bool Approximately(this float val, float other, float tolerance = 0.0001f)
-        {
-            return Math.Abs(val - other) < tolerance;
-        }
-
-        /// <summary>
-        /// Remaps the value of <paramref name="input"/> 
-        /// from the range <paramref name="initialRange"/> to the range <paramref name="targetRange"/>
-        /// </summary>
-        /// <returns>The remapped value of <paramref name="input"/></returns>
-        [MethodImpl(INLINE)]
-        public static float Remap(this float input, Vector2 initialRange, Vector2 targetRange)
-        {
-            return input.Remap(initialRange.x, initialRange.y, targetRange.x, targetRange.y);
-        }
-
-        /// <summary>
-        /// Remaps the value of <paramref name="input"/> 
-        /// from the range [<paramref name="initialMin"/>; <paramref name="initialMax"/>] 
-        /// to the range [<paramref name="targetMin"/>; <paramref name="targetMax"/>]
-        /// </summary>
-        /// <returns>The remapped value of <paramref name="input"/></returns>
-        [MethodImpl(INLINE)]
-        public static float Remap(this float input, float initialMin, float initialMax, float targetMin, float targetMax)
-        {
-            return input.RemapTo01(initialMin, initialMax).RemapFrom01(targetMin, targetMax);
-        }
-
-        /// <summary>
-        /// Remaps the value of <paramref name="input"/> 
-        /// from the range [0; 1] 
-        /// to the range [<paramref name="targetMin"/>; <paramref name="targetMax"/>]
-        /// </summary>
-        /// <returns>The remapped value of <paramref name="input"/></returns>
-        [MethodImpl(INLINE)]
-        public static float RemapFrom01(this float input, float targetMin, float targetMax)
-        {
-            return targetMin + input * (targetMax - targetMin);
-        }
-
-        /// <summary>
-        /// Remaps the value of <paramref name="input"/> 
-        /// from the range [0; 1] to the range <paramref name="targetRange"/>
-        /// </summary>
-        /// <returns>The remapped value of <paramref name="input"/></returns>
-        [MethodImpl(INLINE)]
-        public static float RemapFrom01(this float input, Vector2 targetRange)
-        {
-            return input.RemapFrom01(targetRange.x, targetRange.y);
-        }
-
-        /// <summary>
-        /// Remaps the value of <paramref name="input"/> 
-        /// from the range [<paramref name="initialMin"/>; <paramref name="initialMax"/>]
-        /// to the range [0; 1] 
-        /// </summary>
-        /// <returns>The remapped value of <paramref name="input"/></returns>
-        [MethodImpl(INLINE)]
-        public static float RemapTo01(this float input, float initialMin, float initialMax)
-        {
-            return (input - initialMin) / (initialMax - initialMin);
-        }
-
-        /// <summary>
-        /// Remaps the value of <paramref name="input"/> 
-        /// from the range <paramref name="initialRange"/> to the range [0; 1]
-        /// </summary>
-        /// <returns>The remapped value of <paramref name="input"/></returns>
-        [MethodImpl(INLINE)]
-        public static float RemapTo01(this float input, Vector2 initialRange)
-        {
-            return input.RemapTo01(initialRange.x, initialRange.y);
-        }
-
-        /// <summary>
         /// Returns the absolute value of the difference between <paramref name="from"/> and <paramref name="to"/>
         /// </summary>
         /// <param name="from"></param>
@@ -652,6 +556,42 @@ namespace UnityUtility.MathU
                 return b;
             }
             return a;
+        }
+
+        [MethodImpl(INLINE)]
+        public static float SmoothLerp(float a, float b, float deltaTime, float halfLife)
+        {
+            return b + (a - b) * Exp2(-deltaTime / halfLife);
+        }
+
+        [MethodImpl(INLINE)]
+        public static Vector2 SmoothLerp(Vector2 a, Vector2 b, float deltaTime, float halfLife)
+        {
+            float lerpFactor = Exp2(-deltaTime / halfLife);
+            return new Vector2(
+                b.x + (a.x - b.x) * lerpFactor,
+                b.y + (a.y - b.y) * lerpFactor);
+        }
+
+        [MethodImpl(INLINE)]
+        public static Vector3 SmoothLerp(Vector3 a, Vector3 b, float deltaTime, float halfLife)
+        {
+            float lerpFactor = Exp2(-deltaTime / halfLife);
+            return new Vector3(
+                b.x + (a.x - b.x) * lerpFactor,
+                b.y + (a.y - b.y) * lerpFactor,
+                b.z + (a.z - b.z) * lerpFactor);
+        }
+
+        [MethodImpl(INLINE)]
+        public static Vector4 SmoothLerp(Vector4 a, Vector4 b, float deltaTime, float halfLife)
+        {
+            float lerpFactor = Exp2(-deltaTime / halfLife);
+            return new Vector4(
+                b.x + (a.x - b.x) * lerpFactor,
+                b.y + (a.y - b.y) * lerpFactor,
+                b.z + (a.z - b.z) * lerpFactor,
+                b.w + (a.w - b.w) * lerpFactor);
         }
     }
 }

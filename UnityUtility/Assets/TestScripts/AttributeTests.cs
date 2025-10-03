@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-using UnityUtility.CustomAttributes;
+using UnityUtility.Attributes;
 using UnityUtility.SceneReference;
 
 public class AttributeTests : MonoBehaviour

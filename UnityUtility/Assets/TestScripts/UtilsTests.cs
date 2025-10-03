@@ -5,7 +5,7 @@ using System.Linq;
 
 using UnityEngine;
 
-using UnityUtility.CustomAttributes;
+using UnityUtility.Attributes;
 using UnityUtility.Extensions;
 using UnityUtility.MathU;
 using UnityUtility.Recorders;

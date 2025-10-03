@@ -35,6 +35,10 @@ namespace UnityUtility.SerializedDictionary
             }
         }
 
+#if UNITY_EDITOR
+        public static string PairsListPropertyName = nameof(m_keyValuePairsList);
+#endif
+
         [SerializeField] private List<KeyValuePair> m_keyValuePairsList = new List<KeyValuePair>();
 
         private Dictionary<TKey, TValue> m_dictionary = new Dictionary<TKey, TValue>();

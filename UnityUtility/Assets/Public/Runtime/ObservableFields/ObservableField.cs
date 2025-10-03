@@ -7,7 +7,9 @@ namespace UnityUtility.ObservableFields
     [Serializable]
     public class ObservableField<T>
     {
+#if UNITY_EDITOR
         public const string UNDERLYING_VALUE_NAME = nameof(m_underlyingValue);
+#endif
 
         public event Action<T> OnValueChanged;
 

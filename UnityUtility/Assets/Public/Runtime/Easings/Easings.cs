@@ -33,7 +33,6 @@ namespace UnityUtility.Easings
             EaseInCirc,
             EaseOutCirc,
             EaseInOutCirc,
-            Count,
         }
 
         public static float Ease(float x, EasingFunction function)
@@ -64,7 +63,6 @@ namespace UnityUtility.Easings
                 EasingFunction.EaseInCirc => EaseInCirc(x),
                 EasingFunction.EaseOutCirc => EaseOutCirc(x),
                 EasingFunction.EaseInOutCirc => EaseInOutCirc(x),
-                EasingFunction.Count => throw new ArgumentException($"{EasingFunction.Count} is not a valid easing function. It's only used to count them"),
                 _ => throw new NotImplementedException(),
             };
         }
