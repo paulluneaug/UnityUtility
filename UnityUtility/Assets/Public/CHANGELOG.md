@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.13.0] - 2025-10-03
+
+### Modified
+
+- Updated the Unity version to 6000.0.58f2 to fix a security issue
+- Renamed the `CustomAttributes` namespace to `Attributes`
+- `ComponentPools` now directly references the prefab component instead of its `GameObject`
+
+### Removed
+
+- `Easings.Count`
+
 ## [1.12.3] - 2025-06-4
 
 ### Added
