@@ -4,29 +4,106 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+using UnityUtility.MathU;
+
 
 namespace UnityUtility.Attributes.Editor
 {
     [CustomPropertyDrawer(typeof(EditInlineAttribute))]
     public class EditInlineAttributeDrawer : PropertyDrawer
     {
+        private const string WRONG_PROPERTY_TYPE_ERROR = nameof(EditInlineAttribute) + " can only be applied to objects derived from " + nameof(ScriptableObject);
 
+
+        #region GUI
+
+        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+        {
+            return 0.0f;
+        }
+
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        {
+            _ = EditorGUI.BeginProperty(position, label, property);
+
+            if (property.propertyType != SerializedPropertyType.ObjectReference)
+            {
+                WrongPropertyTypeBox();
+                _ = EditorGUILayout.PropertyField(property, label);
+                return;
+            }
+
+            if (property.objectReferenceValue == null)
+            {
+                _ = EditorGUILayout.PropertyField(property, label);
+                return;
+            }
+
+            if (property.objectReferenceValue is not ScriptableObject target)
+            {
+                WrongPropertyTypeBox();
+                _ = EditorGUILayout.PropertyField(property, label);
+                return;
+            }
+
+            Rect foldoutRect = new Rect()
+            {
+                x = position.x,
+                y = position.y + 2,
+                width = EditorGUIUtility.labelWidth,
+                height = EditorGUIUtility.singleLineHeight
+            };
+
+            property.isExpanded = EditorGUI.Foldout(foldoutRect, property.isExpanded, label, toggleOnLabelClick: true);
+
+            _ = EditorGUILayout.PropertyField(property, label, false);
+
+            if (!property.isExpanded)
+            {
+                return;
+            }
+
+            using SerializedObject serializedTarget = new SerializedObject(target);
+
+            SerializedProperty childProperty = serializedTarget.GetIterator();
+
+            _ = childProperty.NextVisible(true); // Base
+            _ = childProperty.NextVisible(true); // Script
+
+            EditorGUI.indentLevel++;
+
+            do
+            {
+                _ = EditorGUILayout.PropertyField(childProperty);
+            }
+            while (childProperty.NextVisible(false));
+
+            EditorGUI.indentLevel--;
+
+            _ = serializedTarget.ApplyModifiedProperties();
+
+            EditorGUI.EndProperty();
+        }
+
+        private void WrongPropertyTypeBox()
+        {
+            EditorGUILayout.HelpBox(WRONG_PROPERTY_TYPE_ERROR, MessageType.Error);
+        }
+
+        #endregion
 
         #region VisualElement
 
-        private Foldout m_foldout;
-        private SerializedProperty m_property;
-
+#if false
 
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
             VisualElement container = new VisualElement();
 
-            m_property = property;
             PropertyField objectField = new PropertyField(property);
 
-            m_foldout = new Foldout();
-            m_foldout.text = property.displayName;
+            Foldout foldout = new Foldout();
+            foldout.text = property.displayName;
 
             if (property.propertyType != SerializedPropertyType.ObjectReference)
             {
@@ -46,23 +123,17 @@ namespace UnityUtility.Attributes.Editor
 
             // Main thread hook
             //EditorApplication.update += OnEditorUpdate;
-            FillFoldout(m_property, m_foldout);
-            m_foldout.Add(objectField);
+            FillFoldout(property, foldout);
+            foldout.Add(objectField);
 
-            container.Add(m_foldout);
+            container.Add(foldout);
 
             return container;
         }
 
-        private void OnEditorUpdate()
-        {
-            EditorApplication.update -= OnEditorUpdate;
-            FillFoldout(m_property, m_foldout);
-        }
-
         private void FillFoldout(SerializedProperty property, Foldout foldout)
         {
-            SerializedObject serializedTarget = new SerializedObject(m_property.objectReferenceValue);
+            using SerializedObject serializedTarget = new SerializedObject(property.objectReferenceValue);
             serializedTarget.Update();
             SerializedProperty targetProperty = serializedTarget.GetIterator();
 
@@ -73,10 +144,13 @@ namespace UnityUtility.Attributes.Editor
             {
                 foldout.Add(new PropertyField(targetProperty));
             }
-            while (targetProperty.NextVisible(true));
+            while (targetProperty.NextVisible(false));
 
-            m_foldout.MarkDirtyRepaint();
+            foldout.MarkDirtyRepaint();
+
+            _ = serializedTarget.ApplyModifiedProperties();
         }
+#endif
         #endregion
     }
 }
