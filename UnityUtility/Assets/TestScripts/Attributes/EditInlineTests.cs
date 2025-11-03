@@ -4,7 +4,10 @@ using UnityUtility.Attributes;
 
 public class EditInlineTests : MonoBehaviour
 {
-    //[Title("EditInline Tests")]
+    [Title("EditInline Tests")]
     [SerializeField, EditInline] private InlineScriptable m_scriptable0;
     [SerializeField, EditInline] private InlineScriptable m_scriptable1;
+    [SerializeField, EditInline] private int m_int;
+    [SerializeField, EditInline] private InlineScriptable[] m_array;
+    [SerializeField, EditInline] private MonoBehaviour[] m_mb;
 }
