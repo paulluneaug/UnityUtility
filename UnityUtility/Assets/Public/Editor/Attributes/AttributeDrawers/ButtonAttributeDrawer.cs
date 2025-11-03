@@ -31,10 +31,6 @@ namespace UnityUtility.Attributes.Editor
             _ = EditorGUILayout.PropertyField(property, label);
         }
 
-        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
-        {
-            return EditorGUIUtility.singleLineHeight + base.GetPropertyHeight(property, label);
-        }
         #endregion
 
         #region UIElements
