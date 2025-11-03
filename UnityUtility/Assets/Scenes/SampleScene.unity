@@ -1124,6 +1124,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1846007761}
+  - {fileID: 1168443934}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &30151557
@@ -41810,6 +41811,60 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 119218bb31f9641429ffd242fe0f7853, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1168443933
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1168443934}
+  - component: {fileID: 1168443935}
+  m_Layer: 0
+  m_Name: NoFoldout
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1168443934
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1168443933}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.67, y: 0, z: -1.73}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 25591404}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1168443935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1168443933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5be5938663fff84e8b79829c2d987af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_scriptable0:
+    m_int0: 0
+  m_scriptable1:
+    m_int0: 262
+  m_int: 0
+  m_array:
+  - m_int0: 0
+  - m_int0: 0
+  - m_int0: 0
+  - m_int0: 0
 --- !u!1 &1169355061
 GameObject:
   m_ObjectHideFlags: 0
@@ -66971,8 +67026,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96ade0694013340489405259d130cc60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_scriptable0: {fileID: 11400000, guid: c6f83126930d9a347971d4a1e8d8944f, type: 2}
+  m_scriptable0: {fileID: 11400000, guid: 8f1dfa956fc47cb45969385a64bcfb27, type: 2}
   m_scriptable1: {fileID: 11400000, guid: 8f1dfa956fc47cb45969385a64bcfb27, type: 2}
+  m_int: 0
+  m_array:
+  - {fileID: 11400000, guid: c6f83126930d9a347971d4a1e8d8944f, type: 2}
+  - {fileID: 11400000, guid: 8f1dfa956fc47cb45969385a64bcfb27, type: 2}
+  m_mb:
+  - {fileID: 685758850}
 --- !u!1 &1851852813
 GameObject:
   m_ObjectHideFlags: 0
