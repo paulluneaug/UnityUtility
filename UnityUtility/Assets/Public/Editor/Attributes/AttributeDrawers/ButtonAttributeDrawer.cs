@@ -24,9 +24,7 @@ namespace UnityUtility.Attributes.Editor
         {
             InitIfNeeded(property);
 
-            Rect buttonRect = position;
-            buttonRect.height = EditorGUIUtility.singleLineHeight;
-            if (GUI.Button(buttonRect, m_target.DisplayName))
+            if (GUILayout.Button(m_target.DisplayName))
             {
                 InvokeMethod();
             }
