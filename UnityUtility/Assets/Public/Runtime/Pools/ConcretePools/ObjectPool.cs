@@ -14,7 +14,7 @@ namespace UnityUtility.Pools
     /// </para>
     /// </summary>
     /// <typeparam name="T">Pooled object type</typeparam>
-    public class ObjectPool<T> : IObjectPool<T> where T : class, new()
+    public class ObjectPool<T> : IObjectPool<T> where T : class
     {
         public int PoolSize => m_poolSize;
         public int ElementsInPool => m_availableObjects.Count;
@@ -25,8 +25,12 @@ namespace UnityUtility.Pools
         private readonly Stack<T> m_availableObjects = null;
         private int m_poolSize = 0;
 
-        public ObjectPool(int initialPoolSize)
+        private readonly PoolObjectConstructor<T> m_constructor;
+
+        public ObjectPool(int initialPoolSize, PoolObjectConstructor<T> constructor)
         {
+            m_constructor = constructor;
+
             m_availableObjects = new Stack<T>(initialPoolSize);
             m_poolSize = 0;
             Populate(initialPoolSize);
@@ -62,13 +66,12 @@ namespace UnityUtility.Pools
 
         protected virtual void AddItem()
         {
-            m_availableObjects.Push(NewItem());
-            ++m_poolSize;
+            m_availableObjects.Push(NewItem(m_poolSize++));
         }
 
-        protected virtual T NewItem()
+        protected virtual T NewItem(int index)
         {
-            return new T();
+            return m_constructor(index);
         }
     }
 }
