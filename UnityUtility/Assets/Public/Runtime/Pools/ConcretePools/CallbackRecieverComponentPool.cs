@@ -16,6 +16,14 @@ namespace UnityUtility.Pools
     public class CallbackRecieverComponentPool<TComponent> : ComponentPool<TComponent>
         where TComponent : Component, IPoolOperationCallbackReciever
     {
+        public CallbackRecieverComponentPool(int initialPoolSize, Transform componentParent) :
+            base(initialPoolSize, componentParent)
+        {
+        }
+        public CallbackRecieverComponentPool(int initialPoolSize, Transform componentParent, TComponent prefab) :
+            base(initialPoolSize, componentParent, prefab)
+        {
+        }
         public override PooledObject<TComponent> Request()
         {
             PooledObject<TComponent> requestedObj = base.Request();
