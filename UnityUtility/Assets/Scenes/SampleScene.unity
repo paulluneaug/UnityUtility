@@ -24064,7 +24064,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6ef5313aed7f26479d4efc4ec079422, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_transformPool: {fileID: 1067050251}
+  m_poolPrefab: {fileID: 1095299612}
   m_easingTimer:
     m_duration: 3
     m_repeat: 1
@@ -28725,9 +28725,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a33e47d57671be7438466f653632e12c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_initialPoolSize: 10
-  m_instantiateFromPrefab: 1
-  m_componentPrefab: {fileID: 482433955221564847, guid: 8eb06da38bacb804584b6fa8fe280c1d, type: 3}
+  m_elementPrefab: {fileID: 482433955221564847, guid: 8eb06da38bacb804584b6fa8fe280c1d, type: 3}
 --- !u!1 &787510087
 GameObject:
   m_ObjectHideFlags: 0
@@ -37402,6 +37400,7 @@ MonoBehaviour:
   m_initialPoolSize: 10
   m_instantiateFromPrefab: 1
   m_componentPrefab: {fileID: 1095299612}
+  m_poolSize: 0
 --- !u!4 &1067050252
 Transform:
   m_ObjectHideFlags: 0
@@ -66973,6 +66972,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_scriptable0: {fileID: 11400000, guid: c6f83126930d9a347971d4a1e8d8944f, type: 2}
   m_scriptable1: {fileID: 11400000, guid: 8f1dfa956fc47cb45969385a64bcfb27, type: 2}
+  m_int: 0
+  m_array: []
+  m_mb: []
 --- !u!1 &1851852813
 GameObject:
   m_ObjectHideFlags: 0
