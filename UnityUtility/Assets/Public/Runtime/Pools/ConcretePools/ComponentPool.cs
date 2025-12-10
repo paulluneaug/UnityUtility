@@ -30,6 +30,7 @@ namespace UnityUtility.Pools
         public ComponentPool(int initialPoolSize, Transform componentParent, TComponent prefab) :
             base(initialPoolSize, GetComponentInstancier(componentParent, prefab))
         {
+            m_parent = componentParent;
         }
 
         public override void Release(TComponent releasedComponent)
