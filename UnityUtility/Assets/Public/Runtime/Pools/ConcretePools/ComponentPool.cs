@@ -1,6 +1,5 @@
 using UnityEngine;
 
-using UnityUtility.Attributes;
 using UnityUtility.Extensions;
 
 namespace UnityUtility.Pools
