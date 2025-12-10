@@ -1,3 +1,5 @@
+using System;
+
 using UnityEngine;
 
 using UnityUtility.Extensions;
@@ -18,9 +20,12 @@ namespace UnityUtility.Pools
     public class ComponentPool<TComponent> : ObjectPool<TComponent>
         where TComponent : Component
     {
+        [NonSerialized] private readonly Transform m_parent;
+
         public ComponentPool(int initialPoolSize, Transform componentParent) :
             base(initialPoolSize, GetComponentInstancier(componentParent, null))
         {
+            m_parent = componentParent;
         }
         public ComponentPool(int initialPoolSize, Transform componentParent, TComponent prefab) :
             base(initialPoolSize, GetComponentInstancier(componentParent, prefab))
@@ -30,6 +35,7 @@ namespace UnityUtility.Pools
         public override void Release(TComponent releasedComponent)
         {
             releasedComponent.gameObject.SetActive(false);
+            releasedComponent.transform.SetParent(m_parent);
             base.Release(releasedComponent);
         }
 
