@@ -22,15 +22,21 @@ namespace UnityUtility.Pools
     {
         [NonSerialized] private readonly Transform m_parent;
 
-        public ComponentPool(int initialPoolSize, Transform componentParent) :
-            base(initialPoolSize, GetComponentInstancier(componentParent, null))
-        {
-            m_parent = componentParent;
-        }
         public ComponentPool(int initialPoolSize, Transform componentParent, TComponent prefab) :
             base(initialPoolSize, GetComponentInstancier(componentParent, prefab))
         {
             m_parent = componentParent;
+        }
+
+        public ComponentPool(int initialPoolSize, Transform componentParent) :
+            this(initialPoolSize, componentParent, null)
+        {
+        }
+
+        public ComponentPool(ComponentPoolParameters<TComponent> poolParameters) :
+            this(poolParameters.InitialPoolSize, poolParameters.PoolParent, poolParameters.Prefab)
+        {
+
         }
 
         public override void Release(TComponent releasedComponent)
@@ -46,15 +52,14 @@ namespace UnityUtility.Pools
             {
                 if (prefab != null)
                 {
-                    TComponent newComponent = GameObject.Instantiate(prefab);
+                    TComponent newComponent = GameObject.Instantiate(prefab, parent);
                     newComponent.name = newComponent.name.Replace("(Clone)", $"_{index}");
                     newComponent.gameObject.SetActive(false);
-                    newComponent.transform.SetParent(parent, false);
                     return newComponent;
                 }
 
                 GameObject newGo = new GameObject($"{typeof(TComponent).Name}_{index}");
-                newGo.transform.parent.SetParent(parent, false);
+                newGo.transform.SetParent(parent, false);
                 newGo.SetActive(false);
                 return newGo.GetOrAddComponent<TComponent>();
             }
