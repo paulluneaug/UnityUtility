@@ -7,12 +7,12 @@ using UnityUtility.Pools;
 
 public class CompoentPoolTest : MonoBehaviour
 {
-    [SerializeField] private FieldsFiltersTest m_elementPrefab;
+    [SerializeField] private ComponentPoolParameters<FieldsFiltersTest> m_poolSettings;
     [NonSerialized] private ComponentPool<FieldsFiltersTest> m_pool;
 
     private void Awake()
     {
-        m_pool = new ComponentPool<FieldsFiltersTest>(10, transform, m_elementPrefab);
+        m_pool = new ComponentPool<FieldsFiltersTest>(m_poolSettings);
     }
 
     private void FixedUpdate()
