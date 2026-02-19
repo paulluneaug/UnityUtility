@@ -22,7 +22,7 @@ namespace UnityUtility.Pools
         public event Action OnObjectRequested;
         public event Action OnObjectReleased;
 
-        private readonly Stack<T> m_availableObjects = null;
+        protected readonly Stack<T> m_availableObjects = null;
         private int m_poolSize = 0;
 
         private readonly PoolObjectConstructor<T> m_constructor;
@@ -72,6 +72,12 @@ namespace UnityUtility.Pools
         protected virtual T NewItem(int index)
         {
             return m_constructor(index);
+        }
+
+        public virtual void Dispose()
+        {
+            m_availableObjects.Clear();
+            m_poolSize = 0;
         }
     }
 }

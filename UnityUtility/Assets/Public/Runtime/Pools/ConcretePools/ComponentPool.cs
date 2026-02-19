@@ -46,6 +46,12 @@ namespace UnityUtility.Pools
             base.Release(releasedComponent);
         }
 
+        public override void Dispose()
+        {
+            m_availableObjects.ForEach(obj => obj.gameObject.Destroy());
+            base.Dispose();
+        }
+
         private static PoolObjectConstructor<TComponent> GetComponentInstancier(Transform parent, TComponent prefab)
         {
             TComponent ComponentInstancier(int index)
