@@ -1,13 +1,9 @@
 using UnityEditor;
-using UnityEditor.UIElements;
 
 using UnityEngine;
-using UnityEngine.UIElements;
-
-using UnityUtility.MathU;
 
 
-namespace UnityUtility.Attributes.Editor
+namespace UnityUtility.Editor
 {
     [CustomPropertyDrawer(typeof(EditInlineAttribute))]
     public class EditInlineAttributeDrawer : PropertyDrawer

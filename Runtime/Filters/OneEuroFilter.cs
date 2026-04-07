@@ -2,10 +2,10 @@ using System;
 
 using UnityEngine;
 
-namespace UnityUtility.Filters
+namespace UnityUtility
 {
     /// <summary>
-    /// An implementation of the 1€ filter to filter a noisy input <br/>
+    /// An implementation of the 1ï¿½ filter to filter a noisy input <br/>
     /// Original work : <see href="https://gery.casiez.net/1euro/"/>
     /// </summary>
     public class OneEuroFilter
@@ -56,7 +56,7 @@ namespace UnityUtility.Filters
             }
 
             float edx = m_dxFilt.Filter(dx, Alpha(rate, m_dcutoff));
-            float cutoff = m_minCutoff + m_beta * Math.Abs(edx);
+            float cutoff = m_minCutoff + (m_beta * Math.Abs(edx));
 
             return m_xFilt.Filter(x, Alpha(rate, cutoff));
         }
@@ -77,7 +77,7 @@ namespace UnityUtility.Filters
         {
             float tau = 1.0f / (2 * Mathf.PI * cutoff);
             float te = 1.0f / rate;
-            return 1.0f / (1.0f + tau / te);
+            return 1.0f / (1.0f + (tau / te));
         }
     }
 }

@@ -3,11 +3,7 @@ using System.Runtime.CompilerServices;
 
 using UnityEngine;
 
-using UnityUtility.Extensions;
-using UnityUtility.Hash;
-using UnityUtility.MathU;
-
-namespace UnityUtility.Random
+namespace UnityUtility
 {
     /// <summary>
     /// Object that holds a hash value and can provide pseudo-random values

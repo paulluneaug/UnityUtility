@@ -4,7 +4,7 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace UnityUtility.Attributes.Editor
+namespace UnityUtility.Editor
 {
     [CustomPropertyDrawer(typeof(TagAttribute))]
     public class TagAttributeDrawer : PropertyDrawer

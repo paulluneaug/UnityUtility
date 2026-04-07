@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace UnityUtility.Attributes
+namespace UnityUtility
 {
     /// <summary>
     /// Attribute used to make a <see cref="Vector2"/> variable in a script be restricted to a specific range

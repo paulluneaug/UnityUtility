@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
-namespace UnityUtility.SceneReference
+namespace UnityUtility
 {
     /// <summary>
     /// A wrapper that provides the means to safely serialize Scene Asset References.

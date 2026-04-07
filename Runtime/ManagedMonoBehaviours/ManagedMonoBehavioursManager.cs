@@ -2,9 +2,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-using UnityUtility.Singletons;
-
-namespace UnityUtility.ManagedMonoBehaviours
+namespace UnityUtility
 {
     public class ManagedMonoBehavioursManager : MonoBehaviourSingleton<ManagedMonoBehavioursManager>
     {

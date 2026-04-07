@@ -1,6 +1,6 @@
 using System.Runtime.CompilerServices;
 
-namespace UnityUtility.Hash
+namespace UnityUtility
 {
     public class Hasher
     {

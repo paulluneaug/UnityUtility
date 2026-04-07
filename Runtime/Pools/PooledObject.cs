@@ -1,4 +1,4 @@
-namespace UnityUtility.Pools
+namespace UnityUtility
 {
     /// <summary>
     /// A wrapper arround an object from a pool allowing to release it easily

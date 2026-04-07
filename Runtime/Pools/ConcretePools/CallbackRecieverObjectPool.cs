@@ -1,4 +1,4 @@
-namespace UnityUtility.Pools
+namespace UnityUtility
 {
     /// <summary>
     /// An <see cref="ObjectPool{T}"/> for <see cref="IPoolOperationCallbackReciever"/>

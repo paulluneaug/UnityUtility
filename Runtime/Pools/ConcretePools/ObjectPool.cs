@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace UnityUtility.Pools
+namespace UnityUtility
 {
     /// <summary>
     /// Stack-based object pool

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace UnityUtility.Pools
+namespace UnityUtility
 {
     /// <summary>
     /// A <see cref="ComponentPool{TComponent}"/> for <see cref="IPoolOperationCallbackReciever"/>

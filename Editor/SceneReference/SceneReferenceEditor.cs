@@ -5,7 +5,7 @@ using UnityEditor;
 
 using UnityEngine;
 
-namespace UnityUtility.SceneReference.Editor
+namespace UnityUtility.Editor
 {
     /// <summary>
     /// Display a Scene Reference object in the editor.
@@ -80,7 +80,7 @@ namespace UnityUtility.SceneReference.Editor
                 lines = 1;
             }
 
-            return s_boxPadding.vertical + s_lineHeight * lines + s_padSize * (lines - 1) + s_footerHeight;
+            return s_boxPadding.vertical + (s_lineHeight * lines) + (s_padSize * (lines - 1)) + s_footerHeight;
         }
 
         /// <summary>
@@ -131,7 +131,7 @@ namespace UnityUtility.SceneReference.Editor
 
             // Right context buttons
             Rect buttonRect = DrawUtils.GetFieldRect(position);
-            buttonRect.width = (buttonRect.width) / 3;
+            buttonRect.width = buttonRect.width / 3;
 
             string tooltipMsg;
             using (new EditorGUI.DisabledScope(readOnly))

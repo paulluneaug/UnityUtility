@@ -2,7 +2,7 @@ using System;
 
 using UnityEngine;
 
-namespace UnityUtility.TriggerObject
+namespace UnityUtility
 {
     [RequireComponent(typeof(Collider2D))]
     public class TriggerObject2D : MonoBehaviour

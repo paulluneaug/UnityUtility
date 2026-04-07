@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace UnityUtility.ManagedMonoBehaviours
+namespace UnityUtility
 {
     public abstract class ManagedMonoBehaviour : MonoBehaviour
     {

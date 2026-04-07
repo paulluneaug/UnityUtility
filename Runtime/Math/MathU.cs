@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace UnityUtility.MathU
+namespace UnityUtility
 {
     public static class MathU
     {

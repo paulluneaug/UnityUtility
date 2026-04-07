@@ -3,7 +3,7 @@ using UnityEditor.UIElements;
 
 using UnityEngine.UIElements;
 
-namespace UnityUtility.ObservableFields.Editor
+namespace UnityUtility.Editor
 {
     [CustomPropertyDrawer(typeof(ObservableField<>))]
     public class ObservableFieldDrawer : PropertyDrawer

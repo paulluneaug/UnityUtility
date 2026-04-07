@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 using UnityEngine;
 
-namespace UnityUtility.Utils
+namespace UnityUtility
 {
     [System.Flags]
     public enum Axis : int

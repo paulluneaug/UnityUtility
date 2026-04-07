@@ -3,10 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-using UnityUtility.MathU;
-using UnityUtility.Random;
-
-namespace UnityUtility.Extensions
+namespace UnityUtility
 {
     public static class EnumerableExtensions
     {

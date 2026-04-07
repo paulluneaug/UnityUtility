@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 
-namespace UnityUtility.Extensions
+namespace UnityUtility
 {
     public static class StringExtensions
     {

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace UnityUtility.Recorders
+namespace UnityUtility
 {
     public class ScriptEvent
     {

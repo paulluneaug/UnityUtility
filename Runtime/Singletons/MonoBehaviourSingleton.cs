@@ -1,8 +1,6 @@
 using UnityEngine;
 
-using UnityUtility.Attributes;
-
-namespace UnityUtility.Singletons
+namespace UnityUtility
 {
     /// <summary>
     /// Singleton for <see cref="MonoBehaviour"/>
