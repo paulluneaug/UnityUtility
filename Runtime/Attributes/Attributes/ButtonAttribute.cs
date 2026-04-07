@@ -2,7 +2,7 @@ using System;
 
 using UnityEngine;
 
-namespace UnityUtility.Attributes
+namespace UnityUtility
 {
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = true)]
     public class ButtonAttribute : PropertyAttribute

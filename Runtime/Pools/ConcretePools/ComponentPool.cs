@@ -2,9 +2,7 @@ using System;
 
 using UnityEngine;
 
-using UnityUtility.Extensions;
-
-namespace UnityUtility.Pools
+namespace UnityUtility
 {
     /// <summary>
     /// A object pool for <see cref="Component"/>

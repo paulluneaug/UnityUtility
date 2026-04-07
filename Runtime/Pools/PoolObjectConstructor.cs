@@ -1,4 +1,4 @@
-namespace UnityUtility.Pools
+namespace UnityUtility
 {
     public delegate T PoolObjectConstructor<T>(int index);
 }

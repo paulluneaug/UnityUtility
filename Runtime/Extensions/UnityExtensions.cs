@@ -4,7 +4,7 @@ using UnityEngine;
 
 using Object = UnityEngine.Object;
 
-namespace UnityUtility.Extensions
+namespace UnityUtility
 {
     #region Object 
     public static class ObjectExtensions

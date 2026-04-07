@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace UnityUtility.Attributes.Editor
+namespace UnityUtility.Editor
 {
     [CustomPropertyDrawer(typeof(HelpBoxAttribute))]
     public class HelpBoxAttributeDrawer : DecoratorDrawer

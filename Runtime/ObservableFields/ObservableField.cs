@@ -2,7 +2,7 @@ using System;
 
 using UnityEngine;
 
-namespace UnityUtility.ObservableFields
+namespace UnityUtility
 {
     [Serializable]
     public class ObservableField<T>

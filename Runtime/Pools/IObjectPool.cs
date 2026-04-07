@@ -1,6 +1,6 @@
 using System;
 
-namespace UnityUtility.Pools
+namespace UnityUtility
 {
     /// <summary>
     /// Base interface for an object pool

@@ -1,4 +1,4 @@
-namespace UnityUtility.Pools
+namespace UnityUtility
 {
     /// <summary>
     /// Interface for pooled objects to recieve callbacks when the object is requested or released from/into the pool

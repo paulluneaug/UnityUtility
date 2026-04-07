@@ -2,9 +2,7 @@ using System;
 
 using UnityEngine;
 
-using UnityUtility.Attributes;
-
-namespace UnityUtility.Pools
+namespace UnityUtility
 {
     [Serializable]
     public struct ComponentPoolParameters<TComponent>

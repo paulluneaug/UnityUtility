@@ -1,4 +1,4 @@
-namespace UnityUtility.Singletons
+namespace UnityUtility
 {
     public interface ISingleton<T> where T : ISingleton<T>
     {

@@ -1,4 +1,4 @@
-namespace UnityUtility.Filters
+namespace UnityUtility
 {
     public class LowpassFilter
     {
@@ -25,7 +25,7 @@ namespace UnityUtility.Filters
             }
             else
             {
-                hatX = alpha * x + (1 - alpha) * m_hatXPrev;
+                hatX = (alpha * x) + ((1 - alpha) * m_hatXPrev);
             }
 
             m_hatXPrev = hatX;

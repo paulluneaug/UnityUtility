@@ -5,7 +5,7 @@ using System.Linq;
 
 using UnityEngine;
 
-namespace UnityUtility.SerializedDictionary
+namespace UnityUtility
 {
     [Serializable]
     public class SerializedDictionary<TKey, TValue> : IDictionary<TKey, TValue>, ISerializationCallbackReceiver

@@ -6,7 +6,7 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace UnityUtility.SerializedDictionary.Editor
+namespace UnityUtility.Editor
 {
     public class SerializedDictionaryPairVisualElement : VisualElement
     {

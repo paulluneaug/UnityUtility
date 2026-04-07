@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 using UnityEditor;
 
-namespace UnityUtility.Extensions.Editor
+namespace UnityUtility.Editor
 {
     public static class SerializedPropertyExtensions
     {

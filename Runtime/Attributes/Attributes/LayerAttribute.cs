@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace UnityUtility.Attributes
+namespace UnityUtility
 {
     public class LayerAttribute : PropertyAttribute
     {

@@ -9,9 +9,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-using UnityUtility.Utils;
-
-namespace UnityUtility.Attributes.Editor
+namespace UnityUtility.Editor
 {
     public static class AttributeUtils
     {

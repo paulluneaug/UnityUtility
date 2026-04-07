@@ -1,6 +1,6 @@
 using System;
 
-namespace UnityUtility.Singletons
+namespace UnityUtility
 {
     /// <summary>
     /// Base class for a Singletons

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace UnityUtility.Recorders
+namespace UnityUtility
 {
     public abstract class GenericRecorder<TEvent> where TEvent : ScriptEvent
     {

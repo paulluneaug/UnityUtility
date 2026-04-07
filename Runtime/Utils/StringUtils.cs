@@ -4,9 +4,7 @@ using System.Linq;
 
 using UnityEngine;
 
-using UnityUtility.Extensions;
-
-namespace UnityUtility.Utils
+namespace UnityUtility
 {
     public static class StringUtils
     {

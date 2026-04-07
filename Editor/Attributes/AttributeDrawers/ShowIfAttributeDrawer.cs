@@ -4,9 +4,7 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-using UnityUtility.Extensions.Editor;
-
-namespace UnityUtility.Attributes.Editor
+namespace UnityUtility.Editor
 {
     [CustomPropertyDrawer(typeof(ShowIfAttribute))]
     public class ShowIfAttributeDrawer : PropertyDrawer

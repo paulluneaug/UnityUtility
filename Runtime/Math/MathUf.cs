@@ -3,9 +3,7 @@ using System.Runtime.CompilerServices;
 
 using UnityEngine;
 
-using UnityUtility.Extensions;
-
-namespace UnityUtility.MathU
+namespace UnityUtility
 {
     public static class MathUf
     {
@@ -456,7 +454,7 @@ namespace UnityUtility.MathU
             float omega = 2F / smoothTime;
 
             float x = omega * deltaTime;
-            float exp = 1F / (1F + x + 0.48F * x * x + 0.235F * x * x * x);
+            float exp = 1F / (1F + x + (0.48F * x * x) + (0.235F * x * x * x));
             float change = current - target;
             float originalTo = target;
 
@@ -465,12 +463,12 @@ namespace UnityUtility.MathU
             change = Clamp(change, -maxChange, maxChange);
             target = current - change;
 
-            float temp = (currentVelocity + omega * change) * deltaTime;
-            currentVelocity = (currentVelocity - omega * temp) * exp;
-            float output = target + (change + temp) * exp;
+            float temp = (currentVelocity + (omega * change)) * deltaTime;
+            currentVelocity = (currentVelocity - (omega * temp)) * exp;
+            float output = target + ((change + temp) * exp);
 
             // Prevent overshooting
-            if (originalTo - current > 0.0F == output > originalTo)
+            if ((originalTo - current > 0.0F) == (output > originalTo))
             {
                 output = originalTo;
                 currentVelocity = (output - originalTo) / deltaTime;
@@ -486,7 +484,7 @@ namespace UnityUtility.MathU
 
         public static float Repeat(float t, float length)
         {
-            return Clamp(t - Floor(t / length) * length, 0f, length);
+            return Clamp(t - (Floor(t / length) * length), 0f, length);
         }
 
         public static float PingPong(float t, float length)
@@ -561,7 +559,7 @@ namespace UnityUtility.MathU
         [MethodImpl(INLINE)]
         public static float SmoothLerp(float a, float b, float deltaTime, float halfLife)
         {
-            return b + (a - b) * Exp2(-deltaTime / halfLife);
+            return b + ((a - b) * Exp2(-deltaTime / halfLife));
         }
 
         [MethodImpl(INLINE)]
@@ -569,8 +567,8 @@ namespace UnityUtility.MathU
         {
             float lerpFactor = Exp2(-deltaTime / halfLife);
             return new Vector2(
-                b.x + (a.x - b.x) * lerpFactor,
-                b.y + (a.y - b.y) * lerpFactor);
+                b.x + ((a.x - b.x) * lerpFactor),
+                b.y + ((a.y - b.y) * lerpFactor));
         }
 
         [MethodImpl(INLINE)]
@@ -578,9 +576,9 @@ namespace UnityUtility.MathU
         {
             float lerpFactor = Exp2(-deltaTime / halfLife);
             return new Vector3(
-                b.x + (a.x - b.x) * lerpFactor,
-                b.y + (a.y - b.y) * lerpFactor,
-                b.z + (a.z - b.z) * lerpFactor);
+                b.x + ((a.x - b.x) * lerpFactor),
+                b.y + ((a.y - b.y) * lerpFactor),
+                b.z + ((a.z - b.z) * lerpFactor));
         }
 
         [MethodImpl(INLINE)]
@@ -588,10 +586,10 @@ namespace UnityUtility.MathU
         {
             float lerpFactor = Exp2(-deltaTime / halfLife);
             return new Vector4(
-                b.x + (a.x - b.x) * lerpFactor,
-                b.y + (a.y - b.y) * lerpFactor,
-                b.z + (a.z - b.z) * lerpFactor,
-                b.w + (a.w - b.w) * lerpFactor);
+                b.x + ((a.x - b.x) * lerpFactor),
+                b.y + ((a.y - b.y) * lerpFactor),
+                b.z + ((a.z - b.z) * lerpFactor),
+                b.w + ((a.w - b.w) * lerpFactor));
         }
     }
 }

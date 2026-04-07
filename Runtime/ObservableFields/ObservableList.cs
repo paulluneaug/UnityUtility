@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 
 using UnityEngine;
 
-namespace UnityUtility.ObservableFields
+namespace UnityUtility
 {
     [Flags]
     public enum ListChangeOperations : int

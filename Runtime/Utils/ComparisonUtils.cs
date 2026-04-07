@@ -1,8 +1,6 @@
 using System;
 
-using UnityUtility.Extensions;
-
-namespace UnityUtility.Utils
+namespace UnityUtility
 {
     public static class ComparisonUtils
     {

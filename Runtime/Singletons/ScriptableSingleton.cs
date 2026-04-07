@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace UnityUtility.Singletons
+namespace UnityUtility
 {
     /// <summary>
     /// Singleton for <see cref="ScriptableObject"/>

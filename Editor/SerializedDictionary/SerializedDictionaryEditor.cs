@@ -3,9 +3,7 @@ using UnityEditor.UIElements;
 
 using UnityEngine.UIElements;
 
-using UnityUtility.Extensions.Editor;
-
-namespace UnityUtility.SerializedDictionary.Editor
+namespace UnityUtility.Editor
 {
     [CustomPropertyDrawer(typeof(SerializedDictionary<,>))]
     public class SerializedDictionaryEditor : PropertyDrawer

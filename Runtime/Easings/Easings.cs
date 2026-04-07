@@ -1,9 +1,7 @@
 using System;
 using System.Runtime.CompilerServices;
 
-using UnityUtility.MathU;
-
-namespace UnityUtility.Easings
+namespace UnityUtility
 {
     public static class Easings
     {

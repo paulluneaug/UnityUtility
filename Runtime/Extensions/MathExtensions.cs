@@ -3,9 +3,7 @@ using System.Runtime.CompilerServices;
 
 using UnityEngine;
 
-using UnityUtility.MathU;
-
-namespace UnityUtility.Extensions
+namespace UnityUtility
 {
     #region Comparisons
     public static class IComparableExtensions
@@ -208,7 +206,7 @@ namespace UnityUtility.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2 Snap(this Vector2 v, float snapX, float snapY)
         {
-            return new Vector2(v.x - v.x % snapX, v.y - v.y % snapY);
+            return new Vector2(v.x - (v.x % snapX), v.y - (v.y % snapY));
         }
 
         /// <summary>
@@ -220,7 +218,7 @@ namespace UnityUtility.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float AngleSigned(this Vector2 from, Vector2 to)
         {
-            float sign = MathUf.Sign(from.x * to.y - from.y * to.x);
+            float sign = MathUf.Sign((from.x * to.y) - (from.y * to.x));
             return Vector2.Angle(from, to) * sign;
         }
 
@@ -257,7 +255,7 @@ namespace UnityUtility.Extensions
             float rad = angle * MathUf.DEG_2_RAD;
             float c = MathUf.Cos(rad);
             float s = MathUf.Sin(rad);
-            return new Vector2(c * v.x - s * v.y, s * v.x + c * v.y);
+            return new Vector2((c * v.x) - (s * v.y), (s * v.x) + (c * v.y));
         }
 
         /// <inheritdoc cref="Vector2.Scale(Vector2, Vector2)"/>
@@ -386,7 +384,7 @@ namespace UnityUtility.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 Snap(this Vector3 v, float snapX, float snapY, float snapZ)
         {
-            return new Vector3(v.x - v.x % snapX, v.y - v.y % snapY, v.z - v.z % snapZ);
+            return new Vector3(v.x - (v.x % snapX), v.y - (v.y % snapY), v.z - (v.z % snapZ));
         }
 
         /// <summary>
@@ -547,7 +545,7 @@ namespace UnityUtility.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4 Snap(this Vector4 v, float snapX, float snapY, float snapZ, float snapW)
         {
-            return new Vector4(v.x - v.x % snapX, v.y - v.y % snapY, v.z - v.z % snapZ, v.w - v.w % snapW);
+            return new Vector4(v.x - (v.x % snapX), v.y - (v.y % snapY), v.z - (v.z % snapZ), v.w - (v.w % snapW));
         }
 
         /// <inheritdoc cref="Vector4.Scale(Vector4, Vector4)"/>

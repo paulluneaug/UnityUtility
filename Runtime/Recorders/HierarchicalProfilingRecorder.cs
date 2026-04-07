@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Profiling;
 
-namespace UnityUtility.Recorders
+namespace UnityUtility
 {
     public class HierarchicalProfilingRecorder : HierarchicalRecorder
     {

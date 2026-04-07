@@ -2,7 +2,7 @@ using System;
 
 using UnityEngine;
 
-namespace UnityUtility.Recorders
+namespace UnityUtility
 {
     public class HierarchicalScriptEvent : ScriptEvent
     {

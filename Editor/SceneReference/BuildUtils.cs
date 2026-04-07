@@ -8,7 +8,7 @@ using UnityEditor;
 
 using UnityEngine;
 
-namespace UnityUtility.SceneReference.Editor
+namespace UnityUtility.Editor
 {
     /// <summary>
     /// Various BuildSettings interactions
@@ -97,7 +97,7 @@ namespace UnityUtility.SceneReference.Editor
                 assetGUID = new GUID(string.Empty)
             };
 
-            if (sceneObject as SceneAsset == null)
+            if (sceneObject is not SceneAsset)
             {
                 return entry;
             }
@@ -125,7 +125,7 @@ namespace UnityUtility.SceneReference.Editor
         {
             bool modified = false;
             EditorBuildSettingsScene[] scenesToModify = EditorBuildSettings.scenes;
-            foreach (var curScene in scenesToModify)
+            foreach (EditorBuildSettingsScene curScene in scenesToModify)
             {
                 if (curScene.guid.Equals(buildScene.assetGUID))
                 {
