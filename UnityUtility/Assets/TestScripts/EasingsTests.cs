@@ -10,15 +10,18 @@ using UnityUtility.Timer;
 
 public class EasingsTests : MonoBehaviour
 {
-    [SerializeField] private ComponentPool<Transform> m_transformPool;
+    [SerializeField] private Transform m_poolPrefab;
     [SerializeField] private Timer m_easingTimer;
     [SerializeField] private Vector2 m_movementXRange;
 
+    [NonSerialized] private ComponentPool<Transform> m_transformPool;
     [NonSerialized] private Transform[] m_pooledTransforms;
 
     // Start is called before the first frame update
     private void Start()
     {
+        m_transformPool = new ComponentPool<Transform>(10, transform, m_poolPrefab);
+
         int easingsCount = Enum.GetValues(typeof(Easings.EasingFunction)).Length;
         m_pooledTransforms = new Transform[easingsCount];
         for (int iFunction = 0; iFunction < easingsCount; ++iFunction)

@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
 
 using UnityEngine;
 
-using UnityUtility.Attributes;
 using UnityUtility.Extensions;
 
 namespace UnityUtility.Pools
@@ -19,80 +17,60 @@ namespace UnityUtility.Pools
     /// </para>
     /// </summary>
     /// <typeparam name="TComponent">Pooled component type</typeparam>
-    public abstract class ComponentPool<TComponent> : MonoBehaviour, IObjectPool<TComponent>
+    public class ComponentPool<TComponent> : ObjectPool<TComponent>
         where TComponent : Component
     {
-        public int PoolSize => m_poolSize;
+        [NonSerialized] private readonly Transform m_parent;
 
-        public int ElementsInPool => m_availableComponents.Count;
-
-#if UNITY_EDITOR
-        public TComponent Prefab => m_componentPrefab;
-#endif
-
-        public event Action OnObjectRequested;
-        public event Action OnObjectReleased;
-
-        [SerializeField] private int m_initialPoolSize = 10;
-        [SerializeField] protected bool m_instantiateFromPrefab = false;
-        [SerializeField, ShowIf(nameof(m_instantiateFromPrefab))] private TComponent m_componentPrefab = null;
-
-        private Stack<TComponent> m_availableComponents = null;
-        private int m_poolSize = 0;
-
-
-        protected virtual void Awake()
+        public ComponentPool(int initialPoolSize, Transform componentParent, TComponent prefab) :
+            base(initialPoolSize, GetComponentInstancier(componentParent, prefab))
         {
-            m_availableComponents = new Stack<TComponent>(m_initialPoolSize);
-            for (int i = 0; i < m_initialPoolSize; ++i)
-            {
-                AddItem();
-            }
+            m_parent = componentParent;
         }
 
-        public virtual PooledObject<TComponent> Request()
+        public ComponentPool(int initialPoolSize, Transform componentParent) :
+            this(initialPoolSize, componentParent, null)
         {
-            if (m_availableComponents.Count == 0)
-            {
-                AddItem();
-            }
-
-            PooledObject<TComponent> requestedComponent = new PooledObject<TComponent>(m_availableComponents.Pop(), this);
-
-            OnObjectRequested?.Invoke();
-
-            return requestedComponent;
         }
 
-        public virtual void Release(TComponent releasedComponent)
+        public ComponentPool(ComponentPoolParameters<TComponent> poolParameters) :
+            this(poolParameters.InitialPoolSize, poolParameters.PoolParent, poolParameters.Prefab)
+        {
+
+        }
+
+        public override void Release(TComponent releasedComponent)
         {
             releasedComponent.gameObject.SetActive(false);
-            m_availableComponents.Push(releasedComponent);
-
-            OnObjectReleased?.Invoke();
+            releasedComponent.transform.SetParent(m_parent);
+            base.Release(releasedComponent);
         }
 
-        protected virtual void AddItem()
+        public override void Dispose()
         {
-            m_availableComponents.Push(NewItem());
-            ++m_poolSize;
+            m_availableObjects.ForEach(obj => obj.gameObject.Destroy());
+            base.Dispose();
         }
 
-        protected virtual TComponent NewItem()
+        private static PoolObjectConstructor<TComponent> GetComponentInstancier(Transform parent, TComponent prefab)
         {
-            if (m_instantiateFromPrefab)
+            TComponent ComponentInstancier(int index)
             {
-                TComponent newComponent = Instantiate(m_componentPrefab);
-                newComponent.name = newComponent.name.Replace("(Clone)", $"_{m_poolSize}");
-                newComponent.gameObject.SetActive(false);
-                newComponent.transform.parent = transform;
-                return newComponent;
+                if (prefab != null)
+                {
+                    TComponent newComponent = GameObject.Instantiate(prefab, parent);
+                    newComponent.name = newComponent.name.Replace("(Clone)", $"_{index}");
+                    newComponent.gameObject.SetActive(false);
+                    return newComponent;
+                }
+
+                GameObject newGo = new GameObject($"{typeof(TComponent).Name}_{index}");
+                newGo.transform.SetParent(parent, false);
+                newGo.SetActive(false);
+                return newGo.GetOrAddComponent<TComponent>();
             }
 
-            GameObject newGo = new GameObject($"{typeof(TComponent).Name}_{m_poolSize}");
-            newGo.transform.parent = transform;
-            newGo.SetActive(false);
-            return newGo.GetOrAddComponent<TComponent>();
+            return ComponentInstancier;
         }
     }
 }

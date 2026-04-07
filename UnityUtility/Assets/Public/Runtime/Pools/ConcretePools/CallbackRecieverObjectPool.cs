@@ -14,7 +14,7 @@ namespace UnityUtility.Pools
     public class CallbackRecieverObjectPool<T> : ObjectPool<T>
         where T : class, IPoolOperationCallbackReciever, new()
     {
-        public CallbackRecieverObjectPool(int initialPoolSize) : base(initialPoolSize)
+        public CallbackRecieverObjectPool(int initialPoolSize, PoolObjectConstructor<T> constructor) : base(initialPoolSize, constructor)
         {
         }
 

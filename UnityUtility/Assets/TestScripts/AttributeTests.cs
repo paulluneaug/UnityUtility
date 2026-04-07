@@ -47,6 +47,8 @@ public class AttributeTests : MonoBehaviour
 
     [SerializeField] private SceneReference m_sceneRef;
 
+
+
     private bool Condition => B > 2;
     [Button(nameof(TestMethod1), "MÃƒÂ¯Ã‚Â¿Ã‚Â½thode Test0")]
     [Button(nameof(TestMethod1), "MÃƒÂ¯Ã‚Â¿Ã‚Â½thode Test1")]
@@ -54,7 +56,7 @@ public class AttributeTests : MonoBehaviour
     [SerializeField] private bool m_whatABool = true;
     [Title("Title Example", "With Subtitle (and underline)")]
     [DisableIf(nameof(Condition)), MinMaxSlider(2, 250, roundDigits: 1)]
-    public Vector2[] A;
+    public Vector2 A;
     public float B;
     [Title("No Subtitle nor underline (like a Header)", separator: false)]
     [ShowIf(nameof(m_so), Sau.CISSE)]

@@ -13,7 +13,8 @@ namespace UnityUtility.Pools
     /// </para>
     /// </summary>
     /// <typeparam name="T">Pooled object type</typeparam>
-    public interface IObjectPool<T> where T : class
+    public interface IObjectPool<T> : IDisposable
+        where T : class
     {
         /// <summary>
         /// The number of object created by the pool

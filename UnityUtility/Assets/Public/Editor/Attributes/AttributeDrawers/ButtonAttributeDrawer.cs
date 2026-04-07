@@ -24,19 +24,13 @@ namespace UnityUtility.Attributes.Editor
         {
             InitIfNeeded(property);
 
-            Rect buttonRect = position;
-            buttonRect.height = EditorGUIUtility.singleLineHeight;
-            if (GUI.Button(buttonRect, m_target.DisplayName))
+            if (GUILayout.Button(m_target.DisplayName))
             {
                 InvokeMethod();
             }
             _ = EditorGUILayout.PropertyField(property, label);
         }
 
-        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
-        {
-            return EditorGUIUtility.singleLineHeight + base.GetPropertyHeight(property, label);
-        }
         #endregion
 
         #region UIElements

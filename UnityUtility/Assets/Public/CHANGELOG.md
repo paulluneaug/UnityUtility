@@ -5,6 +5,40 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.14.4] - 2026-02-19
+
+### Modified
+
+- Disposable Pools
+
+## [1.14.3] - 2026-01-15
+
+### Added
+
+- `ComponentPoolParameters` to help build `ComponentPools`
+
+### Modified
+
+- Fixed `ComponentPools` newly instanciated components parenting
+
+## [1.14.1] - 2025-12-10
+
+### Modified
+
+- `ComponentPools` are no longer `MonoBehaviours`
+
+## [1.14.0] - 2025-11-17
+
+### Modified
+
+- `ObjectPools` now requires a constructor for added objects
+
+## [1.13.1] - 2025-11-03
+
+### Added
+
+- `EditInline` attribute
+
 ## [1.13.0] - 2025-10-03
 
 ### Modified
