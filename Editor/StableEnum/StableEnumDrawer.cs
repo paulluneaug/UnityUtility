@@ -6,9 +6,6 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-#if ODIN_INSPECTOR
-using Sirenix.OdinInspector.Editor;
-#endif
 
 namespace UnityUtility.Editor
 {
@@ -37,19 +34,4 @@ namespace UnityUtility.Editor
             return new PropertyField(valueProperty);
         }
     }
-
-#if ODIN_INSPECTOR
-    public class StableEnumOdinDrawer<T> : OdinValueDrawer<StableEnum<T>>
-        where T : struct
-    {
-        protected override void DrawPropertyLayout(GUIContent label)
-        {
-            StableEnum<T> value = ValueEntry.SmartValue;
-
-            value.Value = EnumSelector<T>.DrawEnumField(label, value.Value);
-
-            this.ValueEntry.SmartValue = value;
-        }
-    }
-#endif
 }
