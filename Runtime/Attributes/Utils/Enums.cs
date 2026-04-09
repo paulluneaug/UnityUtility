@@ -1,4 +1,4 @@
-namespace UnityUtility
+namespace UnityUtility.Inspector
 {
     public enum TitleAlignments
     {

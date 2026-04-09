@@ -3,7 +3,9 @@ using UnityEditor.UIElements;
 
 using UnityEngine.UIElements;
 
-namespace UnityUtility.Editor
+using UnityUtility.Editor;
+
+namespace UnityUtility.Inspector.Editor
 {
     [CustomPropertyDrawer(typeof(LabelAttribute))]
     public class LabelAttributeDrawer : PropertyDrawer

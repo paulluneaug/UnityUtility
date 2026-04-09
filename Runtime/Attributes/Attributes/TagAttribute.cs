@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace UnityUtility
+namespace UnityUtility.Inspector
 {
     public class TagAttribute : PropertyAttribute
     {

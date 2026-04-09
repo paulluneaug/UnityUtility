@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace UnityUtility.Editor
+namespace UnityUtility.Inspector.Editor
 {
     [CustomPropertyDrawer(typeof(TitleAttribute))]
     public class TitleAttributeDrawer : DecoratorDrawer

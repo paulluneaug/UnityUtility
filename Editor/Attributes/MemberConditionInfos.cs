@@ -2,7 +2,7 @@
 using System;
 using System.Reflection;
 
-namespace UnityUtility.Editor
+namespace UnityUtility.Inspector.Editor
 {
     public interface IMemberConditionInfo
     {

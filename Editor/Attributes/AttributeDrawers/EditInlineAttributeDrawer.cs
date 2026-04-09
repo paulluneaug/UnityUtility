@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 
 
-namespace UnityUtility.Editor
+namespace UnityUtility.Inspector.Editor
 {
     [CustomPropertyDrawer(typeof(EditInlineAttribute))]
     public class EditInlineAttributeDrawer : PropertyDrawer
