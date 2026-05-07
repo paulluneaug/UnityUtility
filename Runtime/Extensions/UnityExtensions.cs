@@ -6,8 +6,8 @@ using Object = UnityEngine.Object;
 
 namespace UnityUtility
 {
-    #region Object 
-    public static class ObjectExtensions
+    #region UnityObject 
+    public static class UnityObjectExtensions
     {
 
         /// <summary>
