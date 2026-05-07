@@ -11,9 +11,9 @@ namespace UnityUtility
     public struct StableEnum<T> : IEquatable<StableEnum<T>>, ISerializationCallbackReceiver
         where T : struct
     {
-    #if UNITY_EDITOR
+#if UNITY_EDITOR
         public const string VALUE_FIELD_NAME = nameof(m_value);
-    #endif
+#endif
 
         public T Value
         {
@@ -62,7 +62,7 @@ namespace UnityUtility
             return EqualityComparer<T>.Default.Equals(m_value, other.Value);
         }
 
-        public readonly override bool Equals(object obj)
+        public override readonly bool Equals(object obj)
         {
             if (obj is not StableEnum<T> stable)
             {
@@ -71,7 +71,7 @@ namespace UnityUtility
             return Equals(stable);
         }
 
-        public readonly override int GetHashCode()
+        public override readonly int GetHashCode()
         {
             return m_value.GetHashCode();
         }
@@ -81,7 +81,7 @@ namespace UnityUtility
             return stableEnum.m_value;
         }
 
-        public  static T Convert(StableEnum<T> stableEnum)
+        public static T Convert(StableEnum<T> stableEnum)
         {
             return stableEnum.m_value;
         }
