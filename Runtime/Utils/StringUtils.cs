@@ -9,6 +9,38 @@ namespace UnityUtility
     public static class StringUtils
     {
         /// <summary>
+        /// Concat <paramref name="count"/> times the given <paramref name="pattern"/> and returns it
+        /// </summary>
+        public static string Repeat(string pattern, int count)
+        {
+            static void FillBuffer(Span<char> buffer, string pattern)
+            {
+                for (int i = 0; i < buffer.Length; i++)
+                {
+                    buffer[i] = pattern[i % pattern.Length];
+                }
+            }
+
+            return string.Create(count * pattern.Length, pattern, FillBuffer);
+        }
+
+        /// <summary>
+        /// Concat <paramref name="count"/> times the given <paramref name="character"/> and returns it
+        /// </summary>
+        public static string Repeat(char character, int count)
+        {
+            static void FillBuffer(Span<char> buffer, char character)
+            {
+                for (int i = 0; i < buffer.Length; i++)
+                {
+                    buffer[i] = character;
+                }
+            }
+
+            return string.Create(count, character, FillBuffer);
+        }
+
+        /// <summary>
         /// Tries to parse a <see cref="string"/> representing an hexadecimal number to an <see cref="int"/>
         /// </summary>
         /// <param name="hex"></param>
