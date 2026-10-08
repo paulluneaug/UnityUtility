@@ -1,3 +1,5 @@
+using System.Runtime.CompilerServices;
+
 namespace UnityUtility
 {
     public static class ObjectExtensions
@@ -11,6 +13,7 @@ namespace UnityUtility
         /// <typeparam name="TCast">Type to cast the given object to</typeparam>
         /// <param name="obj">Object to cast</param>
         /// <returns><paramref name="obj"/> casted to type <typeparamref name="TCast"/></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static TCast Cast<TCast>(this object obj)
         {
             return (TCast)obj;
@@ -22,6 +25,7 @@ namespace UnityUtility
         /// <typeparam name="TCast">Type to cast the given object to</typeparam>
         /// <param name="obj">Object to cast</param>
         /// <returns>Whether the cast was successful</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool TryCast<TCast>(this object obj, out TCast castObject)
         {
             castObject = obj.Cast<TCast>();

@@ -40,12 +40,12 @@ namespace UnityUtility
             m_dxFilt = new LowpassFilter();
             m_dcutoff = 1;
         }
+
         /// <summary>
         /// Filters the value <paramref name="x"/>
         /// </summary>
         /// <param name="x">The value to filter</param>
         /// <returns>The filtered value of <paramref name="x"/></returns>
-
         public float Filter(float x, float deltaTime)
         {
             float rate = 1.0f / deltaTime;
