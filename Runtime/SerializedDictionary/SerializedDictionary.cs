@@ -8,7 +8,7 @@ using UnityEngine;
 namespace UnityUtility
 {
     [Serializable]
-    public class SerializedDictionary<TKey, TValue> : IDictionary<TKey, TValue>, ISerializationCallbackReceiver
+    public class SerializedDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IDictionary, ICollection<KeyValuePair<TKey, TValue>>, IEnumerable<KeyValuePair<TKey, TValue>>, IEnumerable, IReadOnlyCollection<KeyValuePair<TKey, TValue>>, IReadOnlyDictionary<TKey, TValue>, ICollection, ISerializationCallbackReceiver
     {
         [Serializable]
         public struct KeyValuePair
@@ -44,7 +44,7 @@ namespace UnityUtility
         private Dictionary<TKey, TValue> m_dictionary = new Dictionary<TKey, TValue>();
         private bool m_duplicateKeys = false;
 
-        #region IDictionary Implementation
+        #region IDictionary<TKey, TValue> Implementation
         public TValue this[TKey key] { get => m_dictionary[key]; set => m_dictionary[key] = value; }
 
         public ICollection<TKey> Keys => m_dictionary.Keys;
@@ -111,6 +111,27 @@ namespace UnityUtility
         }
         #endregion
 
+        #region IDictionary Implementation
+        public bool IsFixedSize => ((IDictionary)m_dictionary).IsFixedSize;
+
+        ICollection IDictionary.Keys => m_dictionary.Keys;
+
+        ICollection IDictionary.Values => m_dictionary.Values;
+
+        public bool IsSynchronized => ((ICollection)m_dictionary).IsSynchronized;
+
+        public object SyncRoot => ((ICollection)m_dictionary).SyncRoot;
+
+        public object this[object key] { get => ((IDictionary)m_dictionary)[key]; set => ((IDictionary)m_dictionary)[key] = value; }
+        #endregion
+
+        #region IReadOnlyDictionary<TKey, TValue> Implementation
+
+        IEnumerable<TKey> IReadOnlyDictionary<TKey, TValue>.Keys => m_dictionary.Keys;
+
+        IEnumerable<TValue> IReadOnlyDictionary<TKey, TValue>.Values => m_dictionary.Values;
+        #endregion
+
         #region ISerializationCallbackReceiver Implementation
         public void OnBeforeSerialize()
         {
@@ -149,6 +170,31 @@ namespace UnityUtility
                 }
                 m_dictionary.Add(pair.Key, pair.Value);
             }
+        }
+
+        public void Add(object key, object value)
+        {
+            ((IDictionary)m_dictionary).Add(key, value);
+        }
+
+        public bool Contains(object key)
+        {
+            return ((IDictionary)m_dictionary).Contains(key);
+        }
+
+        IDictionaryEnumerator IDictionary.GetEnumerator()
+        {
+            return ((IDictionary)m_dictionary).GetEnumerator();
+        }
+
+        public void Remove(object key)
+        {
+            ((IDictionary)m_dictionary).Remove(key);
+        }
+
+        public void CopyTo(Array array, int index)
+        {
+            ((ICollection)m_dictionary).CopyTo(array, index);
         }
         #endregion
     }
